@@ -1,0 +1,9 @@
+﻿<Citizen issuerId="1">
+  <Services>
+		<Service serviceId="34" name="Photo Id">
+			<Item itemId="16" dtype="image" />
+		</Service>
+	</Services>
+  <Proofs />
+</Citizen>
+

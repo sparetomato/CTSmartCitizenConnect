@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="SmartConnect-CardManagement3-EntityDetailsListResponse" elementFormDefault="qualified" targetNamespace="SmartConnect-CardManagement3-EntityDetailsListResponse" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="ArrayOfEntityDetailsListResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="EntityDetailsListResponse" nillable="true" type="tns:EntityDetailsListResponse" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfEntityDetailsListResponse" nillable="true" type="tns:ArrayOfEntityDetailsListResponse" />
+  <xs:complexType name="EntityDetailsListResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AddressId" type="xs:int" />
+      <xs:element minOccurs="0" name="AuthDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="AuthId" type="xs:int" />
+      <xs:element minOccurs="0" name="AuthName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CPLCData" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CanRenewOnline" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Count" type="xs:int" />
+      <xs:element minOccurs="0" name="EntityId" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="EntityType" type="xs:int" />
+      <xs:element minOccurs="0" name="EntityTypeDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="EposCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ExpiryDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Fee" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Image" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="InvalidOn" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="IsValidStatus" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IssueType" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Issued" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="IssuerDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IssuerId" type="xs:int" />
+      <xs:element minOccurs="0" name="LocationDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="LocationId" type="xs:int" />
+      <xs:element minOccurs="0" name="Replace" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ReplaceId" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SerialNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Status" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="StatusId" type="xs:int" />
+      <xs:element minOccurs="0" name="TransactionCount" type="xs:int" />
+      <xs:element minOccurs="0" name="Type" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="EntityDetailsListResponse" nillable="true" type="tns:EntityDetailsListResponse" />
+</xs:schema>

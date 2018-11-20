@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="SmartConnect-CardManagement3-CardUsageTerminal" elementFormDefault="qualified" targetNamespace="SmartConnect-CardManagement3-CardUsageTerminal" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="CardUsageTerminal">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ID" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Location" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CardUsageTerminal" nillable="true" type="tns:CardUsageTerminal" />
+</xs:schema>

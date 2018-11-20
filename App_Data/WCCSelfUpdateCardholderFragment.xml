@@ -1,0 +1,21 @@
+﻿<Citizen issuerId="4">
+  <Services>
+    <!-- Common cardholder Database Application (CCDA) - Core details required for all customers -->
+    <!-- Very flexible fieldset that can be added to as required -->
+    <Service serviceId="32" name="CCDA">
+      <Item dtype="text" itemId="68">{TITLE}</Item>
+      <Item dtype="text" itemId="3">{FORENAME}</Item>
+      <Item dtype="text" itemId="4">{SURNAME}</Item>
+      <Item dtype="text" itemId="5">
+        {DATEOFBIRTH}
+      </Item>
+      <Item dtype="lookup" itemId="7">{GENDER}</Item>
+      <Item dtype="text" itemId="21">{DISPLAYNAME}</Item>
+    </Service>
+    <!-- Optional Services 	 
+	       See associated WCC Fragments file for optional service Xml which includes ENCTS category type and photograph
+    -->
+  </Services>
+  
+</Citizen>
+  

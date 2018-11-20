@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="SmartConnect-CardManagement3-GetCardholderResponse" elementFormDefault="qualified" targetNamespace="SmartConnect-CardManagement3-GetCardholderResponse" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd8" namespace="SmartConnect-CardManagement3-TerminalMessage" />
+  <xs:import schemaLocation="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd3" namespace="SmartConnect-CardManagement3-RecordIdentifier" />
+  <xs:complexType name="GetCardholderResponse">
+    <xs:sequence>
+      <xs:element xmlns:q1="SmartConnect-CardManagement3-TerminalMessage" minOccurs="0" name="AdditionalMessages" nillable="true" type="q1:ArrayOfTerminalMessage" />
+      <xs:element minOccurs="0" name="CitizenData" nillable="true">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:any minOccurs="0" processContents="lax" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q2="SmartConnect-CardManagement3-RecordIdentifier" minOccurs="0" name="Identifier" nillable="true" type="q2:RecordIdentifier" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GetCardholderResponse" nillable="true" type="tns:GetCardholderResponse" />
+</xs:schema>

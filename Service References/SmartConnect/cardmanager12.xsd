@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="SmartConnect-CardManagement3-CheckCardData" elementFormDefault="qualified" targetNamespace="SmartConnect-CardManagement3-CheckCardData" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="CheckCardData">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CardIdentifier" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CheckCardData" nillable="true" type="tns:CheckCardData" />
+</xs:schema>

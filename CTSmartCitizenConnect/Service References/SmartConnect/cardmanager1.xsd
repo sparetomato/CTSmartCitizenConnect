@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="SmartConnect-CardManagement3-GetHotlistData" elementFormDefault="qualified" targetNamespace="SmartConnect-CardManagement3-GetHotlistData" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="GetHotlistData">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ApplicationID" type="xs:int" />
+      <xs:element minOccurs="0" name="IssuerID" type="xs:int" />
+      <xs:element minOccurs="0" name="MaximumRecords" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GetHotlistData" nillable="true" type="tns:GetHotlistData" />
+</xs:schema>

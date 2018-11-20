@@ -1,0 +1,13 @@
+﻿<Citizen issuerId="4">
+  <Services>
+    <!-- Common cardholder Database Application (CCDA) - Core details required for all customers -->
+    <!-- Very flexible fieldset that can be added to as required -->
+    <Service serviceId="32" name="CCDA">
+    </Service>
+    <Service serviceId="34" name="Photo Id">
+      <Item itemId="16" dtype="image" />   
+    </Service>
+  </Services>
+  
+</Citizen>
+  

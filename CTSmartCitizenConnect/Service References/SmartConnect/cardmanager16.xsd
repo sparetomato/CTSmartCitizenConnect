@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="SmartConnect-CardManagement3-CardholderExistsResponse" elementFormDefault="qualified" targetNamespace="SmartConnect-CardManagement3-CardholderExistsResponse" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd17" namespace="SmartConnect-CardManagement3-CardholderCoreDetails" />
+  <xs:import schemaLocation="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd3" namespace="SmartConnect-CardManagement3-RecordIdentifier" />
+  <xs:complexType name="CardholderExistsResponse">
+    <xs:sequence>
+      <xs:element xmlns:q1="SmartConnect-CardManagement3-CardholderCoreDetails" minOccurs="0" name="NonUniquePotentialMatches" nillable="true" type="q1:ArrayOfCardholderCoreDetails" />
+      <xs:element minOccurs="0" name="RecordExists" type="xs:boolean" />
+      <xs:element xmlns:q2="SmartConnect-CardManagement3-RecordIdentifier" minOccurs="0" name="UniqueMatchIdentifier" nillable="true" type="q2:RecordIdentifier" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CardholderExistsResponse" nillable="true" type="tns:CardholderExistsResponse" />
+</xs:schema>

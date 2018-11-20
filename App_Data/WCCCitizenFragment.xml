@@ -1,0 +1,98 @@
+﻿<Citizen issuerId="4">
+  <Addresses>
+    <!-- type attribute is mandatory -->
+    <!-- Type 1 - Primary Address, Type 2 - Correspondence address (other address types can be added if required) -->
+    <Address type="1">
+      <!-- Mandatory -->
+      <Item name="POSTCODE"></Item>
+      <Item name="FLAT"></Item>
+      <!-- Mandatory -->
+      <Item name="HOUSE NUMBER/NAME"></Item>
+      <!-- Mandatory -->
+      <Item name="STREET"></Item>
+      <Item name="LOCALITY"></Item>
+      <!-- Mandatory -->
+      <Item name="TOWN"></Item>
+      <Item name="COUNTY"></Item>
+      <!-- Mandatory -->
+      <Item name="LOCAL AUTHORITY">
+        <!-- For genuine in-area applications please use one of the following values:      
+North Warwickshire
+Nuneaton and Bedworth
+Rugby
+Stratford-on-Avon
+Warwick 
+      -->
+      </Item>
+      <Item name="UPRN"></Item>
+      <Item name="UDPRN"></Item>
+      <!-- Mandatory (True or False based on whether a resident within the WCC area) -->
+      <Item name="RESIDENT"></Item>
+      <Item name="EASTING"></Item>
+      <Item name="NORTHING"></Item>
+      <Item name="LONG"></Item>
+      <Item name="LAT"></Item>
+      <!-- Dataobject enables the capture of an XML blob used to obtain the address details if the lookup supports that -->
+      <Item name="DATAOBJECT"></Item>
+    </Address>
+  </Addresses>
+  <Services>
+    <!-- Common cardholder Database Application (CCDA) - Core details required for all customers -->
+    <!-- Very flexible fieldset that can be added to as required -->
+    <Service serviceId="32" name="CCDA">
+      <!-- Title -->
+      <!-- Mandatory -->
+      <Item dtype="text" itemId="68">{TITLE}</Item>
+      <!-- Forename -->
+      <!-- Mandatory -->
+      <Item dtype="text" itemId="3">{FORENAME}</Item>
+      <!-- Surname-->
+      <!-- Mandatory -->
+      <Item dtype="text" itemId="4">{SURNAME}</Item>
+      <!-- Display Name-->
+      <!-- Mandatory -->
+      <!-- This is the actual text printed on the card for the customer's name -->
+      <Item dtype="text" itemId="21">{DISPLAYNAME}</Item>
+      <!-- Date of Birth-->
+      <!-- Mandatory -->
+      <Item dtype="text" itemId="5">
+        {DATEOFBIRTH}
+        <!-- Format yyyy-mm-dd hh:mm:ss-->
+      </Item>
+      <!-- Gender:          
+           Please use one of the following values:
+      
+              Male:1
+              Female:2
+              Transgender:0
+              Prefer not to say:9      
+      -->
+      <!-- Mandatory -->
+      <Item dtype="lookup" itemId="7">{GENDER}</Item>
+      <!-- Email Address -->
+      <Item dtype="text" itemId="14">{EMAIL}</Item>
+      <!-- Mobile Telephone -->
+      <Item dtype="text" itemId="20">{MOBILETELEPHONE}</Item>
+      <!-- Work Telephone -->
+      <Item dtype="text" itemId="19">{WORKTELEPHONE}</Item>
+      <!-- Home Telephone -->
+      <Item dtype="text" itemId="18">{HOMETELEPHONE}</Item>
+      <!-- Password -->
+      <!-- If registering for an account (for public portal) -->
+      <Item dtype="text" itemId="6">{PASSWORD}</Item>
+      <!-- Notes (adding a value to this field will pin a flag to the record) -->
+      <Item dtype="text" itemId="22">{NOTES}</Item>
+      <!-- Tasks (adding a value to this field will add a note to the record and email Jo) -->
+      <Item dtype="text" itemId="9000">{Task Request}</Item>
+      <!-- Original Record ID from WCC db-->
+      <Item dtype="text" itemId="119">{RECORD_ID}</Item>
+      <!-- CRM ID-->
+      <Item dtype="text" itemId="120">{FIRMSTEP_ID}</Item>
+    </Service>
+    <!-- Optional Services 	 
+	       See associated WCC Fragments file for optional service Xml which includes ENCTS category type and photograph
+    -->
+  </Services>
+  
+</Citizen>
+  

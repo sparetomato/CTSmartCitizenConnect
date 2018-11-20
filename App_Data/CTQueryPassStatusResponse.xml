@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<GetPassStatusResult>
+  <SentToBureau>False</SentToBureau>
+  <DateSentToBureau />
+  <DaysSinceSentToBureau />
+  <DaysSinceSentToBureau3 />
+  <Printed>False</Printed>
+  <DatePrinted />
+  <DaysSincePrinted />
+  <DaysSincePrinted3 />
+  <status>Not Found</status>
+  <PrintReason />
+</GetPassStatusResult>

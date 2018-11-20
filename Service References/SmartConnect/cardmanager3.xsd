@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="SmartConnect-CardManagement3-CheckCardResponse" elementFormDefault="qualified" targetNamespace="SmartConnect-CardManagement3-CheckCardResponse" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="CheckCardResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CardKnown" type="xs:boolean" />
+      <xs:element minOccurs="0" name="CardValid" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CheckCardResponse" nillable="true" type="tns:CheckCardResponse" />
+</xs:schema>

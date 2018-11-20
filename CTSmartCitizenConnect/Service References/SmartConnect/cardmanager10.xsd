@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="SmartConnect-CardManagement3-UpdateMessageData" elementFormDefault="qualified" targetNamespace="SmartConnect-CardManagement3-UpdateMessageData" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="UpdateMessageData">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AdditionalInformation" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MessageID" type="xs:int" />
+      <xs:element minOccurs="0" name="Reference" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Success" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UpdateMessageData" nillable="true" type="tns:UpdateMessageData" />
+</xs:schema>

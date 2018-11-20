@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--Parameters for the disability categories. Kept outside the -->
+<DisabilityFragmentReference>
+  <DisabilityFragment disabilityCategory="a">
+    <ServiceName>a. Blind or Partially sighted</ServiceName>
+    <ServiceId>44</ServiceId>
+    <ItemId>6001</ItemId>
+    <PermanentLookupId>41</PermanentLookupId>
+    <TemporaryLookupId>42</TemporaryLookupId>
+  </DisabilityFragment>
+  <DisabilityFragment disabilityCategory="b">
+    <ServiceName>b. Profoundly or Severely Deaf</ServiceName>
+    <ServiceId>43</ServiceId>
+    <ItemId>6000</ItemId>
+    <PermanentLookupId>39</PermanentLookupId>
+    <TemporaryLookupId>40</TemporaryLookupId>
+  </DisabilityFragment>
+  <DisabilityFragment disabilityCategory="c">
+    <ServiceName>c. Without speech</ServiceName>
+    <ServiceId>71</ServiceId>
+    <ItemId>6014</ItemId>
+    <PermanentLookupId>362</PermanentLookupId>
+    <TemporaryLookupId>361</TemporaryLookupId>
+  </DisabilityFragment>
+  <DisabilityFragment disabilityCategory="d">
+    <ServiceName>d. Ability to walk</ServiceName>
+    <ServiceId>45</ServiceId>
+    <ItemId>6002</ItemId>
+    <PermanentLookupId>43</PermanentLookupId>
+    <TemporaryLookupId>44</TemporaryLookupId>
+  </DisabilityFragment>
+  <DisabilityFragment disabilityCategory="e">
+    <ServiceName>e. Unable to use arms</ServiceName>
+    <ServiceId>46</ServiceId>
+    <ItemId>6003</ItemId>
+    <PermanentLookupId>45</PermanentLookupId>
+    <TemporaryLookupId>46</TemporaryLookupId>
+  </DisabilityFragment>
+  <DisabilityFragment disabilityCategory="f">
+    <ServiceName>f. Learning disability</ServiceName>
+    <ServiceId>47</ServiceId>
+    <ItemId>6004</ItemId>
+    <PermanentLookupId>47</PermanentLookupId>
+    <TemporaryLookupId>48</TemporaryLookupId>
+  </DisabilityFragment>
+  <DisabilityFragment disabilityCategory="g">
+    <ServiceName>g. Would be refused a driving licence</ServiceName>
+    <ServiceId>48</ServiceId>
+    <ItemId>6005</ItemId>
+    <PermanentLookupId>49</PermanentLookupId>
+    <TemporaryLookupId>50</TemporaryLookupId>
+  </DisabilityFragment>
+  <DisabilityFragment disabilityCategory="w">
+    <ServiceName>w. Blue Badge</ServiceName>
+    <ServiceId>72</ServiceId>
+    <ItemId>6016</ItemId>
+    <PermanentLookupId>364</PermanentLookupId>
+    <TemporaryLookupId>363</TemporaryLookupId>
+  </DisabilityFragment>
+</DisabilityFragmentReference>

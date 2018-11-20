@@ -1,0 +1,41 @@
+﻿<Citizen issuerId="4">
+  <Addresses>
+    <!-- Type 1 - Primary Address, Type 2 - Correspondence address (other address types can be added if required) -->
+    <Address type="1">
+      <Item name="POSTCODE"></Item>
+      <Item name="FLAT"></Item>
+      <Item name="HOUSE NUMBER/NAME"></Item>
+      <Item name="STREET"></Item>
+      <Item name="LOCALITY"></Item>
+      <Item name="TOWN"></Item>
+      <Item name="COUNTY"></Item>
+      <!-- Mandatory -->
+      <Item name="LOCAL AUTHORITY"></Item>
+      <Item name="RESIDENT">True</Item>
+      <Item name="UPRN"/>
+    </Address>
+  </Addresses>
+  <Services>
+    <!-- Common cardholder Database Application (CCDA) - Core details required for all customers -->
+    <!-- Very flexible fieldset that can be added to as required -->
+    <Service serviceId="32" name="CCDA">
+      <Item dtype="text" itemId="68"><!-- Title --></Item>
+      <Item dtype="text" itemId="3"><!-- Forename --></Item>
+      <Item dtype="text" itemId="4"><!-- Surname --></Item>
+      <Item dtype="text" itemId="5"><!-- Date of Birth --></Item>
+      <Item dtype="lookup" itemId="7"><!--Gender--></Item>
+      <Item dtype="text" itemId="21"><!-- Display Name --></Item>
+      <Item dtype="text" itemId="14"><!-- Email --></Item>
+      <Item dtype="text" itemId="20"><!-- Mobile Phone --></Item>
+      <Item dtype="text" itemId="19"><!-- Work Phone --></Item>
+      <Item dtype="text" itemId="18"><!-- Home Phone --></Item>
+      <Item dtype="text" itemId="22"><!-- Notes --></Item>
+      <Item dtype="text" itemId="119"><!-- Record ID --></Item>
+    </Service>
+    <!-- Optional Services 	 
+	       See associated WCC Fragments file for optional service Xml which includes ENCTS category type and photograph
+    -->
+  </Services>
+  <Proofs/>
+  
+</Citizen>

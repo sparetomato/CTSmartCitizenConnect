@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="2bce0e85-36f4-453b-8351-623112d5ba3e" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="https://warwickshiretest.smartcitizen.net/CardManager3/CardManager.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="cardmanager.xsd" MetadataType="Schema" ID="b5e20fe0-439b-416c-80fc-b17f5987f7d5" SourceId="1" SourceUrl="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd8" />
+    <MetadataFile FileName="cardmanager1.xsd" MetadataType="Schema" ID="e9b31408-2660-4459-aed7-17e95cee7f8c" SourceId="1" SourceUrl="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd13" />
+    <MetadataFile FileName="cardmanager2.xsd" MetadataType="Schema" ID="1a52d82f-445d-497a-b8c4-541d53358872" SourceId="1" SourceUrl="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd22" />
+    <MetadataFile FileName="cardmanager3.xsd" MetadataType="Schema" ID="ad1c69a1-c4c6-4972-929a-934132feebab" SourceId="1" SourceUrl="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd12" />
+    <MetadataFile FileName="cardmanager4.xsd" MetadataType="Schema" ID="ad51d562-8d54-4b62-9dac-4cb5075ec4c8" SourceId="1" SourceUrl="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd25" />
+    <MetadataFile FileName="cardmanager5.xsd" MetadataType="Schema" ID="34cf236c-b685-40da-94ee-c952b35d6b55" SourceId="1" SourceUrl="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd15" />
+    <MetadataFile FileName="cardmanager6.xsd" MetadataType="Schema" ID="1c6497f1-36aa-45f5-abe1-215f7a4ef4eb" SourceId="1" SourceUrl="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd10" />
+    <MetadataFile FileName="cardmanager7.xsd" MetadataType="Schema" ID="2281faaf-880f-43c5-9a90-4fb6d9b80f43" SourceId="1" SourceUrl="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd17" />
+    <MetadataFile FileName="cardmanager8.xsd" MetadataType="Schema" ID="9b6a280e-6345-45c8-a2ae-e751f4baab9d" SourceId="1" SourceUrl="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd23" />
+    <MetadataFile FileName="cardmanager9.xsd" MetadataType="Schema" ID="cd5e0bd7-b306-4ba5-969d-991c302079cb" SourceId="1" SourceUrl="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd18" />
+    <MetadataFile FileName="cardmanager27.xsd" MetadataType="Schema" ID="ac4550cf-0cfa-4933-9a97-9b3085b88fe9" SourceId="1" SourceUrl="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd27" />
+    <MetadataFile FileName="cardmanager10.xsd" MetadataType="Schema" ID="71c786b1-3a6a-4863-9cf2-2ffec77dc451" SourceId="1" SourceUrl="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd21" />
+    <MetadataFile FileName="cardmanager11.xsd" MetadataType="Schema" ID="b6c04e0f-1396-424c-aab5-ffa8efb7570c" SourceId="1" SourceUrl="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd11" />
+    <MetadataFile FileName="cardmanager12.xsd" MetadataType="Schema" ID="56533d71-0a6a-403c-8dac-f280a3286262" SourceId="1" SourceUrl="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd0" />
+    <MetadataFile FileName="cardmanager13.xsd" MetadataType="Schema" ID="00fb67a3-d19e-4a9b-b611-89f6ca97eb25" SourceId="1" SourceUrl="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd20" />
+    <MetadataFile FileName="CardManager.wsdl" MetadataType="Wsdl" ID="1f4603ac-3927-44ac-ad82-c1437c2b043a" SourceId="1" SourceUrl="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?wsdl" />
+    <MetadataFile FileName="cardmanager26.xsd" MetadataType="Schema" ID="36eb50ae-1a90-4c96-a6c5-479b645c4901" SourceId="1" SourceUrl="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd26" />
+    <MetadataFile FileName="cardmanager14.xsd" MetadataType="Schema" ID="7b0867eb-b77c-46e0-a06d-5c3707f770ed" SourceId="1" SourceUrl="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd16" />
+    <MetadataFile FileName="cardmanager15.xsd" MetadataType="Schema" ID="7e17a7e3-eec3-4aa3-b69b-83be778475db" SourceId="1" SourceUrl="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd3" />
+    <MetadataFile FileName="cardmanager16.xsd" MetadataType="Schema" ID="b38574d4-8f73-405d-8716-f07c9ff5fd94" SourceId="1" SourceUrl="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd2" />
+    <MetadataFile FileName="cardmanager17.xsd" MetadataType="Schema" ID="401389ee-e8fb-4bb0-8619-f085f0e3d6e6" SourceId="1" SourceUrl="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd1" />
+    <MetadataFile FileName="cardmanager.disco" MetadataType="Disco" ID="1da93ad6-7acb-48bb-b690-1f5e330fb4b8" SourceId="1" SourceUrl="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?disco" />
+    <MetadataFile FileName="cardmanager18.xsd" MetadataType="Schema" ID="2649781b-6b90-4c50-bc31-cae683d0108b" SourceId="1" SourceUrl="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd7" />
+    <MetadataFile FileName="cardmanager19.xsd" MetadataType="Schema" ID="7d1497a0-0618-467a-9d13-a7c5a50b7b68" SourceId="1" SourceUrl="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd6" />
+    <MetadataFile FileName="cardmanager20.xsd" MetadataType="Schema" ID="8a4c6461-e9b9-44b3-bdc6-801d779aa880" SourceId="1" SourceUrl="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd5" />
+    <MetadataFile FileName="cardmanager21.xsd" MetadataType="Schema" ID="f12450dd-e771-46f6-a3bb-e4a5621086f0" SourceId="1" SourceUrl="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd4" />
+    <MetadataFile FileName="cardmanager22.xsd" MetadataType="Schema" ID="06c8da20-d2ae-4383-9d1e-b7990046f79e" SourceId="1" SourceUrl="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd19" />
+    <MetadataFile FileName="cardmanager23.xsd" MetadataType="Schema" ID="630f9cac-0c07-4d97-b565-cc456a57ba8d" SourceId="1" SourceUrl="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd24" />
+    <MetadataFile FileName="cardmanager24.xsd" MetadataType="Schema" ID="3492d7a2-e765-4a7a-b319-56352ef16b14" SourceId="1" SourceUrl="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd9" />
+    <MetadataFile FileName="cardmanager25.xsd" MetadataType="Schema" ID="cc0a7df6-cc2e-49ad-863e-e2361e2ff7a3" SourceId="1" SourceUrl="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd14" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

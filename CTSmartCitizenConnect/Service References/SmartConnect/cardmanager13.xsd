@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd2" namespace="SmartConnect-CardManagement3-CreateCardholderData" />
+  <xs:import schemaLocation="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd3" namespace="SmartConnect-CardManagement3-RecordIdentifier" />
+  <xs:import schemaLocation="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd4" namespace="SmartConnect-CardManagement3-UpdateCardholderData" />
+  <xs:import schemaLocation="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd5" namespace="SmartConnect-CardManagement3-GetCardholderData" />
+  <xs:import schemaLocation="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd7" namespace="SmartConnect-CardManagement3-GetCardholderResponse" />
+  <xs:import schemaLocation="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd9" namespace="SmartConnect-CardManagement3-UpdateCardData" />
+  <xs:import schemaLocation="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd10" namespace="SmartConnect-CardManagement3-CardTransactionData" />
+  <xs:import schemaLocation="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd11" namespace="SmartConnect-CardManagement3-CheckCardData" />
+  <xs:import schemaLocation="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd12" namespace="SmartConnect-CardManagement3-CheckCardResponse" />
+  <xs:import schemaLocation="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd13" namespace="SmartConnect-CardManagement3-GetHotlistData" />
+  <xs:import schemaLocation="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd14" namespace="SmartConnect-CardManagement3-CardListEntry" />
+  <xs:import schemaLocation="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd15" namespace="SmartConnect-CardManagement3-CardholderExistsData" />
+  <xs:import schemaLocation="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd16" namespace="SmartConnect-CardManagement3-CardholderExistsResponse" />
+  <xs:import schemaLocation="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd18" namespace="SmartConnect-CardManagement3-DocumentaryProofsListResponse" />
+  <xs:import schemaLocation="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd19" namespace="SmartConnect-CardManagement3-EntityDetailsListResponse" />
+  <xs:import schemaLocation="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd20" namespace="SmartConnect-CardManagement3-GetBatchData" />
+  <xs:import schemaLocation="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd21" namespace="SmartConnect-CardManagement3-GetBatchResponse" />
+  <xs:import schemaLocation="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd22" namespace="SmartConnect-CardManagement3-UndoBatchData" />
+  <xs:import schemaLocation="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd23" namespace="SmartConnect-CardManagement3-ReconcileBatchData" />
+  <xs:import schemaLocation="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd25" namespace="SmartConnect-CardManagement3-GetMessageData" />
+  <xs:import schemaLocation="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd26" namespace="SmartConnect-CardManagement3-GetMessageResponse" />
+  <xs:import schemaLocation="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd27" namespace="SmartConnect-CardManagement3-UpdateMessageData" />
+  <xs:element name="CreateCardholder">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="SmartConnect-CardManagement3-CreateCardholderData" minOccurs="0" name="data" nillable="true" type="q1:CreateCardholderData" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CreateCardholderResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="SmartConnect-CardManagement3-RecordIdentifier" minOccurs="0" name="CreateCardholderResult" nillable="true" type="q2:RecordIdentifier" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateCardholder">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q3="SmartConnect-CardManagement3-UpdateCardholderData" minOccurs="0" name="data" nillable="true" type="q3:UpdateCardholderData" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateCardholderResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCardholder">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="SmartConnect-CardManagement3-GetCardholderData" minOccurs="0" name="data" nillable="true" type="q4:GetCardholderData" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCardholderResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q5="SmartConnect-CardManagement3-GetCardholderResponse" minOccurs="0" name="GetCardholderResult" nillable="true" type="q5:GetCardholderResponse" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCardholderIntegrationData">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q6="SmartConnect-CardManagement3-GetCardholderData" minOccurs="0" name="data" nillable="true" type="q6:GetCardholderData" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCardholderIntegrationDataResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q7="SmartConnect-CardManagement3-GetCardholderResponse" minOccurs="0" name="GetCardholderIntegrationDataResult" nillable="true" type="q7:GetCardholderResponse" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateCard">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q8="SmartConnect-CardManagement3-UpdateCardData" minOccurs="0" name="data" nillable="true" type="q8:UpdateCardData" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateCardResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q9="SmartConnect-CardManagement3-RecordIdentifier" minOccurs="0" name="UpdateCardResult" nillable="true" type="q9:RecordIdentifier" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Test">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="TestResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RecordTransaction">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q10="SmartConnect-CardManagement3-CardTransactionData" minOccurs="0" name="transactionData" nillable="true" type="q10:CardTransactionData" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RecordTransactionResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CheckCard">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q11="SmartConnect-CardManagement3-CheckCardData" minOccurs="0" name="data" nillable="true" type="q11:CheckCardData" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CheckCardResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q12="SmartConnect-CardManagement3-CheckCardResponse" minOccurs="0" name="CheckCardResult" nillable="true" type="q12:CheckCardResponse" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetHotlist">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q13="SmartConnect-CardManagement3-GetHotlistData" minOccurs="0" name="data" nillable="true" type="q13:GetHotlistData" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetHotlistResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q14="SmartConnect-CardManagement3-CardListEntry" minOccurs="0" name="GetHotlistResult" nillable="true" type="q14:ArrayOfCardListEntry" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CheckCardholderExists">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q15="SmartConnect-CardManagement3-CardholderExistsData" minOccurs="0" name="data" nillable="true" type="q15:CardholderExistsData" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CheckCardholderExistsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q16="SmartConnect-CardManagement3-CardholderExistsResponse" minOccurs="0" name="CheckCardholderExistsResult" nillable="true" type="q16:CardholderExistsResponse" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetSchemeProofs">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetSchemeProofsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q17="SmartConnect-CardManagement3-DocumentaryProofsListResponse" minOccurs="0" name="GetSchemeProofsResult" nillable="true" type="q17:ArrayOfDocumentaryProofsListResponse" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCitizenProofRequired">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q18="SmartConnect-CardManagement3-RecordIdentifier" minOccurs="0" name="data" nillable="true" type="q18:RecordIdentifier" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCitizenProofRequiredResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q19="SmartConnect-CardManagement3-DocumentaryProofsListResponse" minOccurs="0" name="GetCitizenProofRequiredResult" nillable="true" type="q19:ArrayOfDocumentaryProofsListResponse" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetEntityList">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q20="SmartConnect-CardManagement3-RecordIdentifier" minOccurs="0" name="data" nillable="true" type="q20:RecordIdentifier" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetEntityListResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q21="SmartConnect-CardManagement3-EntityDetailsListResponse" minOccurs="0" name="GetEntityListResult" nillable="true" type="q21:ArrayOfEntityDetailsListResponse" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetBatch">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q22="SmartConnect-CardManagement3-GetBatchData" minOccurs="0" name="data" nillable="true" type="q22:GetBatchData" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetBatchResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q23="SmartConnect-CardManagement3-GetBatchResponse" minOccurs="0" name="GetBatchResult" nillable="true" type="q23:GetBatchResponse" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UndoBatch">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q24="SmartConnect-CardManagement3-UndoBatchData" minOccurs="0" name="data" nillable="true" type="q24:UndoBatchData" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UndoBatchResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ReconcileBatch">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q25="SmartConnect-CardManagement3-ReconcileBatchData" minOccurs="0" name="data" nillable="true" type="q25:ReconcileBatchData" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ReconcileBatchResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ReconcileBatchLegacy">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="data" nillable="true">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:any minOccurs="0" processContents="lax" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ReconcileBatchLegacyResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetMessage">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q26="SmartConnect-CardManagement3-GetMessageData" minOccurs="0" name="data" nillable="true" type="q26:GetMessageData" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetMessageResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q27="SmartConnect-CardManagement3-GetMessageResponse" minOccurs="0" name="GetMessageResult" nillable="true" type="q27:GetMessageResponse" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateMessage">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q28="SmartConnect-CardManagement3-UpdateMessageData" minOccurs="0" name="data" nillable="true" type="q28:UpdateMessageData" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateMessageResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCardholderList">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="terminalIdentifier" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCardholderListResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetCardholderListResult" nillable="true">
+          <xs:complexType>
+            <xs:annotation>
+              <xs:appinfo>
+                <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+            <xs:sequence>
+              <xs:element ref="xs:schema" />
+              <xs:any />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetTerminalConfiguration">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="terminalIdentifier" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetTerminalConfigurationResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetTerminalConfigurationResult" nillable="true">
+          <xs:complexType>
+            <xs:annotation>
+              <xs:appinfo>
+                <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+            <xs:sequence>
+              <xs:element ref="xs:schema" />
+              <xs:any />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetActivities">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="terminalIdentifier" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetActivitiesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetActivitiesResult" nillable="true">
+          <xs:complexType>
+            <xs:annotation>
+              <xs:appinfo>
+                <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+            <xs:sequence>
+              <xs:element ref="xs:schema" />
+              <xs:any />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RecordActivity">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q29="SmartConnect-CardManagement3-CardTransactionData" minOccurs="0" name="transactionData" nillable="true" type="q29:CardTransactionData" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RecordActivityResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetActBalanceMap">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetActBalanceMapResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetActBalanceMapResult" nillable="true">
+          <xs:complexType>
+            <xs:annotation>
+              <xs:appinfo>
+                <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+            <xs:sequence>
+              <xs:element ref="xs:schema" />
+              <xs:any />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetMultipleBalances">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetMultipleBalancesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetMultipleBalancesResult" nillable="true">
+          <xs:complexType>
+            <xs:annotation>
+              <xs:appinfo>
+                <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+            <xs:sequence>
+              <xs:element ref="xs:schema" />
+              <xs:any />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetTerminalLocations">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="terminalIdentifier" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetTerminalLocationsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetTerminalLocationsResult" nillable="true">
+          <xs:complexType>
+            <xs:annotation>
+              <xs:appinfo>
+                <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+            <xs:sequence>
+              <xs:element ref="xs:schema" />
+              <xs:any />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateTerminalLocation">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="terminalIdentifier" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="locationId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateTerminalLocationResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

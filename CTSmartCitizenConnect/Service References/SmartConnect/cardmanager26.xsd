@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="SmartConnect-CardManagement3-UpdateCardData" elementFormDefault="qualified" targetNamespace="SmartConnect-CardManagement3-UpdateCardData" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd3" namespace="SmartConnect-CardManagement3-RecordIdentifier" />
+  <xs:complexType name="UpdateCardData">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AdditionalInformation" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CardLocation" type="xs:int" />
+      <xs:element minOccurs="0" name="CardStatus" type="xs:int" />
+      <xs:element xmlns:q1="SmartConnect-CardManagement3-RecordIdentifier" minOccurs="0" name="Identifier" nillable="true" type="q1:RecordIdentifier" />
+      <xs:element minOccurs="0" name="IncidentKey" type="xs:int" />
+      <xs:element minOccurs="0" name="IncidentValue" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IssuerId" type="xs:int" />
+      <xs:element minOccurs="0" name="ReplaceCard" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UpdateCardData" nillable="true" type="tns:UpdateCardData" />
+</xs:schema>

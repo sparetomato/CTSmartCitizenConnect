@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="SmartConnect-CardManagement3-DocumentaryProofsListResponse" elementFormDefault="qualified" targetNamespace="SmartConnect-CardManagement3-DocumentaryProofsListResponse" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="ArrayOfDocumentaryProofsListResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="DocumentaryProofsListResponse" nillable="true" type="tns:DocumentaryProofsListResponse" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfDocumentaryProofsListResponse" nillable="true" type="tns:ArrayOfDocumentaryProofsListResponse" />
+  <xs:complexType name="DocumentaryProofsListResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ProofDocId" type="xs:int" />
+      <xs:element minOccurs="0" name="ProofDocName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ProofDocRegex" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ProofDocRequiresDate" type="xs:boolean" />
+      <xs:element minOccurs="0" name="ProofDocRequiresExpiry" type="xs:boolean" />
+      <xs:element minOccurs="0" name="ProofDocTypeId" type="xs:int" />
+      <xs:element minOccurs="0" name="ProofDocTypeName" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DocumentaryProofsListResponse" nillable="true" type="tns:DocumentaryProofsListResponse" />
+</xs:schema>

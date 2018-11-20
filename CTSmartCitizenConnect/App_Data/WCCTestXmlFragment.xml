@@ -1,0 +1,87 @@
+﻿<Citizen issuerId="1">
+	<Addresses>
+		<!-- type attribute is mandatory -->
+		<!-- Type 1 - Primary Address, Type 2 - Correspondence address (other address types can be added if required) -->
+		<Address type="1">
+			<!-- Mandatory -->
+			<Item name="POSTCODE">CV34 6GB</Item>
+			<Item name="FLAT"></Item>
+			<!-- Mandatory -->
+			<Item name="HOUSE NUMBER/NAME">1</Item>
+			<!-- Mandatory -->
+			<Item name="STREET">Warwick Street</Item>
+			<Item name="LOCALITY">Warwicktown</Item>
+			<!-- Mandatory -->
+			<Item name="TOWN">Warwick</Item>
+			<Item name="COUNTY">Warwickshire</Item>
+			<!-- Mandatory -->
+			<Item name="LOCAL AUTHORITY">Warwick
+			</Item>
+			<Item name="UPRN"></Item>
+			<Item name="UDPRN"></Item>
+			<!-- Mandatory (True or False based on whether a resident within the WCC area) -->
+			<Item name="RESIDENT">True</Item>
+			<Item name="EASTING"></Item>
+			<Item name="NORTHING"></Item>
+			<Item name="LONG"></Item>
+			<Item name="LAT"></Item>
+			<!-- Dataobject enables the capture of an XML blob used to obtain the address details if the lookup supports that -->
+			<Item name="DATAOBJECT"></Item>
+		</Address>
+	</Addresses>
+	<Services>
+		<!-- Common cardholder Database Application (CCDA) - Core details required for all customers -->
+		<!-- Very flexible fieldset that can be added to as required -->
+		<Service serviceId="32" name="CCDA">
+			<!-- Title -->
+			<!-- Mandatory -->
+			<Item dtype="text" itemId="68">Mr</Item>
+			<!-- Forename -->
+			<!-- Mandatory -->
+			<Item dtype="text" itemId="3">Barry</Item>
+			<!-- Surname-->
+			<!-- Mandatory -->
+			<Item dtype="text" itemId="4">Testing</Item>
+			<!-- Display Name-->
+			<!-- Mandatory -->
+			<!-- This is the actual text printed on the card for the customer's name -->
+			<Item dtype="text" itemId="21">Bazza Test Test</Item>
+			<!-- Date of Birth-->
+			<!-- Mandatory -->
+			<Item dtype="text" itemId="5">
+				1976-01-01 00:00:00
+			</Item>
+			<!-- Gender:          
+					 Please use one of the following values:
+			
+							Male:1
+							Female:2
+							Transgender:0
+							Prefer not to say:9      
+			-->
+			<!-- Mandatory -->
+			<Item dtype="lookup" itemId="7" lookupId ="1" />
+			<!-- Email Address -->
+			<Item dtype="text" itemId="14">test@test.com</Item>
+			<!-- Mobile Telephone -->
+			<Item dtype="text" itemId="20">07786123456</Item>
+			<!-- Work Telephone -->
+			<Item dtype="text" itemId="19">01926 767123</Item>
+			<!-- Home Telephone -->
+			<Item dtype="text" itemId="18">0121 123654</Item>
+			<!-- Password -->
+			<!-- If registering for an account (for public portal) -->
+			<Item dtype="text" itemId="6"></Item>
+			<!-- Notes (adding a value to this field will pin a flag to the record) -->
+			<Item dtype="text" itemId="22">Notes about the person</Item>
+			<!-- Tasks (adding a value to this field will add a note to the record and email Jo) -->
+			<Item dtype="text" itemId="9000"></Item>
+			<!-- Original Record ID from WCC db-->
+			<Item dtype="text" itemId="119"></Item>
+			<!-- CRM ID-->
+			<Item dtype="text" itemId="120">1001</Item>
+		</Service>
+	</Services>
+
+</Citizen>
+

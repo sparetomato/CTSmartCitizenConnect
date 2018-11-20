@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<result>
+  <recordId />
+  <title/>
+  <foreName />
+  <dob />
+  <passType />
+  <disabledPassType />
+  <disabilityCategory />
+  <expiryDate />
+  <gender />
+  <searchISRN />
+  <searchSurname />
+  <searchPostcode />
+  <hasPhoto>false</hasPhoto>
+  <resultsFound>0</resultsFound>
+</result>

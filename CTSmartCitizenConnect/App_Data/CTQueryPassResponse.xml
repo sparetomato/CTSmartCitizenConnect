@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Results><customer>
+  <CPICC />
+  <PassHolderNumber />
+  <Title />
+  <FirstNameOrInitial />
+  <Surname />
+  <HouseOrFlatNumberOrName />
+  <BuildingName/>
+  <Street />
+  <VillageOrDistrict />
+  <TownCity />
+  <County />
+  <PostCode />
+  <DateOfBirth />
+  <Photograph />
+  <ISRN />
+  <ExpiryDate />
+  <PhotoLastUpdated />
+  <Deleted>N</Deleted>
+  <NorthgateCaseNumber />
+  <DaysToExpiry />
+  <DaysSincePhotoUpdated />
+  <PhotoAssociated>N</PhotoAssociated>
+  <DisabilityPermanent />
+  <RemainingTime />
+  <TypeOfConcessionLong />
+  <DisabilityType />
+  <TypeOfConcession/>
+  <CompanionAllowedLocally />
+  <Gender />
+  <DisabilityCategory />
+  <RecordID />
+  <UPRN />
+  <FormattedExpiryDate />
+  <FormattedDateOfBirth />
+  <PreferredContactMethod />
+  <PassStatus/>
+</customer>
+  <status/>
+</Results>

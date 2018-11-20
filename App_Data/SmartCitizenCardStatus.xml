@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<CardStatus>
+  <Status id="1">Pending Printing</Status>
+  <Status id="2">Printing</Status>
+  <Status id="3">Valid</Status>
+  <Status id="4">Stolen</Status>
+  <Status id="5">Lost</Status>
+  <Status id="6">Broken or Faulty</Status>
+  <Status id="7">Destroyed</Status>
+  <Status id="8">Print Error</Status>
+  <Status id="9">Not Required</Status>
+  <Status id="10">Awaiting Authorisation</Status>
+  <Status id="12">Bad Photo</Status>
+  <Status id="13">Data entry error</Status>
+  <Status id="14">Card blocked</Status>
+  <Status id="16">Optional service charge</Status>
+  <Status id="17">Card Expired</Status>
+  <Status id="18">Duplicate</Status>
+  <Status id="19">Cardholder moved away</Status>
+  <Status id="20">Held</Status>
+  <Status id="21">Hotlisted</Status>
+  <Status id="22">Data change</Status>
+  <Status id="23">Cardholder deceased</Status>
+</CardStatus>

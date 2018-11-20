@@ -1,0 +1,46 @@
+﻿<Citizen issuerId="1">
+	<Addresses>
+		<Address type="1">
+			<Item name="POSTCODE" />
+			<Item name="FLAT" />
+			<Item name="HOUSE NUMBER/NAME" />
+      <Item name="STREET" />
+			<Item name="LOCALITY" />
+			<Item name="TOWN" />
+			<Item name="COUNTY" />
+			<Item name="LOCAL AUTHORITY" /> <!-- North Warwickshire, Nuneaton and Bedworth, Rugby, Stratford-on-Avon, Warwick -->
+			<Item name="UPRN"></Item>
+			<Item name="UDPRN"></Item>
+			<Item name="RESIDENT">True</Item>
+			<Item name="EASTING"></Item>
+			<Item name="NORTHING"></Item>
+			<Item name="LONG"></Item>
+			<Item name="LAT"></Item>
+			<Item name="DATAOBJECT"></Item>
+		</Address>
+	</Addresses>
+	<Services>
+		<Service serviceId="32" name="CCDA">
+			<Item dtype="text" itemId="68" /><!-- Title -->
+			<Item dtype="text" itemId="3" /><!-- Forename -->
+			<Item dtype="text" itemId="4" /><!--Surname -->
+			<Item dtype="text" itemId="21" /><!-- Display Name -->
+			<Item dtype="text" itemId="5" /><!-- DateOfBirth -->
+			<Item dtype="lookup" itemId="7" lookupId ="1" /><!-- set lookupId attribute to the relevant value-->
+			<Item dtype="text" itemId="14">{Email}</Item>
+			<Item dtype="text" itemId="20"/><!-- Mobile number-->
+      <Item dtype="text" itemId="19" /><!-- Work phone-->
+			<Item dtype="text" itemId="18" /><!-- Home phone -->
+			<Item dtype="text" itemId="6" /> <!-- Password for the public portal (not used)-->
+			<Item dtype="text" itemId="22"/><!-- Notes -->
+			<Item dtype="text" itemId="9000"/><!-- Not used -->
+			<Item dtype="text" itemId="119"/> <!-- Old System reference: still relevant?-->
+			<Item dtype="text" itemId="120" /> <!-- UCRN-->
+		</Service>
+		<Service serviceId="34" name="Photo Id">
+			<Item itemId="16" dtype="image" />
+		</Service>
+	</Services>
+  <Proofs />
+</Citizen>
+

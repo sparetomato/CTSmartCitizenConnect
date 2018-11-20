@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="SmartConnect-CardManagement3-GetMessageResponse" elementFormDefault="qualified" targetNamespace="SmartConnect-CardManagement3-GetMessageResponse" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="GetMessageResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="IntegrationData" nillable="true">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:any minOccurs="0" processContents="lax" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GetMessageResponse" nillable="true" type="tns:GetMessageResponse" />
+</xs:schema>

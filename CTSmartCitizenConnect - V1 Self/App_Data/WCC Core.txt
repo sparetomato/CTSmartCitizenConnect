@@ -1,0 +1,155 @@
+﻿<!--Issuer ID signifies the type of card being issued:
+1	New	First time the customer has had this type of pass    
+2	Renew	Renewing a pass which has expired    
+3	Replacement Paid For	Paid for replacement pass    
+4	Replacement Free	Replacement pass which is free of charge      
+  -->
+  <Citizen issuerId="1">
+  <Addresses>
+    <!-- type attribute is mandatory -->
+    <!-- Type 1 - Primary Address, Type 2 - Correspondence address (other address types can be added if required) -->
+    <Address type="1">
+      <!-- Mandatory -->
+      <Item name="POSTCODE">{POSTCODE}</Item>
+      <Item name="FLAT">{FLAT}</Item>
+      <!-- Mandatory -->
+      <Item name="HOUSE NUMBER/NAME">{HOUSENUMBERNAME}</Item>
+      <!-- Mandatory -->
+      <Item name="STREET">{STREET}</Item>
+      <Item name="LOCALITY">{LOCALITY}</Item>
+      <!-- Mandatory -->
+      <Item name="TOWN">{TOWN}</Item>
+      <Item name="COUNTY">{COUNTY}</Item>
+      <!-- Mandatory -->
+      <Item name="LOCAL AUTHORITY">
+      <!-- For genuine in-area applications please use one of the following values:      
+North Warwickshire
+Nuneaton and Bedworth
+Rugby
+Stratford-on-Avon
+Warwick 
+      -->{LOCALAUTHORITY}</Item>
+      <Item name="UPRN">{UPRN}</Item>
+      <Item name="UDPRN">{UDPRN}</Item>
+      <!-- Mandatory (True or False based on whether a resident within the WCC area) -->
+      <Item name="RESIDENT">{RESIDENT}</Item>
+      <Item name="EASTING">{EASTING}</Item>
+      <Item name="NORTHING">{NORTHING}</Item>
+      <Item name="LONG">{LONG}</Item>
+      <Item name="LAT">{LAT_VAL}</Item>
+      <!-- Dataobject enables the capture of an XML blob used to obtain the address details if the lookup supports that -->
+      <Item name="DATAOBJECT">{DATAOBJECT_VAL}</Item>
+    </Address>
+  </Addresses>
+  <Services>
+    <!-- Common cardholder Database Application (CCDA) - Core details required for all customers -->
+    <!-- Very flexible fieldset that can be added to as required -->
+    <Service serviceId="32" name="CCDA">
+      <!-- Title -->
+      <!-- Mandatory -->
+      <Item dtype="text" itemId="68">{TITLE}</Item>
+      <!-- Forename -->
+      <!-- Mandatory -->
+      <Item dtype="text" itemId="3">{FORENAME}</Item>
+      <!-- Surname-->
+      <!-- Mandatory -->
+      <Item dtype="text" itemId="4">{SURNAME}</Item>
+      <!-- Display Name-->
+      <!-- Mandatory -->
+      <!-- This is the actual text printed on the card for the customer's name -->
+      <Item dtype="text" itemId="21">{DISPLAYNAME}</Item>
+      <!-- Date of Birth-->
+      <!-- Mandatory -->
+      <Item dtype="text" itemId="5">{DATEOFBIRTH}
+      <!-- Format yyyy-mm-dd hh:mm:ss-->
+</Item>
+      <!-- Gender:          
+           Please use one of the following values:
+      
+              Male:1
+              Female:2
+              Transgender:0
+              Prefer not to say:9      
+      -->
+      <!-- Mandatory -->
+      <Item dtype="lookup" itemId="7">{GENDER}</Item>
+      <!-- Email Address -->
+      <Item dtype="text" itemId="14">{EMAIL}</Item>
+      <!-- Mobile Telephone -->
+      <Item dtype="text" itemId="20">{MOBILETELEPHONE}</Item>
+      <!-- Work Telephone -->
+      <Item dtype="text" itemId="19">{WORKTELEPHONE}</Item>
+      <!-- Home Telephone -->
+      <Item dtype="text" itemId="18">{HOMETELEPHONE}</Item>
+      <!-- Password -->
+      <!-- If registering for an account (for public portal) -->
+      <Item dtype="text" itemId="6">{PASSWORD}</Item>
+      <!-- Notes (adding a value to this field will pin a flag to the record) -->
+      <Item dtype="text" itemId="22">{NOTES}</Item>
+      <!-- Tasks (adding a value to this field will add a note to the record and email Jo) -->
+      <Item dtype="text" itemId="9000">{Task Request}</Item>
+      <!-- Original Record ID from WCC db-->
+      <Item dtype="text" itemId="119">{RECORD_ID}</Item>
+      <!-- CRM ID-->
+      <Item dtype="text" itemId="120">{FIRMSTEP_ID}</Item>
+    </Service>
+    <!-- Optional Services 	 
+	       See associated WCC Fragments file for optional service Xml which includes ENCTS category type and photograph
+    --> 
+  </Services>
+  <Proofs>
+    <!-- 
+      Optional section when adding proofs of entitlement
+      
+      Available proof kinds to be supplied:   
+      Proof Id | Proof Name | Requires Date On | Requires Expiry | Regular Expression Match
+      PKind_ID	PKind_Desc	PKind_DateOnReqd	PKind_ExpDateReqd	PKind_RegExpression
+1	Birth Certificate in current name	0	0	NULL
+5	Gas or Electricity Bill (less than 3 months old)	0	0	NULL
+7	Photo Driving Licence	0	0	^[A-Z,0-9]{5}[0-9][0,1,5,6][0-9]([0][1-9]|[1-2][0-9]|[3][0,1])[0-9][A-Z,0-9]{3}[A-Z]{2}$
+8	UK Passport	0	0	^\d{9}$
+9	Non-Photo Driving Licence	0	0	NULL
+13	Letter from DVLA revoking driving licence	0	0	NULL
+22	NHS Medical Card	0	0	^\d{10}$
+24	Optical or Medical Prescription	0	0	NULL
+31	Confirmed by Social Services - states significant impairment of intelligence	0	0	NULL
+34	Credit reference search	0	0	NULL
+41	Council tax bill (current year)	0	0	NULL
+58	EU National Identity Card	0	0	NULL
+70	Age checked in old system	0	0	NULL
+71	Residence checked in old system	0	0	NULL
+212	Approved by CT Team	0	0	NULL
+319	AFCS Reasons for Decision letter	0	0	NULL
+320	CVI (Certificate of Visual Impairment)	0	0	NULL
+321	Personal Independence Payment (PIP) showing 8+ points for Communicating Verbally	0	0	NULL
+322	Personal Independence Payment (PIP) showing 8+ points for Moving Around	0	0	NULL
+325	Registration document - severely sight impaired or sight impaired	0	0	NULL
+326	Registration document - hearing level at 70dBHL or worse	0	0	NULL
+327	Statement of Special Educational Needs	0	0	NULL
+328	Letter from Head Teacher at Special School - states significant impairment of intelligence	0	0	NULL
+329	Letter from Learning Disability Co-ordinator - states significant impairment of intelligence	0	0	NULL
+330	Letter from organisation providing support services (e.g. MENCAP) - states significant impairment of intelligence	0	0	NULL
+331	Letter from residential home / sheltered accommodation manager	0	0	NULL
+332	War Pensioners Mobility Supplement	0	0	NULL
+333	Higher Rate Mobility Component of DLA > 12 months	0	0	NULL
+334	Landline Telephone Bill	0	0	NULL
+335	Water bill (metered or rates) - must be current year	0	0	NULL
+338	Birth Certificate plus proof of name change	0	0	NULL
+339	Audiogram - hearing level at 70dBHL or worse - both ears	0	0	NULL
+340	Medical Evidence - cannot walk more than 64 metres	0	0	NULL
+341	Medical Evidence - walking would lead to serious deterioration in health	0	0	NULL
+342	Medical Evidence - can only get about by using crutches (12 months+)	0	0	NULL
+343	Medical Evidence - takes an excessive amount of time to walk short distances	0	0	NULL
+344	Medical Evidence - states significant impairment of intelligence	0	0	NULL
+345	Medical Evidence - Diabetes with hypoglycaemic attacks	0	0	NULL
+346	Medical Evidence - Epilepsy - seizure within last 12 months	0	0	NULL
+347	Letter from DVLA indicating refusal, supported by medical evidence	0	0	NULL
+      
+    -->
+    <Proof kindId="{PROOF_KINDID}" reference="{PROOF_REFERENCE}" dateOn="PROOF_DATEON" expiresOn="PROOF_EXPIRESON" />
+  </Proofs>
+    <!-- optional section to import cards or other tokens from other systems -->
+  <SmartCards>
+    <SmartCard locationId="2" statusId="3" issuerId="1" issuedDate="2011-03-29 00:00:00" mifareSerialNo="D065126">D065126</SmartCard>
+  </SmartCards>
+</Citizen>

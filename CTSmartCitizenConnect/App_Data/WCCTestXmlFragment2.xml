@@ -1,0 +1,42 @@
+﻿<Citizen issuerId="1">
+	<Addresses>
+		<Address type="1">
+			<Item name="POSTCODE">CV34 6GB</Item>
+			<Item name="FLAT"></Item>
+			<Item name="HOUSE NUMBER/NAME">2</Item>
+			<Item name="STREET">Warwick Street</Item>
+			<Item name="LOCALITY">Warwicktown</Item>
+			<Item name="TOWN">Warwick</Item>
+			<Item name="COUNTY">Warwickshire</Item>
+			<Item name="LOCAL AUTHORITY">Warwick</Item>
+			<Item name="UPRN"></Item>
+			<Item name="UDPRN"></Item>
+			<Item name="RESIDENT">True</Item>
+			<Item name="EASTING"></Item>
+			<Item name="NORTHING"></Item>
+			<Item name="LONG"></Item>
+			<Item name="LAT"></Item>
+			<Item name="DATAOBJECT"></Item>
+		</Address>
+	</Addresses>
+	<Services>
+		<Service serviceId="32" name="CCDA">
+			<Item dtype="text" itemId="68">Mr</Item>
+			<Item dtype="text" itemId="3">Eric</Item>
+			<Item dtype="text" itemId="4">Testing</Item>
+			<Item dtype="text" itemId="21">Eric Test Test</Item>
+			<Item dtype="text" itemId="5">1972-01-01 00:00:00</Item>
+			<Item dtype="lookup" itemId="7" lookupId ="1" />
+			<Item dtype="text" itemId="14">test@test.com</Item>
+			<Item dtype="text" itemId="20">07786123456</Item>
+			<Item dtype="text" itemId="19">01926 767123</Item>
+			<Item dtype="text" itemId="18">0121 123654</Item>
+			<Item dtype="text" itemId="6"></Item>
+			<Item dtype="text" itemId="22">Notes about Eric</Item>
+			<Item dtype="text" itemId="9000"></Item>
+			<Item dtype="text" itemId="119"></Item>
+			<Item dtype="text" itemId="120">1001</Item>
+		</Service>
+	</Services>
+</Citizen>
+

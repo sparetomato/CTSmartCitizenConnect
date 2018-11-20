@@ -1,0 +1,57 @@
+﻿<Citizen issuerId="1">
+	<Addresses>
+		<Address type="1">
+      <Item name="POSTCODE" ></Item>
+      <Item name="FLAT" ></Item>
+      <Item name="HOUSE NUMBER/NAME" ></Item>
+      <Item name="STREET" ></Item>
+      <Item name="LOCALITY" ></Item>
+      <Item name="TOWN" ></Item>
+      <Item name="COUNTY" ></Item>
+      <Item name="LOCAL AUTHORITY" ></Item>
+			<Item name="UPRN"></Item>
+			<Item name="RESIDENT">True</Item>
+		</Address>
+	</Addresses>
+	<Services>
+    <Service serviceId="32" name="CCDA">
+      <Item dtype="text" itemId="68">
+      <!-- Title -->
+      </Item>
+      <Item dtype="text" itemId="3" >
+        <!-- Forename -->
+      </Item>
+      <Item dtype="text" itemId="4" >
+        <!--Surname -->
+      </Item>
+      <Item dtype="text" itemId="21" >
+        <!-- Display Name -->
+      </Item>
+      <Item dtype="text" itemId="5" >
+        <!-- DateOfBirth -->
+      </Item>
+      <Item dtype="lookup" itemId="7" lookupId ="1" >
+        <!-- set lookupId attribute to the relevant value-->
+      </Item>
+      <Item dtype="text" itemId="14"></Item>
+      <!--Email -->
+      <Item dtype="text" itemId="20">
+        <!-- Mobile number-->
+      </Item>
+      <Item dtype="text" itemId="19" >
+        <!-- Work phone-->
+      </Item>
+      <Item dtype="text" itemId="18" >
+      <!-- Home phone -->
+      </Item>
+      <Item dtype="text" itemId="120" ><!-- UCRN -->
+      </Item>
+      <Item dtype="lookup" itemId="115" lookupId=""/> <!-- CONTACT METHOD. Values: 2276 (Do not contact), 2273 (Email), 2275 (Large Print Letter), 2274 (Letter) -->
+    </Service>
+		<Service serviceId="34" name="Photo Id">
+			<Item itemId="16" dtype="image" />
+		</Service>
+	</Services>
+  <Proofs />
+</Citizen>
+

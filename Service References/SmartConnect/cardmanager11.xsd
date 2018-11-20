@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="SmartConnect-CardManagement3-GetBatchResponse" elementFormDefault="qualified" targetNamespace="SmartConnect-CardManagement3-GetBatchResponse" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:complexType name="GetBatchResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="BatchData" nillable="true">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:any minOccurs="0" processContents="lax" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element minOccurs="0" name="BatchIdentifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="BatchSize" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GetBatchResponse" nillable="true" type="tns:GetBatchResponse" />
+</xs:schema>

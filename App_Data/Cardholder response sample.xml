@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<GetCardholderResponse xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ExtensionData />
+  <CitizenData>
+    <Citizen id="590939" xmlns="">
+      <Services>
+        <Service application="ISO File Handler" refinement="ISO File Handler" />
+        <Service application="CCDA" refinement="CCDA">
+          <Item name="FLAT">
+          </Item>
+          <Item name="HOUSE NUMBER/NAME">145 Test Towers</Item>
+          <Item name="STREET">Testing Street</Item>
+          <Item name="LOCALITY">
+          </Item>
+          <Item name="TOWN">Warwick</Item>
+          <Item name="COUNTY">Warwickshire</Item>
+          <Item name="POSTCODE">CV34 4TG</Item>
+          <Item name="LOCAL AUTHORITY">Rugby</Item>
+          <Item name="UPRN">
+          </Item>
+          <Item name="UDPRN">
+          </Item>
+          <Item name="RESIDENT">True</Item>
+          <Item name="EASTING">
+          </Item>
+          <Item name="NORTHING">
+          </Item>
+          <Item name="LONG">
+          </Item>
+          <Item name="LAT">
+          </Item>
+          <Item name="DATAOBJECT">
+          </Item>
+          <Item name="SMARTCARDID">663123456789</Item>
+          <Item name="IIN" />
+          <Item name="TITLE">Capt</Item>
+          <Item name="FORENAME">Andy</Item>
+          <Item name="MNAME" />
+          <Item name="SURNAME">Test</Item>
+          <Item name="NAME">Andy Test</Item>
+          <Item name="DOB">1945-09-05 00:00:00</Item>
+          <Item name="GENDER">9</Item>
+          <Item name="HOME TEL" />
+          <Item name="WORK TEL" />
+          <Item name="MOBILE" />
+          <Item name="EMAIL" />
+          <Item name="NOTES" />
+          <Item name="Contact me" />
+          <Item name="RECORDID" />
+          <Item name="REF" />
+          <Item name="TASK" />
+        </Service>
+        <Service application="Photo Id" refinement="Photo Id">
+          <Item name="PHOTO"></Item>
+        </Service>
+        <Service application="ENCTS" refinement="c. Without speech">
+          <Item name="RENEWREFER">Renew</Item>
+        </Service>
+        <Service application="ITSO" refinement="ITSO">
+          <Item name="ISRN">663123456789</Item>
+          <Item name="EXPIRY DATE">Sep  5 2016 12:00AM</Item>
+        </Service>
+      </Services>
+    </Citizen>
+  </CitizenData>
+  <Identifier>
+    <ExtensionData />
+    <CardID>663123456789</CardID>
+    <CardholderID>590939</CardholderID>
+  </Identifier>
+</GetCardholderResponse>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="SmartConnect-CardManagement3-CardTransactionData" elementFormDefault="qualified" targetNamespace="SmartConnect-CardManagement3-CardTransactionData" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd3" namespace="SmartConnect-CardManagement3-RecordIdentifier" />
+  <xs:import schemaLocation="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd6" namespace="SmartConnect-CardManagement3-CardUsageTerminal" />
+  <xs:complexType name="CardTransactionData">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Activity" type="xs:int" />
+      <xs:element minOccurs="0" name="ActivityName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="AdditionalInformation" nillable="true" type="xs:string" />
+      <xs:element xmlns:q1="SmartConnect-CardManagement3-RecordIdentifier" minOccurs="0" name="CardIdentifier" nillable="true" type="q1:RecordIdentifier" />
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Occurred" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Points" type="xs:int" />
+      <xs:element xmlns:q2="SmartConnect-CardManagement3-CardUsageTerminal" minOccurs="0" name="TerminalIdentifier" nillable="true" type="q2:CardUsageTerminal" />
+      <xs:element minOccurs="0" name="TransactionID" nillable="true" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CardTransactionData" nillable="true" type="tns:CardTransactionData" />
+</xs:schema>

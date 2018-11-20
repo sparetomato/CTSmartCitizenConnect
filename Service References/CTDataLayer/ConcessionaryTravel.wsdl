@@ -1,0 +1,1533 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s1="http://microsoft.com/wsdl/types/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:import namespace="http://microsoft.com/wsdl/types/" />
+      <s:element name="UpdateData">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ctDataDoc">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateDataResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UpdateDataResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SaveData">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ctDataDoc">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SaveDataResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SaveDataResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPassesForPrint">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetPassesForPrintResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPassesForPrintResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateImage">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="cpicc" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="passHolderNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="image" type="s:base64Binary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateImageResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdateImageResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="FlagRecord">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CPICC" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="PassHolderNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="FlagDescription" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="FlagRecordResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="FlagRecordResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SearchData">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="surname" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="postcode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="isrn" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="includeDeleted" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SearchDataResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SearchDataResult" type="tns:ArrayOfCTPassHolder" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfCTPassHolder">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="CTPassHolder" nillable="true" type="tns:CTPassHolder" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="CTPassHolder">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="RecordID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="CPICC" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PassHolderNumber" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Title" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FirstNameOrInitial" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Surname" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="HouseOrFlatNumberOrName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="BuildingName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Street" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="VillageOrDistrict" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TownCity" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="County" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PostCode" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="DateOfBirth" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="PhotographBytes" type="s:base64Binary" />
+          <s:element minOccurs="0" maxOccurs="1" name="CtPass" type="tns:CTPass" />
+          <s:element minOccurs="1" maxOccurs="1" name="PhotoLastUpdated" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="Gender" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="DisabilityCategory" type="s1:char" />
+          <s:element minOccurs="0" maxOccurs="1" name="UPRN" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="PassExpiryDate" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="DaysSincePhotoUpdated" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="CTPass">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ISRN" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ExpiryDate" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="Deleted" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="CompanionAllowedLocally" nillable="true" type="s1:char" />
+          <s:element minOccurs="1" maxOccurs="1" name="PassType" type="tns:CTPassType" />
+          <s:element minOccurs="0" maxOccurs="1" name="NorthgateCaseNumber" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="CTPassType">
+        <s:restriction base="s:string">
+          <s:enumeration value="Age" />
+          <s:enumeration value="Disabled" />
+          <s:enumeration value="DisabledTemporary" />
+          <s:enumeration value="NotSet" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="DeleteData">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="cpicc" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="passHolderNumber" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteDataResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="DeleteDataResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RetrieveData">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="cpicc" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="passHolderNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="isrn" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RetrieveDataResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RetrieveDataResult" type="tns:CTPassHolder" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="FullDelete">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="cpicc" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="passHolderNumber" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="FullDeleteResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="FullDeleteResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateISRN">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CPICC" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="passHolderNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ISRN" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="printedDate" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateISRNResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UpdateISRNResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddToPrintQueue">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CPICC" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="passHolderNumber" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="printDate" type="s:dateTime" />
+            <s:element minOccurs="0" maxOccurs="1" name="printReason" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddToPrintQueueResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AddToPrintQueueResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MarkAsSentToPrint">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CPICC" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="PassNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MarkAsSentToPrintResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="MarkAsSentToPrintResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPassFromPrintQueue">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CPICC" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="passHolderNumber" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="dateSince" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPassFromPrintQueueResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPassFromPrintQueueResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPassRecordFlags">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CPICC" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="passHolderNumber" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPassRecordFlagsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPassRecordFlagsResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPassFromPrintQueueByID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="RecordID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="dateSince" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPassFromPrintQueueByIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPassFromPrintQueueByIDResult" type="tns:ArrayOfCTPassPrintRecord" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfCTPassPrintRecord">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="CTPassPrintRecord" nillable="true" type="tns:CTPassPrintRecord" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="CTPassPrintRecord">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="SendToPrintDate" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="ActualSentToPrintDate" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="SentToPrint" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="PrintedDate" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="PrintReason" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ReportProcessed" nillable="true" type="s:dateTime" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="UpdatePrintQueueByID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="RecordID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="UserID" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="SendToPrintDate" type="s:dateTime" />
+            <s:element minOccurs="0" maxOccurs="1" name="PrintReason" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdatePrintQueueByIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdatePrintQueueByIDResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPassRecordFlagsByID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="RecordID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPassRecordFlagsByIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPassRecordFlagsByIDResult" type="tns:ArrayOfCTPassFlagRecord" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfCTPassFlagRecord">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="CTPassFlagRecord" nillable="true" type="tns:CTPassFlagRecord" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="CTPassFlagRecord">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="FlagId" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="AddRecordFlagByID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="RecordID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="UserID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Flag" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddRecordFlagByIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddRecordFlagByIDResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemoveFlagByID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="RecordID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="UserID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Flag" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemoveFlagByIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="RemoveFlagByIDResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemoveFromPrintQueueByID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="RecordID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="printDate" type="s:dateTime" />
+            <s:element minOccurs="0" maxOccurs="1" name="UserID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemoveFromPrintQueueByIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="RemoveFromPrintQueueByIDResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAuditHistoryByID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="RecordID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAuditHistoryByIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAuditHistoryByIDResult" type="tns:ArrayOfCTPassAuditRecord" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfCTPassAuditRecord">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="CTPassAuditRecord" nillable="true" type="tns:CTPassAuditRecord" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="CTPassAuditRecord">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Action" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Datetime" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="Userid" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Entityname" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Valuebefore" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Valueafter" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="UpdateImageByID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="RecordID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="image" type="s:base64Binary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateImageByIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdateImageByIDResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SaveDataByID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ctDataDoc">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="1" maxOccurs="1" name="RecordID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SaveDataByIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SaveDataByIDResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateAndRenewPass">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="passHolder" type="tns:CTPassHolder" />
+            <s:element minOccurs="1" maxOccurs="1" name="caseNumber" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateAndRenewPassResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdateAndRenewPassResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteDataByID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="RecordID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="UserID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteDataByIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="DeleteDataByIDResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SearchDataByID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="firstname" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="surname" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="postcode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="isrn" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="includeDeleted" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SearchDataByIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SearchDataByIDResult" type="tns:ArrayOfCTPassHolder" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SearchCurrentAndPreviousData">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PassholderId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Surname" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DateOfBirth" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="CurrentUPRN" nillable="true" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="CurrentAddress" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="PriorUPRN" nillable="true" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="PriorAddress" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="PriorSurname" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SearchCurrentAndPreviousDataResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SearchCurrentAndPreviousDataResult" type="tns:ArrayOfCTPassHolder" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RetrieveDataByID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="RecordID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RetrieveDataByIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RetrieveDataByIDResult" type="tns:CTPassHolder" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserRole">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserRoleResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetUserRoleResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAuditPhotograph">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AuditID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAuditPhotographResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAuditPhotographResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://microsoft.com/wsdl/types/">
+      <s:simpleType name="char">
+        <s:restriction base="s:unsignedShort" />
+      </s:simpleType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="UpdateDataSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateData" />
+  </wsdl:message>
+  <wsdl:message name="UpdateDataSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="SaveDataSoapIn">
+    <wsdl:part name="parameters" element="tns:SaveData" />
+  </wsdl:message>
+  <wsdl:message name="SaveDataSoapOut">
+    <wsdl:part name="parameters" element="tns:SaveDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPassesForPrintSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPassesForPrint" />
+  </wsdl:message>
+  <wsdl:message name="GetPassesForPrintSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPassesForPrintResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateImageSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateImage" />
+  </wsdl:message>
+  <wsdl:message name="UpdateImageSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateImageResponse" />
+  </wsdl:message>
+  <wsdl:message name="FlagRecordSoapIn">
+    <wsdl:part name="parameters" element="tns:FlagRecord" />
+  </wsdl:message>
+  <wsdl:message name="FlagRecordSoapOut">
+    <wsdl:part name="parameters" element="tns:FlagRecordResponse" />
+  </wsdl:message>
+  <wsdl:message name="SearchDataSoapIn">
+    <wsdl:part name="parameters" element="tns:SearchData" />
+  </wsdl:message>
+  <wsdl:message name="SearchDataSoapOut">
+    <wsdl:part name="parameters" element="tns:SearchDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteDataSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteData" />
+  </wsdl:message>
+  <wsdl:message name="DeleteDataSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="RetrieveDataSoapIn">
+    <wsdl:part name="parameters" element="tns:RetrieveData" />
+  </wsdl:message>
+  <wsdl:message name="RetrieveDataSoapOut">
+    <wsdl:part name="parameters" element="tns:RetrieveDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="FullDeleteSoapIn">
+    <wsdl:part name="parameters" element="tns:FullDelete" />
+  </wsdl:message>
+  <wsdl:message name="FullDeleteSoapOut">
+    <wsdl:part name="parameters" element="tns:FullDeleteResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateISRNSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateISRN" />
+  </wsdl:message>
+  <wsdl:message name="UpdateISRNSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateISRNResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddToPrintQueueSoapIn">
+    <wsdl:part name="parameters" element="tns:AddToPrintQueue" />
+  </wsdl:message>
+  <wsdl:message name="AddToPrintQueueSoapOut">
+    <wsdl:part name="parameters" element="tns:AddToPrintQueueResponse" />
+  </wsdl:message>
+  <wsdl:message name="MarkAsSentToPrintSoapIn">
+    <wsdl:part name="parameters" element="tns:MarkAsSentToPrint" />
+  </wsdl:message>
+  <wsdl:message name="MarkAsSentToPrintSoapOut">
+    <wsdl:part name="parameters" element="tns:MarkAsSentToPrintResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPassFromPrintQueueSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPassFromPrintQueue" />
+  </wsdl:message>
+  <wsdl:message name="GetPassFromPrintQueueSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPassFromPrintQueueResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPassRecordFlagsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPassRecordFlags" />
+  </wsdl:message>
+  <wsdl:message name="GetPassRecordFlagsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPassRecordFlagsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPassFromPrintQueueByIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPassFromPrintQueueByID" />
+  </wsdl:message>
+  <wsdl:message name="GetPassFromPrintQueueByIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPassFromPrintQueueByIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdatePrintQueueByIDSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdatePrintQueueByID" />
+  </wsdl:message>
+  <wsdl:message name="UpdatePrintQueueByIDSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdatePrintQueueByIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPassRecordFlagsByIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPassRecordFlagsByID" />
+  </wsdl:message>
+  <wsdl:message name="GetPassRecordFlagsByIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPassRecordFlagsByIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddRecordFlagByIDSoapIn">
+    <wsdl:part name="parameters" element="tns:AddRecordFlagByID" />
+  </wsdl:message>
+  <wsdl:message name="AddRecordFlagByIDSoapOut">
+    <wsdl:part name="parameters" element="tns:AddRecordFlagByIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="RemoveFlagByIDSoapIn">
+    <wsdl:part name="parameters" element="tns:RemoveFlagByID" />
+  </wsdl:message>
+  <wsdl:message name="RemoveFlagByIDSoapOut">
+    <wsdl:part name="parameters" element="tns:RemoveFlagByIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="RemoveFromPrintQueueByIDSoapIn">
+    <wsdl:part name="parameters" element="tns:RemoveFromPrintQueueByID" />
+  </wsdl:message>
+  <wsdl:message name="RemoveFromPrintQueueByIDSoapOut">
+    <wsdl:part name="parameters" element="tns:RemoveFromPrintQueueByIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAuditHistoryByIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAuditHistoryByID" />
+  </wsdl:message>
+  <wsdl:message name="GetAuditHistoryByIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAuditHistoryByIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateImageByIDSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateImageByID" />
+  </wsdl:message>
+  <wsdl:message name="UpdateImageByIDSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateImageByIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="SaveDataByIDSoapIn">
+    <wsdl:part name="parameters" element="tns:SaveDataByID" />
+  </wsdl:message>
+  <wsdl:message name="SaveDataByIDSoapOut">
+    <wsdl:part name="parameters" element="tns:SaveDataByIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateAndRenewPassSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateAndRenewPass" />
+  </wsdl:message>
+  <wsdl:message name="UpdateAndRenewPassSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateAndRenewPassResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteDataByIDSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteDataByID" />
+  </wsdl:message>
+  <wsdl:message name="DeleteDataByIDSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteDataByIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="SearchDataByIDSoapIn">
+    <wsdl:part name="parameters" element="tns:SearchDataByID" />
+  </wsdl:message>
+  <wsdl:message name="SearchDataByIDSoapOut">
+    <wsdl:part name="parameters" element="tns:SearchDataByIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="SearchCurrentAndPreviousDataSoapIn">
+    <wsdl:part name="parameters" element="tns:SearchCurrentAndPreviousData" />
+  </wsdl:message>
+  <wsdl:message name="SearchCurrentAndPreviousDataSoapOut">
+    <wsdl:part name="parameters" element="tns:SearchCurrentAndPreviousDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="RetrieveDataByIDSoapIn">
+    <wsdl:part name="parameters" element="tns:RetrieveDataByID" />
+  </wsdl:message>
+  <wsdl:message name="RetrieveDataByIDSoapOut">
+    <wsdl:part name="parameters" element="tns:RetrieveDataByIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetUserRoleSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUserRole" />
+  </wsdl:message>
+  <wsdl:message name="GetUserRoleSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUserRoleResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAuditPhotographSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAuditPhotograph" />
+  </wsdl:message>
+  <wsdl:message name="GetAuditPhotographSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAuditPhotographResponse" />
+  </wsdl:message>
+  <wsdl:portType name="CT_DataLayerSoap">
+    <wsdl:operation name="UpdateData">
+      <wsdl:input message="tns:UpdateDataSoapIn" />
+      <wsdl:output message="tns:UpdateDataSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveData">
+      <wsdl:input message="tns:SaveDataSoapIn" />
+      <wsdl:output message="tns:SaveDataSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPassesForPrint">
+      <wsdl:input message="tns:GetPassesForPrintSoapIn" />
+      <wsdl:output message="tns:GetPassesForPrintSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateImage">
+      <wsdl:input message="tns:UpdateImageSoapIn" />
+      <wsdl:output message="tns:UpdateImageSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="FlagRecord">
+      <wsdl:input message="tns:FlagRecordSoapIn" />
+      <wsdl:output message="tns:FlagRecordSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SearchData">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This method is used to provide a general search that retrieves a number of records based upon your search parameters.</wsdl:documentation>
+      <wsdl:input message="tns:SearchDataSoapIn" />
+      <wsdl:output message="tns:SearchDataSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteData">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This method marks a record for deletion.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteDataSoapIn" />
+      <wsdl:output message="tns:DeleteDataSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RetrieveData">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Unlike the SearchData method that brings back multiple records, this returns only one.</wsdl:documentation>
+      <wsdl:input message="tns:RetrieveDataSoapIn" />
+      <wsdl:output message="tns:RetrieveDataSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="FullDelete">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">You can use this method to remove all traces of the user in the database straight away.</wsdl:documentation>
+      <wsdl:input message="tns:FullDeleteSoapIn" />
+      <wsdl:output message="tns:FullDeleteSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateISRN">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sets the ISRN (the number printed on the pass for a Pass record</wsdl:documentation>
+      <wsdl:input message="tns:UpdateISRNSoapIn" />
+      <wsdl:output message="tns:UpdateISRNSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddToPrintQueue">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Adds a pass print request to the print queue</wsdl:documentation>
+      <wsdl:input message="tns:AddToPrintQueueSoapIn" />
+      <wsdl:output message="tns:AddToPrintQueueSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MarkAsSentToPrint">
+      <wsdl:input message="tns:MarkAsSentToPrintSoapIn" />
+      <wsdl:output message="tns:MarkAsSentToPrintSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPassFromPrintQueue">
+      <wsdl:input message="tns:GetPassFromPrintQueueSoapIn" />
+      <wsdl:output message="tns:GetPassFromPrintQueueSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPassRecordFlags">
+      <wsdl:input message="tns:GetPassRecordFlagsSoapIn" />
+      <wsdl:output message="tns:GetPassRecordFlagsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPassFromPrintQueueByID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets passes from print queue by Record ID using date filter</wsdl:documentation>
+      <wsdl:input message="tns:GetPassFromPrintQueueByIDSoapIn" />
+      <wsdl:output message="tns:GetPassFromPrintQueueByIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdatePrintQueueByID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Updates the print queue record by Record ID</wsdl:documentation>
+      <wsdl:input message="tns:UpdatePrintQueueByIDSoapIn" />
+      <wsdl:output message="tns:UpdatePrintQueueByIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPassRecordFlagsByID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets record flags for a record by ID</wsdl:documentation>
+      <wsdl:input message="tns:GetPassRecordFlagsByIDSoapIn" />
+      <wsdl:output message="tns:GetPassRecordFlagsByIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddRecordFlagByID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Adds a new flag to record</wsdl:documentation>
+      <wsdl:input message="tns:AddRecordFlagByIDSoapIn" />
+      <wsdl:output message="tns:AddRecordFlagByIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveFlagByID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Remove a flag from a record by ID and the flag ref, logging user</wsdl:documentation>
+      <wsdl:input message="tns:RemoveFlagByIDSoapIn" />
+      <wsdl:output message="tns:RemoveFlagByIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveFromPrintQueueByID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Remove a print queue record by Record ID, print date, logging user</wsdl:documentation>
+      <wsdl:input message="tns:RemoveFromPrintQueueByIDSoapIn" />
+      <wsdl:output message="tns:RemoveFromPrintQueueByIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAuditHistoryByID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get full audit history for a record by ID</wsdl:documentation>
+      <wsdl:input message="tns:GetAuditHistoryByIDSoapIn" />
+      <wsdl:output message="tns:GetAuditHistoryByIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateImageByID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Updates the image for a record by ID</wsdl:documentation>
+      <wsdl:input message="tns:UpdateImageByIDSoapIn" />
+      <wsdl:output message="tns:UpdateImageByIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveDataByID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Saves the record by ID</wsdl:documentation>
+      <wsdl:input message="tns:SaveDataByIDSoapIn" />
+      <wsdl:output message="tns:SaveDataByIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateAndRenewPass">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Updates and renews a pass</wsdl:documentation>
+      <wsdl:input message="tns:UpdateAndRenewPassSoapIn" />
+      <wsdl:output message="tns:UpdateAndRenewPassSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDataByID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This method marks a record as deleted by RecordID</wsdl:documentation>
+      <wsdl:input message="tns:DeleteDataByIDSoapIn" />
+      <wsdl:output message="tns:DeleteDataByIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SearchDataByID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This method is used to provide a general search that retrieves a number of records based upon your search parameters.</wsdl:documentation>
+      <wsdl:input message="tns:SearchDataByIDSoapIn" />
+      <wsdl:output message="tns:SearchDataByIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SearchCurrentAndPreviousData">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This method is used to search on previous as well as current data.</wsdl:documentation>
+      <wsdl:input message="tns:SearchCurrentAndPreviousDataSoapIn" />
+      <wsdl:output message="tns:SearchCurrentAndPreviousDataSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RetrieveDataByID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Unlike the SearchData method that brings back multiple records, this returns only one by Record ID</wsdl:documentation>
+      <wsdl:input message="tns:RetrieveDataByIDSoapIn" />
+      <wsdl:output message="tns:RetrieveDataByIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserRole">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get user role for user name (AD)</wsdl:documentation>
+      <wsdl:input message="tns:GetUserRoleSoapIn" />
+      <wsdl:output message="tns:GetUserRoleSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAuditPhotograph">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets audit history photograph by audit ID</wsdl:documentation>
+      <wsdl:input message="tns:GetAuditPhotographSoapIn" />
+      <wsdl:output message="tns:GetAuditPhotographSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="CT_DataLayerSoap" type="tns:CT_DataLayerSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="UpdateData">
+      <soap:operation soapAction="http://tempuri.org/UpdateData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveData">
+      <soap:operation soapAction="http://tempuri.org/SaveData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPassesForPrint">
+      <soap:operation soapAction="http://tempuri.org/GetPassesForPrint" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateImage">
+      <soap:operation soapAction="http://tempuri.org/UpdateImage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FlagRecord">
+      <soap:operation soapAction="http://tempuri.org/FlagRecord" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchData">
+      <soap:operation soapAction="http://tempuri.org/SearchData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteData">
+      <soap:operation soapAction="http://tempuri.org/DeleteData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RetrieveData">
+      <soap:operation soapAction="http://tempuri.org/RetrieveData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FullDelete">
+      <soap:operation soapAction="http://tempuri.org/FullDelete" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateISRN">
+      <soap:operation soapAction="http://tempuri.org/UpdateISRN" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddToPrintQueue">
+      <soap:operation soapAction="http://tempuri.org/AddToPrintQueue" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MarkAsSentToPrint">
+      <soap:operation soapAction="http://tempuri.org/MarkAsSentToPrint" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPassFromPrintQueue">
+      <soap:operation soapAction="http://tempuri.org/GetPassFromPrintQueue" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPassRecordFlags">
+      <soap:operation soapAction="http://tempuri.org/GetPassRecordFlags" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPassFromPrintQueueByID">
+      <soap:operation soapAction="http://tempuri.org/GetPassFromPrintQueueByID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdatePrintQueueByID">
+      <soap:operation soapAction="http://tempuri.org/UpdatePrintQueueByID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPassRecordFlagsByID">
+      <soap:operation soapAction="http://tempuri.org/GetPassRecordFlagsByID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddRecordFlagByID">
+      <soap:operation soapAction="http://tempuri.org/AddRecordFlagByID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveFlagByID">
+      <soap:operation soapAction="http://tempuri.org/RemoveFlagByID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveFromPrintQueueByID">
+      <soap:operation soapAction="http://tempuri.org/RemoveFromPrintQueueByID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuditHistoryByID">
+      <soap:operation soapAction="http://tempuri.org/GetAuditHistoryByID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateImageByID">
+      <soap:operation soapAction="http://tempuri.org/UpdateImageByID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveDataByID">
+      <soap:operation soapAction="http://tempuri.org/SaveDataByID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateAndRenewPass">
+      <soap:operation soapAction="http://tempuri.org/UpdateAndRenewPass" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDataByID">
+      <soap:operation soapAction="http://tempuri.org/DeleteDataByID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchDataByID">
+      <soap:operation soapAction="http://tempuri.org/SearchDataByID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchCurrentAndPreviousData">
+      <soap:operation soapAction="http://tempuri.org/SearchCurrentAndPreviousData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RetrieveDataByID">
+      <soap:operation soapAction="http://tempuri.org/RetrieveDataByID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserRole">
+      <soap:operation soapAction="http://tempuri.org/GetUserRole" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuditPhotograph">
+      <soap:operation soapAction="http://tempuri.org/GetAuditPhotograph" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="CT_DataLayerSoap12" type="tns:CT_DataLayerSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="UpdateData">
+      <soap12:operation soapAction="http://tempuri.org/UpdateData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveData">
+      <soap12:operation soapAction="http://tempuri.org/SaveData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPassesForPrint">
+      <soap12:operation soapAction="http://tempuri.org/GetPassesForPrint" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateImage">
+      <soap12:operation soapAction="http://tempuri.org/UpdateImage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FlagRecord">
+      <soap12:operation soapAction="http://tempuri.org/FlagRecord" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchData">
+      <soap12:operation soapAction="http://tempuri.org/SearchData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteData">
+      <soap12:operation soapAction="http://tempuri.org/DeleteData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RetrieveData">
+      <soap12:operation soapAction="http://tempuri.org/RetrieveData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FullDelete">
+      <soap12:operation soapAction="http://tempuri.org/FullDelete" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateISRN">
+      <soap12:operation soapAction="http://tempuri.org/UpdateISRN" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddToPrintQueue">
+      <soap12:operation soapAction="http://tempuri.org/AddToPrintQueue" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MarkAsSentToPrint">
+      <soap12:operation soapAction="http://tempuri.org/MarkAsSentToPrint" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPassFromPrintQueue">
+      <soap12:operation soapAction="http://tempuri.org/GetPassFromPrintQueue" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPassRecordFlags">
+      <soap12:operation soapAction="http://tempuri.org/GetPassRecordFlags" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPassFromPrintQueueByID">
+      <soap12:operation soapAction="http://tempuri.org/GetPassFromPrintQueueByID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdatePrintQueueByID">
+      <soap12:operation soapAction="http://tempuri.org/UpdatePrintQueueByID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPassRecordFlagsByID">
+      <soap12:operation soapAction="http://tempuri.org/GetPassRecordFlagsByID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddRecordFlagByID">
+      <soap12:operation soapAction="http://tempuri.org/AddRecordFlagByID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveFlagByID">
+      <soap12:operation soapAction="http://tempuri.org/RemoveFlagByID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveFromPrintQueueByID">
+      <soap12:operation soapAction="http://tempuri.org/RemoveFromPrintQueueByID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuditHistoryByID">
+      <soap12:operation soapAction="http://tempuri.org/GetAuditHistoryByID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateImageByID">
+      <soap12:operation soapAction="http://tempuri.org/UpdateImageByID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveDataByID">
+      <soap12:operation soapAction="http://tempuri.org/SaveDataByID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateAndRenewPass">
+      <soap12:operation soapAction="http://tempuri.org/UpdateAndRenewPass" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDataByID">
+      <soap12:operation soapAction="http://tempuri.org/DeleteDataByID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchDataByID">
+      <soap12:operation soapAction="http://tempuri.org/SearchDataByID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchCurrentAndPreviousData">
+      <soap12:operation soapAction="http://tempuri.org/SearchCurrentAndPreviousData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RetrieveDataByID">
+      <soap12:operation soapAction="http://tempuri.org/RetrieveDataByID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserRole">
+      <soap12:operation soapAction="http://tempuri.org/GetUserRole" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuditPhotograph">
+      <soap12:operation soapAction="http://tempuri.org/GetAuditPhotograph" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CT_DataLayer">
+    <wsdl:port name="CT_DataLayerSoap" binding="tns:CT_DataLayerSoap">
+      <soap:address location="http://localhost:49503/ConcessionaryTravel.asmx" />
+    </wsdl:port>
+    <wsdl:port name="CT_DataLayerSoap12" binding="tns:CT_DataLayerSoap12">
+      <soap12:address location="http://localhost:49503/ConcessionaryTravel.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="SmartConnect-CardManagement3-SmartCard" elementFormDefault="qualified" targetNamespace="SmartConnect-CardManagement3-SmartCard" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="ArrayOfSmartCard">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="SmartCard" nillable="true" type="tns:SmartCard" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfSmartCard" nillable="true" type="tns:ArrayOfSmartCard" />
+  <xs:complexType name="SmartCard">
+    <xs:sequence />
+  </xs:complexType>
+  <xs:element name="SmartCard" nillable="true" type="tns:SmartCard" />
+</xs:schema>

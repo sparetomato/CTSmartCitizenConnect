@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="SmartConnect-CardManagement3-CardholderCoreDetails" elementFormDefault="qualified" targetNamespace="SmartConnect-CardManagement3-CardholderCoreDetails" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc?xsd=xsd3" namespace="SmartConnect-CardManagement3-RecordIdentifier" />
+  <xs:complexType name="ArrayOfCardholderCoreDetails">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="CardholderCoreDetails" nillable="true" type="tns:CardholderCoreDetails" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfCardholderCoreDetails" nillable="true" type="tns:ArrayOfCardholderCoreDetails" />
+  <xs:complexType name="CardholderCoreDetails">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="DateOfBirth" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Forename" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PrimaryAddress" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Surname" nillable="true" type="xs:string" />
+      <xs:element xmlns:q1="SmartConnect-CardManagement3-RecordIdentifier" minOccurs="0" name="UniqueIdentifier" nillable="true" type="q1:RecordIdentifier" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CardholderCoreDetails" nillable="true" type="tns:CardholderCoreDetails" />
+</xs:schema>
