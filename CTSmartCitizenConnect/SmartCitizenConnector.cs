@@ -828,7 +828,7 @@ _cmClient.UpdateCard(cardData);
             {
                 CheckCardResponse cardCheckResponse =
                     _cmClient.CheckCard(new CheckCardData() { CardIdentifier = cardHolderDetails.Identifier.CardID });
-                EntityDetailsListResponse[] entityDetailsListResponse = _cmClient.GetEntityList(personIdentifier);
+                EntityDetailsListResponse[] entityDetailsListResponse = _cmClient.GetEntityList(cardHolderDetails.Identifier);
 
                 EntityDetailsListResponse latestCard = entityDetailsListResponse.Single(a => a.EntityId == cardHolderDetails.Identifier.CardID);
 

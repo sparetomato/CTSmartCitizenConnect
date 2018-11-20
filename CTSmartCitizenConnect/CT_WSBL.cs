@@ -812,13 +812,15 @@ namespace warwickshire.gov.uk.CT_WS
                 return response;
             }
 
-            XmlNode customerTemplate = response.SelectSingleNode("//customer").CloneNode(true);
-            response.DocumentElement.RemoveAll();
+            
 
             //CTDataV2_WS.CT_DataLayer dataLayer = new CTDataV2_WS.CT_DataLayer();
             SmartCitizenConnector dataLayer = new SmartCitizenConnector();
             if (String.IsNullOrEmpty(passNo))
             {
+                response.Load(HttpContext.Current.ApplicationInstance.Server.MapPath("~/App_Data") + "/CTQueryPassSummary.xml");
+                XmlNode customerTemplate = response.SelectSingleNode("//customer").CloneNode(true);
+                response.DocumentElement.RemoveAll();
                 SmartCitizenCTPassholderSummary[] summaryResults = dataLayer.GetCTPassholderSummary(surname, forename, dateOfBirth, postcode);
                 //SmartCitizenCTPassholder[] searchResults = dataLayer.SearchPassHolders(surname, forename, dateOfBirth, postcode, passNo);
                 //CTPassHolder[] searchResults = dataLayer.SearchPassHolders(surname, forename, dateOfBirth, postcode, passNo);
@@ -831,9 +833,22 @@ namespace warwickshire.gov.uk.CT_WS
                     buildCustomerSummaryResponse(ref customer, searchResult);
                     response.DocumentElement.AppendChild(customer);
                 }
+
+                // Firmstep 19-03-2014. Added an Empty Customer node if searching by surname and postcode CS Request
+                if (String.IsNullOrEmpty(passNo))
+                {
+                    XmlNode blankCustomerNode = customerTemplate.CloneNode(true);
+                    blankCustomerNode.SelectSingleNode("//PassHolderNumber").InnerText = "No Match Found";
+                    response.DocumentElement.AppendChild(blankCustomerNode);
+                }
+
             }
             else
             {
+                response.Load(HttpContext.Current.ApplicationInstance.Server.MapPath("~/App_Data") + "/CTQueryPassResponse.xml");
+                XmlNode customerTemplate = response.SelectSingleNode("//customer").CloneNode(true);
+                response.DocumentElement.RemoveAll();
+
                 SmartCitizenCTPassholder[] searchResults = dataLayer.SearchPassHolders(surname, forename, dateOfBirth, postcode, passNo);
 
                 if (log.IsInfoEnabled) log.Info("Processing Search Result(s)");
@@ -844,14 +859,6 @@ namespace warwickshire.gov.uk.CT_WS
                     buildCustomerSearchResponse(ref customer, searchResult);
                     response.DocumentElement.AppendChild(customer);
                 }
-            }
-
-            // Firmstep 19-03-2014. Added an Empty Customer node if searching by surname and postcode CS Request
-            if (String.IsNullOrEmpty(passNo))
-            {
-                XmlNode blankCustomerNode = customerTemplate.CloneNode(true);
-                blankCustomerNode.SelectSingleNode("//PassHolderNumber").InnerText = "No Match Found";
-                response.DocumentElement.AppendChild(blankCustomerNode);
             }
 
 
@@ -927,8 +934,15 @@ namespace warwickshire.gov.uk.CT_WS
                                     }
                                     else
                                     {
-                                        customerNode.SelectSingleNode("//" + subprop.Name).InnerText =
-                                            subprop.GetValue(passHolder.CtPass, null).ToString();
+                                        try
+                                        {
+                                            customerNode.SelectSingleNode("//" + subprop.Name).InnerText =
+                                                subprop.GetValue(passHolder.CtPass, null).ToString();
+                                        }
+                                        catch (NullReferenceException ex)
+                                        {
+                                            if (log.IsErrorEnabled) log.Error("Could not find node with name:" + subprop.Name + "Please check XML file.");
+                                        }
                                     }
                                 }
                             }
@@ -989,10 +1003,13 @@ namespace warwickshire.gov.uk.CT_WS
                 }
 
                 // modify the nodes we need for the customer.
-                if (customerNode.SelectSingleNode("//Deleted").InnerText.ToLower() == "true")
-                    customerNode.SelectSingleNode("//Deleted").InnerText = "Y";
-                else
-                    customerNode.SelectSingleNode("//Deleted").InnerText = "N";
+                if (customerNode.SelectSingleNode("//Deleted") != null)
+                {
+                    if (customerNode.SelectSingleNode("//Deleted").InnerText.ToLower() == "true")
+                        customerNode.SelectSingleNode("//Deleted").InnerText = "Y";
+                    else
+                        customerNode.SelectSingleNode("//Deleted").InnerText = "N";
+                }
 
                 if (customerNode.SelectSingleNode("//Photograph").InnerText.Length > 10)
                     customerNode.SelectSingleNode("//PhotoAssociated").InnerText = "Y";
