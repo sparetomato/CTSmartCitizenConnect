@@ -804,7 +804,7 @@ namespace warwickshire.gov.uk.CT_WS
             if (log.IsInfoEnabled) log.Info("Query Pass request received");
             logParams(forename, surname, postcode, passNo);
             XmlDocument response = new XmlDocument();
-            response.Load(HttpContext.Current.ApplicationInstance.Server.MapPath("~/App_Data") + "/CTQueryPassResponse.xml");
+            response.Load(HttpContext.Current.ApplicationInstance.Server.MapPath("~/App_Data") + "/CTQueryPassSummary.xml");
 
             if ((surname + postcode + passNo).Length == 0)
             {
@@ -817,23 +817,40 @@ namespace warwickshire.gov.uk.CT_WS
 
             //CTDataV2_WS.CT_DataLayer dataLayer = new CTDataV2_WS.CT_DataLayer();
             SmartCitizenConnector dataLayer = new SmartCitizenConnector();
-            SmartCitizenCTPassholder[] searchResults = dataLayer.SearchPassHolders(surname, forename, dateOfBirth, postcode, passNo);
-            //CTPassHolder[] searchResults = dataLayer.SearchPassHolders(surname, forename, dateOfBirth, postcode, passNo);
-
-            if (log.IsInfoEnabled) log.Info("Processing Search Result(s)");
-            foreach (SmartCitizenCTPassholder searchResult in searchResults)
+            if (String.IsNullOrEmpty(passNo))
             {
+                SmartCitizenCTPassholderSummary[] summaryResults = dataLayer.GetCTPassholderSummary(surname, forename, dateOfBirth, postcode);
+                //SmartCitizenCTPassholder[] searchResults = dataLayer.SearchPassHolders(surname, forename, dateOfBirth, postcode, passNo);
+                //CTPassHolder[] searchResults = dataLayer.SearchPassHolders(surname, forename, dateOfBirth, postcode, passNo);
 
-                XmlNode customer = customerTemplate.CloneNode(true);
-                buildCustomerSearchResponse(ref customer, searchResult);
-                response.DocumentElement.AppendChild(customer);
+                if (log.IsInfoEnabled) log.Info("Processing Search Result(s)");
+                foreach (SmartCitizenCTPassholderSummary searchResult in summaryResults)
+                {
+
+                    XmlNode customer = customerTemplate.CloneNode(true);
+                    buildCustomerSummaryResponse(ref customer, searchResult);
+                    response.DocumentElement.AppendChild(customer);
+                }
+            }
+            else
+            {
+                SmartCitizenCTPassholder[] searchResults = dataLayer.SearchPassHolders(surname, forename, dateOfBirth, postcode, passNo);
+
+                if (log.IsInfoEnabled) log.Info("Processing Search Result(s)");
+                foreach (SmartCitizenCTPassholder searchResult in searchResults)
+                {
+
+                    XmlNode customer = customerTemplate.CloneNode(true);
+                    buildCustomerSearchResponse(ref customer, searchResult);
+                    response.DocumentElement.AppendChild(customer);
+                }
             }
 
             // Firmstep 19-03-2014. Added an Empty Customer node if searching by surname and postcode CS Request
             if (String.IsNullOrEmpty(passNo))
             {
                 XmlNode blankCustomerNode = customerTemplate.CloneNode(true);
-                blankCustomerNode.SelectSingleNode("//ISRN").InnerText = "No Match Found";
+                blankCustomerNode.SelectSingleNode("//PassHolderNumber").InnerText = "No Match Found";
                 response.DocumentElement.AppendChild(blankCustomerNode);
             }
 
@@ -883,9 +900,6 @@ namespace warwickshire.gov.uk.CT_WS
             {
                 try
                 {
-
-
-
                     if (log.IsDebugEnabled) log.Debug("Property Name:" + prop.Name);
                     if (log.IsDebugEnabled) log.Debug("Property Type:" + prop.PropertyType);
                     //XmlElement element; 
@@ -1037,6 +1051,64 @@ namespace warwickshire.gov.uk.CT_WS
             }
 
 
+        }
+
+        private void buildCustomerSummaryResponse(ref XmlNode customerNode, SmartCitizenCTPassholderSummary passHolder)
+        {
+            // match up the values we can automatically.
+            foreach (var prop in passHolder.GetType().GetProperties())
+            {
+                try
+                {
+                    if (log.IsDebugEnabled) log.Debug("Property Name:" + prop.Name);
+                    if (log.IsDebugEnabled) log.Debug("Property Type:" + prop.PropertyType);
+                    //XmlElement element; 
+                    //if (log.IsDebugEnabled) log.Debug("Property Value:" + prop.GetValue(passHolder, null).ToString());
+                    if (customerNode.SelectSingleNode("//" + prop.Name) != null)
+                    {
+                        if (prop.GetValue(passHolder, null) != null)
+                        {
+                            if (prop.PropertyType == typeof(DateTime))
+                            {
+                                string dateString = ((DateTime)prop.GetValue(passHolder, null)).ToShortDateString();
+                                if (!isSpuriousDate(dateString))
+                                    customerNode.SelectSingleNode("//" + prop.Name).InnerText =
+                                        ((DateTime)prop.GetValue(passHolder, null)).ToShortDateString();
+                            }
+                            else if (prop.PropertyType == typeof(System.Nullable<DateTime>))
+                            {
+                                //if (log.IsDebugEnabled) log.Debug("Property is Nullable DateTime");
+                                if (prop.GetValue(passHolder, null) != null)
+                                {
+                                    string dateString =
+                                        ((DateTime)prop.GetValue(passHolder, null)).ToShortDateString();
+                                    if (!isSpuriousDate(dateString))
+                                    {
+                                        customerNode.SelectSingleNode("//" + prop.Name).InnerText = dateString;
+                                    }
+                                }
+                            }
+                            else if (prop.PropertyType == typeof(char))
+                            {
+                                if (Convert.ToChar(prop.GetValue(passHolder, null)) != '\0')
+                                    customerNode.SelectSingleNode("//" + prop.Name).InnerText =
+                                        Convert.ToString(prop.GetValue(passHolder, null));
+                            }
+                            else
+                            {
+                                customerNode.SelectSingleNode("//" + prop.Name).InnerText =
+                                    prop.GetValue(passHolder, null).ToString();
+                            }
+                        }
+                    }
+                }
+
+                catch (Exception e)
+                {
+                    if (log.IsErrorEnabled) log.Error(e.Message);
+
+                }
+            }
         }
 
         //TODO - Need to build data layer for this method...

@@ -70,6 +70,7 @@
     <Content Include="App_Data\Cardholder response sample.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="App_Data\CTQueryPassSummary.xml" />
     <Content Include="App_Data\SmartCitizenUpdateImageTemplate.xml">
       <SubType>Designer</SubType>
     </Content>

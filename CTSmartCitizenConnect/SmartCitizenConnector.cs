@@ -61,6 +61,118 @@ namespace CTSmartCitizenConnect
         }
 
         /// <summary>
+        /// Searches SmartCitizen in a single pass. Does not return the pass number itself.
+        /// </summary>
+        /// <param name="surname"></param>
+        /// <param name="forename"></param>
+        /// <param name="dateOfBirth"></param>
+        /// <param name="postcode"></param>
+        /// <param name="ISRN"></param>
+        /// <returns></returns>
+        public SmartCitizenCTPassholderSummary[] GetCTPassholderSummary(string surname, string forename, string dateOfBirth, string postcode)
+        {
+            List<SmartCitizenCTPassholderSummary> searchResults = new List<SmartCitizenCTPassholderSummary>();
+            if (log.IsDebugEnabled) log.Debug("Entering");
+            logParams(surname, forename, dateOfBirth, postcode);
+
+            if (log.IsDebugEnabled) log.Debug("Trimming spaces");
+            surname = surname.Trim();
+            forename = forename.Trim();
+            dateOfBirth = dateOfBirth.Trim();
+            postcode = postcode.Trim();
+            if (log.IsDebugEnabled) log.Debug("Spaces Trimmed.");
+
+            //Parse the DoB String
+            DateTime parsedDob = new DateTime();
+
+            if (log.IsDebugEnabled) log.Debug("Parsing Date:" + dateOfBirth);
+            if (!String.IsNullOrEmpty(dateOfBirth))
+            {
+                if (DateTime.TryParse(dateOfBirth, out parsedDob) == false)
+                    throw new ArgumentException("Date: " + dateOfBirth + " is not a valid Date.");
+            }
+
+            try
+            {
+                if (log.IsDebugEnabled) log.Debug("Checking Cardholder Exists");
+                //CardholderExistsData requires at least Surname & Postcode.
+                CardholderExistsData cardholderExistsData = new CardholderExistsData { Surname = surname, Postcode = postcode };
+                if (!String.IsNullOrEmpty(forename))
+                    cardholderExistsData.Forename = forename;
+                if (!String.IsNullOrEmpty(dateOfBirth))
+                    cardholderExistsData.DateOfBirth = parsedDob;
+
+                if (log.IsDebugEnabled) log.Debug("Message sent to SmartCitizen:");
+                if (log.IsDebugEnabled) log.Debug(SerializeObj(cardholderExistsData));
+                CardholderExistsResponse cardholderExistsResponse = _cmClient.CheckCardholderExists(cardholderExistsData);
+                if (log.IsDebugEnabled) log.Debug("Response received from SmartCitizen:");
+                if (log.IsDebugEnabled) log.Debug(SerializeObj(cardholderExistsResponse));
+                //if there is 1/1 matches, .RecordExists will be true. If there are potential matches, .RecordExists will be false, but there will be items in the NonUniquePotentialMatches enum.
+                if (!cardholderExistsResponse.RecordExists && cardholderExistsResponse.NonUniquePotentialMatches == null)
+                    throw new CTSmartCitizen.ScValidationException(CTSmartCitizen.ScValidationException.ScValidationReason.CitizenDataNotFound);
+
+
+                RecordIdentifier cardHolderUniqueId;
+                //If there is a match where the initial matches, this is where the data will be...
+                if (cardholderExistsResponse.UniqueMatchIdentifier != null)
+                {
+                    if (log.IsDebugEnabled) log.Debug("Single Exact Match found. Using Card Holder ID:" + cardholderExistsResponse.UniqueMatchIdentifier.CardholderID);
+                    cardHolderUniqueId = cardholderExistsResponse.UniqueMatchIdentifier;
+                    
+                    // Need to validate that if we return an exact match and the 
+                    //searchResults.Add(GetCtPassHolder(cardHolderUniqueId));
+
+
+                    //        <CardholderCoreDetails>
+                    //  <ExtensionData />
+                    //  <DateOfBirth>1946-01-01T00:00:00</DateOfBirth>
+                    //  <Forename>Gregory</Forename>
+                    //  <PrimaryAddress>11, Banquo Approach, Heathcote, Warwick, Warwickshire, CV34 6GB</PrimaryAddress>
+                    //  <Surname>Statuschangetesting</Surname>
+                    //  <UniqueIdentifier>
+                    //    <ExtensionData />
+                    //    <CardholderID>606223</CardholderID>
+                    //  </UniqueIdentifier>
+                    //</CardholderCoreDetails>
+
+                }
+                else
+                {
+                    if (log.IsDebugEnabled) log.Debug("No exact match of initial only. Parsing through NonUnique matches.");
+                    //If there are any NonUniquePotentialMatehes, this is where the data will be.
+                    if (log.IsDebugEnabled)
+                        log.Debug("Checking through NonUniquePotential matches to try and match data");
+
+                    if (cardholderExistsResponse.NonUniquePotentialMatches.Length >= 1)
+                    {
+                        for (int i = 0; i < cardholderExistsResponse.NonUniquePotentialMatches.Length; i++)
+                        {
+                            searchResults.Add(new SmartCitizenCTPassholderSummary
+                            {
+                                FirstNameOrInitial = cardholderExistsResponse.NonUniquePotentialMatches[i].Forename,
+                                Surname = cardholderExistsResponse.NonUniquePotentialMatches[i].Surname,
+                                PrimaryAddress = cardholderExistsResponse.NonUniquePotentialMatches[i].PrimaryAddress,
+                                PassHolderNumber = cardholderExistsResponse.NonUniquePotentialMatches[i].UniqueIdentifier.CardholderID,
+                                DateOfBirth = cardholderExistsResponse.NonUniquePotentialMatches[i].DateOfBirth
+
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                if (log.IsErrorEnabled) log.Error(ex.Message);
+                return searchResults.ToArray();
+            }
+
+            if (log.IsDebugEnabled) log.Debug("Returning Pass Data.");
+            if (log.IsDebugEnabled) log.Debug("Exiting");
+            return searchResults.ToArray();
+
+        }
+
+        /// <summary>
         /// Checks SmartCitizen to verify that a passholder exists and returns their details
         /// </summary>
         /// <param name="surname"></param>
@@ -166,8 +278,8 @@ namespace CTSmartCitizenConnect
 
         public SmartCitizenCTPassholder GetCtPassHolder(RecordIdentifier cardHolderIdentifier)
         {
-            if (cardHolderIdentifier.CardholderID < 100)
-                return null;
+            /*if (cardHolderIdentifier.CardholderID < 100)
+                return null;*/
 
             SmartCitizenCTPassholder passHolder = new SmartCitizenCTPassholder();
             GetCardholderResponse cardHolderDetails = new GetCardholderResponse();
@@ -834,6 +946,8 @@ _cmClient.UpdateCard(cardData);
             }
         }
 
+
+
         public class Proof
         {
             public int ProofId { get; set; }
@@ -918,6 +1032,18 @@ _cmClient.UpdateCard(cardData);
     {
         public string PassStatus { get; set; }
         public bool IsValid { get; set; }
+    }
+
+    /// <summary>
+    /// Class to hold search results summary.
+    /// </summary>
+    public class SmartCitizenCTPassholderSummary
+    {
+        public string FirstNameOrInitial { get; set; }
+        public string Surname { get; set; }
+        public string PrimaryAddress { get; set; }
+        public DateTime? DateOfBirth { get; set; }
+        public int PassHolderNumber { get; set; }
     }
 
     public class SmartCitizenCTPassholder : CTPassHolder
