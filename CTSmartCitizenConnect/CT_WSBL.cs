@@ -592,20 +592,27 @@ namespace warwickshire.gov.uk.CT_WS
         {
             if (log.IsDebugEnabled) log.Debug("Updating Existing Passholder Details");
 
+            bool updateAddress = false;
+            if ((!String.IsNullOrEmpty(houseOrFlatNumberOrName) || !String.IsNullOrEmpty(buildingName)) && !String.IsNullOrEmpty(postcode)) updateAddress = true;
 
-            existingPassHolder.FirstNameOrInitial = firstNameOrInitial.ToTitleCase();
-            existingPassHolder.Surname = surname.ToTitleCase();
-            existingPassHolder.HouseOrFlatNumberOrName = houseOrFlatNumberOrName.ToTitleCase();
-            existingPassHolder.BuildingName = buildingName.ToTitleCase();
-            existingPassHolder.Street = street.ToTitleCase();
-            existingPassHolder.VillageOrDistrict = villageOrDistrict.ToTitleCase();
-            existingPassHolder.TownCity = townCity.ToTitleCase();
-            existingPassHolder.County = county.ToTitleCase();
-            existingPassHolder.PostCode = formatPostcode(postcode);
-            existingPassHolder.Title = title.ToTitleCase();
-            existingPassHolder.CPICC = CPICC;
+
+            // only update those fields provided.
+            if(!String.IsNullOrEmpty(firstNameOrInitial)) existingPassHolder.FirstNameOrInitial = firstNameOrInitial.ToTitleCase();
+            if(!String.IsNullOrEmpty(surname)) existingPassHolder.Surname = surname.ToTitleCase();
+            if (updateAddress)
+            {
+                existingPassHolder.HouseOrFlatNumberOrName = houseOrFlatNumberOrName.ToTitleCase();
+               existingPassHolder.BuildingName = buildingName.ToTitleCase();
+                existingPassHolder.Street = street.ToTitleCase();
+                existingPassHolder.VillageOrDistrict = villageOrDistrict.ToTitleCase();
+                existingPassHolder.TownCity = townCity.ToTitleCase();
+                existingPassHolder.County = county.ToTitleCase();
+                existingPassHolder.PostCode = formatPostcode(postcode);
+            }
+            if(!String.IsNullOrEmpty(title)) existingPassHolder.Title = title.ToTitleCase();
+            if(!String.IsNullOrEmpty(CPICC)) existingPassHolder.CPICC = CPICC;
             existingPassHolder.RecordID = Convert.ToInt32(passHolderNumber);
-            existingPassHolder.UPRN = UPRN;
+            if(!String.IsNullOrEmpty(UPRN)) existingPassHolder.UPRN = UPRN;
             existingPassHolder.HomePhone = homePhone;
             existingPassHolder.MobilePhone = mobilePhone;
             existingPassHolder.Email = emailAddress;
