@@ -535,16 +535,19 @@ namespace CTSmartCitizenConnect
             return CT_WSBL.getInstance().flagPass(CPICC, PassHolderNumber, FlagDescription);
         }
 
+
         /// <summary>
-        /// Used By WCC-CT Cancel Pass > BROKEN
+        /// Cancels the pass on SmartCitizen.
         /// </summary>
-        /// <param name="ISRN"></param>
-        /// <param name="delay"></param>
+        /// <param name="ISRN">ISRN of pass to cancel.</param>
+        /// <param name="reasonDescription">Reason description code as per the SmartCitizen Status list</param>
         /// <returns></returns>
-        //[WebMethod]
-        public XmlDocument CancelPass(string ISRN, string delay)
+        [WebMethod]
+        public XmlDocument CancelPass(string ISRN, string reasonDescription)
         {
-            return CT_WSBL.getInstance().cancelPass(ISRN, delay);
+            SmartCitizenConnector conn = new SmartCitizenConnector();
+            conn.cancelPass(ISRN, reasonDescription);
+            return new XmlDocument();
         }
 
         //[WebMethod]

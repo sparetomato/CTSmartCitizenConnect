@@ -599,6 +599,40 @@ _cmClient.UpdateCard(cardData);
             return new CTPass();
         }
 
+        /// <summary>
+        /// Cancels a pass on SmartCitizen
+        /// </summary>
+        /// <param name="ISRN"></param>
+        /// <param name="reason"></param>
+        /// <returns></returns>
+        public bool cancelPass(string ISRN, string reason)
+        {
+            SmartCitizenCTPassholder passholder = GetCTPassholderForPass(ISRN);
+            RecordIdentifier recordIdentifier = new RecordIdentifier() { CardID = passholder.CtPass.ISRN };
+            UpdateCardData updateCardData = new UpdateCardData()
+            {
+                Identifier = recordIdentifier,
+                CardStatus = _smartCitizenStatuses.FirstOrDefault(x => x.Value.Contains(reason.ToLower())).Key,
+                AdditionalInformation = "Pass cancelled by CRM for the following reason: " + reason
+            };
+
+            try
+            {
+                if(log.IsInfoEnabled)log.Info("Cancelling pass ID:" + ISRN);
+                if (log.IsDebugEnabled) log.Debug(SerializeObj(updateCardData));
+                _cmClient.UpdateCard(updateCardData);
+
+            }
+            catch(Exception ex)
+            {
+                if(log.IsErrorEnabled)log.Error("Could not cancel pass with ID:" + ISRN);
+                if (log.IsErrorEnabled) log.Error(ex.Message);
+                return false;
+            }
+
+            return true;
+        }
+
         
 
         private SmartCitizenCTPassholder GetCTPassholderForPass(string ISRN)

@@ -1134,36 +1134,7 @@ namespace warwickshire.gov.uk.CT_WS
                 }
             }
         }
-
-        //TODO - Need to build data layer for this method...
-        internal XmlDocument cancelPass(string ISRN, string delay)
-        {
-            XmlDocument response = new XmlDocument();
-            response.Load(HttpContext.Current.ApplicationInstance.Server.MapPath("~/App_Data") + "/CTCancelPassResponse.xml");
-
-            // validate that the ISRN is a valid ISRN
-            if (ISRN.Replace(" ", "").Length < 18)
-            {
-                processError(ref response, 2);
-                return response;
-            }
-
-            DateTime cancelPassDate = DateTime.Now.AddDays(Convert.ToInt32(delay));
-            /*
-            CTDataV2_WS.CT_DataLayer dataLayer = new CTDataV2_WS.CT_DataLayer();
-            CTData jobData = new CTData(dataLayer.RetrieveData("", "", ISRN.ToString()));
-
-            if (log.IsDebugEnabled) log.Debug("Starting Asynchronous Operation to cancel pass");
-
-            CTBPMWorkerDelegate worker = new CTBPMWorkerDelegate(CTBPMWorker);
-            worker.BeginInvoke(jobData, CTJob.CTJobType.CancelPass, cancelPassDate, null, null);
-            */
-            if (log.IsDebugEnabled) log.Debug("Asynchronous Process Started, returning from initial call.");
-
-            response.SelectSingleNode("cancelPassResponse/status").InnerText = "success";
-
-            return response;
-        }
+        
          
 
         internal XmlDocument updatePassDetails(string ISRN, string CPICC, string passHolderNumber, string firstNameOrInitial, string surname, string houseOrFlatNumberOrName,
