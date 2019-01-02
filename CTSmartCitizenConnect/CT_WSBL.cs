@@ -1169,7 +1169,7 @@ namespace warwickshire.gov.uk.CT_WS
         internal XmlDocument updatePassDetails(string ISRN, string CPICC, string passHolderNumber, string firstNameOrInitial, string surname, string houseOrFlatNumberOrName,
             string buildingName, string street, string villageOrDistrict, string townCity, string county, string postcode, string title,
             string dateOfBirth, string typeOfConcession, string disabilityPermanent, string evidenceExpiryDate, string passStartDate, bool reissuePass, string oldCPICC, bool recalculateExpiryDate, string achieveServiceCaseNumber,
-            string printReason, string gender, string disabilityCategory, string UPRN, string homePhone, string mobilePhone, string emailAddress, string preferredContactMethod)
+            string printReason, string gender, string disabilityCategory, string UPRN, string homePhone, string mobilePhone, string emailAddress, string preferredContactMethod, int? oldPassStatus)
         {
             if (log.IsDebugEnabled) log.Debug("Update Pass Request Received");
 
@@ -1210,7 +1210,7 @@ namespace warwickshire.gov.uk.CT_WS
                     if (!String.IsNullOrEmpty(gender))
                         existingPassHolder.Gender = gender;
 
-                    if (existingPassHolder.CtPass.PassType == CTPassType.Disabled || existingPassHolder.CtPass.PassType == CTPassType.DisabledTemporary
+                    if ((existingPassHolder.CtPass.PassType == CTPassType.Disabled || existingPassHolder.CtPass.PassType == CTPassType.DisabledTemporary)
                         && !String.IsNullOrEmpty(disabilityCategory))
                         existingPassHolder.DisabilityCategory = disabilityCategory[0];
                     try
@@ -1232,10 +1232,15 @@ namespace warwickshire.gov.uk.CT_WS
                 if (log.IsErrorEnabled) log.Error(ex.Message);
             }
             
+            // If we are renewing, set OldPassStatus to "Expired"
+            if(printReason.ToLower() == "renew")
+            {
+                oldPassStatus = 17;
+            }
 
             SmartCitizenCTPassholder updatedPassHolder = dataLayer.UpdatePassHolderDetails(existingPassHolder);
             if (reissuePass)
-                dataLayer.ReplacePass(updatedPassHolder.RecordID, updatedPassHolder.CtPass.ISRN, 17,
+                dataLayer.ReplacePass(updatedPassHolder.RecordID, updatedPassHolder.CtPass.ISRN, oldPassStatus!=null?oldPassStatus.Value:Convert.ToInt16(existingPassHolder.CtPass.PassStatusID),
                     achieveServiceCaseNumber);
 
             if (log.IsDebugEnabled) log.Debug("Asynchronous process started, returning successful response.");

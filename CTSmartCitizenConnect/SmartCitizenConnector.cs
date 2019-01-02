@@ -773,8 +773,23 @@ _cmClient.UpdateCard(cardData);
             RecordIdentifier cardHolderRecordId = new RecordIdentifier() { CardholderID = cardHolderId, CardID = ISRN };
             //IssuerId is hard-coded to 2 - renew for this service as it is only for renewals.
             // CardLocation is hard-coded to 3: 'unknown' - not sure if this needs to be parameterised.
-            UpdateCardData cardDataToUpdate = new UpdateCardData() { Identifier = cardHolderRecordId, CardLocation = 3, CardStatus = cardStatus, AdditionalInformation = "Renewal requested through CRM. Case Referece Number:" + caseNumber, ReplaceCard = true, IssuerId = 2 };
+            // IssuerId is used to place the card under a particular category in the "Authorise Passes" screen.
+            // We will base the value for this off the cardStatus (which is really the previous card status...)
+            // 1 = new (not used as this method is only called on replacing/renewing passes) 
+            // 2 = Renew (cardStatus = 17(Expired) )
+            // 3 = Replacement Paid for (cardStatus = 5 (lost), cardStatus = 4 (stolen), cardStatus = 29 (damaged by cardholder))
+            // 4 = Replacement Free (any other card status)
+            int issuerId = 4;
+            if (cardStatus == 5 || cardStatus == 29)
+                issuerId = 3;
+            
+            // If the card is being renewed, it may be "Expired" or "Valid"
+            if (cardStatus == 17)
+                issuerId = 2;
 
+           
+
+            UpdateCardData cardDataToUpdate = new UpdateCardData() { Identifier = cardHolderRecordId, CardLocation = 3, CardStatus = cardStatus, AdditionalInformation = "New card requested through CRM. Case Referece Number:" + caseNumber, ReplaceCard = true, IssuerId = issuerId};
             RecordIdentifier responseIdentifier = null;
             try
             {
@@ -841,6 +856,7 @@ _cmClient.UpdateCard(cardData);
                 }
 
                 cardForPerson.PassStatus = latestCard.Status;
+                cardForPerson.PassStatusID = latestCard.StatusId;
                 cardForPerson.IsValid = cardCheckResponse.CardValid;
                 cardForPerson.ISRN = cardHolderDetails.Identifier.CardID;
                 DateTime expiryDate;
@@ -1031,6 +1047,7 @@ _cmClient.UpdateCard(cardData);
     public class SmartCitizenCTPass : CTPass
     {
         public string PassStatus { get; set; }
+        public int PassStatusID { get; set; }
         public bool IsValid { get; set; }
     }
 
