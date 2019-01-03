@@ -78,6 +78,8 @@ namespace warwickshire.gov.uk.CT_WS
             ctErrors.Add(21, "Permanent disabled pass must have a date of birth supplied");
             ctErrors.Add(22, "No Print Reason Specified");
             ctErrors.Add(23, "At least one of ISRN, Surname or postcode must be supplied.");
+            ctErrors.Add(24, "Error returned from SmartCitizen");
+            ctErrors.Add(99, "Internal Application Error");
             ctErrors.Add(9999, "Demonstration of an Error");
 
          
@@ -1134,8 +1136,8 @@ namespace warwickshire.gov.uk.CT_WS
                 }
             }
         }
-        
-         
+
+
 
         internal XmlDocument updatePassDetails(string ISRN, string CPICC, string passHolderNumber, string firstNameOrInitial, string surname, string houseOrFlatNumberOrName,
             string buildingName, string street, string villageOrDistrict, string townCity, string county, string postcode, string title,
@@ -1164,55 +1166,68 @@ namespace warwickshire.gov.uk.CT_WS
 
             if (log.IsDebugEnabled) log.Debug("Getting Existing Passholder data from SmartCitizen.");
             SmartCitizenConnector dataLayer = new SmartCitizenConnector();
-            SmartCitizenCTPassholder existingPassHolder = dataLayer.GetCtPassHolder(passHolderNumber);
-
+            SmartCitizenCTPassholder existingPassHolder;
+            try
+            {
+                existingPassHolder = dataLayer.GetCtPassHolder(passHolderNumber);
+            }
+            catch (SmartCitizenException ex)
+            {
+                processError(ref response, 24, ex.Message);
+                return response;
+            }
             //CTData jobData = null;
             try
             {
                 if (log.IsDebugEnabled) log.Debug("Building Job Data.");
                 //CTData existingData = new CTData(queryPassFromPassholderNumber(oldCPICC, passHolderNumber));
-               
-                    if (String.IsNullOrEmpty(passStartDate)) passStartDate = DateTime.Now.ToShortDateString();
-                    buildJobData(ref existingPassHolder, CPICC, null, passHolderNumber, firstNameOrInitial, surname, houseOrFlatNumberOrName,
-                        buildingName, street, villageOrDistrict, townCity, county, postcode, title, dateOfBirth, typeOfConcession,
-                        disabilityPermanent, evidenceExpiryDate, null, UPRN, homePhone, mobilePhone, emailAddress, preferredContactMethod);
-                    
 
-                    if (!String.IsNullOrEmpty(gender))
-                        existingPassHolder.Gender = gender;
+                if (String.IsNullOrEmpty(passStartDate)) passStartDate = DateTime.Now.ToShortDateString();
+                buildJobData(ref existingPassHolder, CPICC, null, passHolderNumber, firstNameOrInitial, surname, houseOrFlatNumberOrName,
+                    buildingName, street, villageOrDistrict, townCity, county, postcode, title, dateOfBirth, typeOfConcession,
+                    disabilityPermanent, evidenceExpiryDate, null, UPRN, homePhone, mobilePhone, emailAddress, preferredContactMethod);
 
-                    if ((existingPassHolder.CtPass.PassType == CTPassType.Disabled || existingPassHolder.CtPass.PassType == CTPassType.DisabledTemporary)
-                        && !String.IsNullOrEmpty(disabilityCategory))
-                        existingPassHolder.DisabilityCategory = disabilityCategory[0];
-                    try
-                    {
-                        existingPassHolder.CtPass.NorthgateCaseNumber = achieveServiceCaseNumber;
-                    }
-                    catch (System.FormatException)
-                    {
-                        if (log.IsDebugEnabled) log.Debug("Could not set AchieveService Case Number to:[" + achieveServiceCaseNumber + "]. Setting to -1");
-                        existingPassHolder.CtPass.NorthgateCaseNumber = "-1";
-                    }
-                    
-                
-                
+
+                if (!String.IsNullOrEmpty(gender))
+                    existingPassHolder.Gender = gender;
+
+                if ((existingPassHolder.CtPass.PassType == CTPassType.Disabled || existingPassHolder.CtPass.PassType == CTPassType.DisabledTemporary)
+                    && !String.IsNullOrEmpty(disabilityCategory))
+                    existingPassHolder.DisabilityCategory = disabilityCategory[0];
+                try
+                {
+                    existingPassHolder.CtPass.NorthgateCaseNumber = achieveServiceCaseNumber;
+                }
+                catch (System.FormatException)
+                {
+                    if (log.IsDebugEnabled) log.Debug("Could not set AchieveService Case Number to:[" + achieveServiceCaseNumber + "]. Setting to -1");
+                    existingPassHolder.CtPass.NorthgateCaseNumber = "-1";
+                }
+
+
+
             }
 
             catch (CTDataException ex)
             {
                 if (log.IsErrorEnabled) log.Error(ex.Message);
+                processError(ref response, 99, ex.Message);
+                return response;
             }
-            
+
             // If we are renewing, set OldPassStatus to "Expired"
-            if(printReason.ToLower() == "renew")
+            if (printReason.ToLower() == "renew")
             {
                 oldPassStatus = 17;
             }
 
             SmartCitizenCTPassholder updatedPassHolder = dataLayer.UpdatePassHolderDetails(existingPassHolder);
             if (reissuePass)
-                dataLayer.ReplacePass(updatedPassHolder.RecordID, updatedPassHolder.CtPass.ISRN, oldPassStatus!=null?oldPassStatus.Value:Convert.ToInt16(existingPassHolder.CtPass.PassStatusID),
-                    achieveServiceCaseNumber);
+            { 
+            dataLayer.ReplacePass(updatedPassHolder.RecordID, updatedPassHolder.CtPass.ISRN, oldPassStatus != null ? oldPassStatus.Value : Convert.ToInt16(existingPassHolder.CtPass.PassStatusID),
+                achieveServiceCaseNumber);
+
+            }
 
             if (log.IsDebugEnabled) log.Debug("Asynchronous process started, returning successful response.");
             response.SelectSingleNode("updatePassResponse/status").InnerText = "success";
@@ -1261,23 +1276,51 @@ namespace warwickshire.gov.uk.CT_WS
                 throw new CTDataException(18);
         }
 
+        internal XmlDocument cancelPass(string ISRN, string reason)
+        {
+            XmlDocument response = new XmlDocument();
+            response.Load(HttpContext.Current.ApplicationInstance.Server.MapPath("~/App_Data") + "/CTCancelPassResponse.xml");
+            SmartCitizenConnector conn = new SmartCitizenConnector();
+            bool successfullyCancelled;
+            try
+            {
+                SmartCitizenCTPassholder ctPassholder = conn.GetCTPassholderForPass(ISRN);
+                successfullyCancelled =  conn.cancelPassforPassHolder(ctPassholder, reason);
+            }
+            catch (SmartCitizenException ex)
+            {
+                processError(ref response, 24, ex.Message);
+                return response;
+            }
+
+            if (successfullyCancelled)
+                response.SelectSingleNode("//statusMessage").InnerText = "Pass with ID " + ISRN + " Sucessfully Cancelled";
+            else {
+                response.SelectSingleNode("//statusMessage").InnerText = "Pass with ID " + ISRN + " Not Cancelled";
+            }
+            return response;
+
+        }
+
+
+
+
+
 
 
         private void processError(ref XmlDocument response, int errorCode)
         {
+            processError(ref response, errorCode, String.Empty);
+        }
+
+        private void processError(ref XmlDocument response, int errorCode, string message)
+        {
             if (log.IsErrorEnabled) log.Error("Error received.");
             if (log.IsErrorEnabled) log.Error("Error code:" + errorCode);
+
             response.SelectSingleNode("//status").InnerText = "error";
-            XmlDocument errorDoc = new XmlDocument();
-            errorDoc.Load(HttpContext.Current.ApplicationInstance.Server.MapPath("~/App_Data") + "/CTError.xml");
-
-            errorDoc.SelectSingleNode("error/code").InnerText = errorCode.ToString();
-            errorDoc.SelectSingleNode("error/description").InnerText = ctErrors[errorCode];
-
-            XmlNode errorNode = response.ImportNode(errorDoc.DocumentElement, true);
-
-            response.DocumentElement.AppendChild(errorNode);
-
+            response.SelectSingleNode("//statusMessage").InnerText = ctErrors.First(x => x.Key == errorCode).Value;
+            if (!String.IsNullOrEmpty(message)) response.SelectSingleNode("//statusMessage").InnerText += " : " + message;
         }
 
         /// <summary>

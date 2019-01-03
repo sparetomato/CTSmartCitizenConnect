@@ -37,5 +37,6 @@
   <PreferredContactMethod />
   <PassStatus/>
 </customer>
-  <status/>
+  <status>SUCCESS</status>
+  <statusMessage />
 </Results>

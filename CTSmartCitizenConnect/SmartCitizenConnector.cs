@@ -25,6 +25,10 @@ using CTPassType = warwickshire.ConcessionaryTravel.Classes.CTPassType;
 namespace CTSmartCitizenConnect
 {
 
+    public class SmartCitizenException:Exception
+    {
+
+    }
     
 
     public class SmartCitizenConnector
@@ -605,37 +609,41 @@ _cmClient.UpdateCard(cardData);
         /// <param name="ISRN"></param>
         /// <param name="reason"></param>
         /// <returns></returns>
-        public bool cancelPass(string ISRN, string reason)
+        public bool cancelPassforPassHolder(SmartCitizenCTPassholder ctPassHolder, string reason)
         {
-            SmartCitizenCTPassholder passholder = GetCTPassholderForPass(ISRN);
-            RecordIdentifier recordIdentifier = new RecordIdentifier() { CardID = passholder.CtPass.ISRN };
+
+            //SmartCitizenCTPassholder passholder = GetCTPassholderForPass(ISRN);
+            RecordIdentifier cardToCancel = new RecordIdentifier() { CardID = ctPassHolder.CtPass.ISRN };
             UpdateCardData updateCardData = new UpdateCardData()
             {
-                Identifier = recordIdentifier,
-                CardStatus = _smartCitizenStatuses.FirstOrDefault(x => x.Value.Contains(reason.ToLower())).Key,
-                AdditionalInformation = "Pass cancelled by CRM for the following reason: " + reason
+                Identifier = cardToCancel,
+                CardStatus = _smartCitizenStatuses.FirstOrDefault(x => x.Value.Contains(reason)).Key,
+                AdditionalInformation = "Pass cancelled by CRM for the following reason: " + reason,
+                CardLocation = ctPassHolder.CtPass.PassLocation  
             };
 
             try
             {
-                if(log.IsInfoEnabled)log.Info("Cancelling pass ID:" + ISRN);
+                if(log.IsInfoEnabled)log.Info("Cancelling pass ID:[" + cardToCancel.CardID + "] for the reason: " + reason);
                 if (log.IsDebugEnabled) log.Debug(SerializeObj(updateCardData));
                 _cmClient.UpdateCard(updateCardData);
 
             }
             catch(Exception ex)
             {
-                if(log.IsErrorEnabled)log.Error("Could not cancel pass with ID:" + ISRN);
+                if(log.IsErrorEnabled)log.Error("Could not cancel pass with ID:" + cardToCancel.CardID);
                 if (log.IsErrorEnabled) log.Error(ex.Message);
-                return false;
+               
+                throw (SmartCitizenException)ex;
             }
 
             return true;
+
         }
 
         
 
-        private SmartCitizenCTPassholder GetCTPassholderForPass(string ISRN)
+        public SmartCitizenCTPassholder GetCTPassholderForPass(string ISRN)
         {
             RecordIdentifier cardIdentifier = new RecordIdentifier {CardID = ISRN};
             return GetCtPassHolder(cardIdentifier);
@@ -889,6 +897,7 @@ _cmClient.UpdateCard(cardData);
                         cardForPerson.PassType = CTPassType.Disabled;
                 }
 
+                cardForPerson.PassLocation = latestCard.LocationId;
                 cardForPerson.PassStatus = latestCard.Status;
                 cardForPerson.PassStatusID = latestCard.StatusId;
                 cardForPerson.IsValid = cardCheckResponse.CardValid;
@@ -1083,6 +1092,7 @@ _cmClient.UpdateCard(cardData);
         public string PassStatus { get; set; }
         public int PassStatusID { get; set; }
         public bool IsValid { get; set; }
+        public int PassLocation { get; internal set; }
     }
 
     /// <summary>

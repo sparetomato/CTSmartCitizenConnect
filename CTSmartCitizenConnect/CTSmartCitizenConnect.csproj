@@ -67,14 +67,9 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\Cardholder response sample.xml">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="App_Data\CTCancelPassResponse.xml" />
     <Content Include="App_Data\CTQueryPassSummary.xml" />
     <Content Include="App_Data\SmartCitizenUpdateImageTemplate.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="App_Data\Copy of SmartCitizenCreateTemplate.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="App_Data\CTIssuePassResponse.xml" />
@@ -111,9 +106,6 @@
     <Content Include="App_Data\WCCCitizenFragment.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="App_Data\WCCTestXmlFragment3.xml">
-      <SubType>Designer</SubType>
     </Content>
     <Content Include="App_Data\WCC_SC_DisabilityServiceXRef.xml" />
     <Content Include="CT_WS.asmx" />

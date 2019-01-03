@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updatePassResponse>
-  <status />
+  <status>SUCCESS</status>
+  <statusMessage />
   <passExpiryDate />
   <reissue />
 </updatePassResponse>

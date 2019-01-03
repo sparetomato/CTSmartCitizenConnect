@@ -1,8 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<PassRenewal>
-  <RequestStatus />
-  <CardNumber />
-  <ExpiryDate />
+<cancelPassResponse>
   <status>SUCCESS</status>
   <statusMessage />
-</PassRenewal>
+</cancelPassResponse>

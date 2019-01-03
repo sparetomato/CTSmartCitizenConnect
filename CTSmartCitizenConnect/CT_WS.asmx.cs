@@ -545,9 +545,9 @@ namespace CTSmartCitizenConnect
         [WebMethod]
         public XmlDocument CancelPass(string ISRN, string reasonDescription)
         {
-            SmartCitizenConnector conn = new SmartCitizenConnector();
-            conn.cancelPass(ISRN, reasonDescription);
-            return new XmlDocument();
+            return CT_WSBL.getInstance().cancelPass(ISRN, reasonDescription);
+            //SmartCitizenConnector conn = new SmartCitizenConnector();
+            //conn.cancelPass(ISRN, reasonDescription);
         }
 
         //[WebMethod]
