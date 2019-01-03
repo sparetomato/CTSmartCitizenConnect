@@ -457,17 +457,28 @@ namespace warwickshire.gov.uk.CT_WS
                 }
                 else
                 {
-                    throw new CTDataException(6);
+                    processError(ref response, 6);
+                    return response;
                 }
             }
             else
             {
-                throw new CTDataException(19);
+                processError(ref response, 19);
             }
             if (log.IsDebugEnabled) log.Debug("Type of concession set. Calling Data Layer");
-            CTPass newPass = dataLayer.IssuePass(title, firstNameOrInitial, surname, dateOfBirth, gender, emailAddress, homePhone, mobilePhone, buildingName, houseOrFlatNumberOrName, street, villageOrDistrict, townCity, county, UPRN, CPICC, postcode, imageAsBase64String, FirmstepCaseId, typeOfPass, disabilityCategory, proofs, preferredContactMethod);
+            CTPass newPass;
+            try
+            {
+                newPass = dataLayer.IssuePass(title, firstNameOrInitial, surname, dateOfBirth, gender, emailAddress, homePhone, mobilePhone, buildingName, houseOrFlatNumberOrName, street, villageOrDistrict, townCity, county, UPRN, CPICC, postcode, imageAsBase64String, FirmstepCaseId, typeOfPass, disabilityCategory, proofs, preferredContactMethod);
+            }
+            catch(SmartCitizenException ex)
+            {
+                processError(ref response, 24, ex.Message);
+                return response;
+            }
 
-            response.SelectSingleNode("issuePassResponse/status").InnerText = "success";
+            response.SelectSingleNode("issuePassResponse/status").InnerText = "SUCCESS";
+            response.SelectSingleNode("issuePassResponse/statusMessage").InnerText = "New Pass issued with ISRN:" + newPass.ISRN;
 
             response.SelectSingleNode("issuePassResponse/passExpiryDate").InnerText =
                 newPass.ExpiryDate.ToShortDateString();
@@ -476,6 +487,7 @@ namespace warwickshire.gov.uk.CT_WS
             return response;
         }
 
+        [Obsolete("This method is no longer used.", true)]
         internal XmlDocument IssuePass(string CPICC, string FirmstepCaseId, string firstNameOrInitial, string surname, string houseOrFlatNumberOrName,
             string buildingName, string street, string villageOrDistrict, string townCity, string county, string postcode, string title,
             string dateOfBirth, string typeOfConcession, string disabilityPermanent, string evidenceExpiryDate, string passStartDate, string imageAsBase64String, string passPrintReason, string gender, string disabilityCategory, string UPRN, SmartCitizenConnector.Proof addressProof, SmartCitizenConnector.Proof ageProof, SmartCitizenConnector.Proof disabillityProof, string homePhone, string mobilePhone, string emailAddress, string preferredContactMethod)
@@ -830,7 +842,22 @@ namespace warwickshire.gov.uk.CT_WS
                 response.Load(HttpContext.Current.ApplicationInstance.Server.MapPath("~/App_Data") + "/CTQueryPassSummary.xml");
                 XmlNode customerTemplate = response.SelectSingleNode("//customer").CloneNode(true);
                 response.DocumentElement.RemoveAll();
-                SmartCitizenCTPassholderSummary[] summaryResults = dataLayer.GetCTPassholderSummary(surname, forename, dateOfBirth, postcode);
+                SmartCitizenCTPassholderSummary[] summaryResults;
+                try
+                {
+                    summaryResults = dataLayer.GetCTPassholderSummary(surname, forename, dateOfBirth, postcode);
+                }
+                catch(SmartCitizenException ex)
+                {
+                    processError(ref response, 24,  ex.Message);
+                    return response;
+                }
+                catch(Exception ex)
+                {
+                    processError(ref response, 99, ex.Message);
+                    return response;
+                }
+
                 //SmartCitizenCTPassholder[] searchResults = dataLayer.SearchPassHolders(surname, forename, dateOfBirth, postcode, passNo);
                 //CTPassHolder[] searchResults = dataLayer.SearchPassHolders(surname, forename, dateOfBirth, postcode, passNo);
 
@@ -857,9 +884,16 @@ namespace warwickshire.gov.uk.CT_WS
                 response.Load(HttpContext.Current.ApplicationInstance.Server.MapPath("~/App_Data") + "/CTQueryPassResponse.xml");
                 XmlNode customerTemplate = response.SelectSingleNode("//customer").CloneNode(true);
                 response.DocumentElement.RemoveAll();
-
-                SmartCitizenCTPassholder[] searchResults = dataLayer.SearchPassHolders(surname, forename, dateOfBirth, postcode, passNo);
-
+                SmartCitizenCTPassholder[] searchResults;
+                try
+                {
+                 searchResults = dataLayer.SearchPassHolders(surname, forename, dateOfBirth, postcode, passNo);
+                }
+                catch (SmartCitizenException ex)
+                {
+                    processError(ref response, 24, ex.Message);
+                    return response;
+                }
                 if (log.IsInfoEnabled) log.Info("Processing Search Result(s)");
                 foreach (SmartCitizenCTPassholder searchResult in searchResults)
                 {
@@ -893,7 +927,16 @@ namespace warwickshire.gov.uk.CT_WS
             //CTDataV2_WS.CT_DataLayer dataLayer = new CTDataV2_WS.CT_DataLayer();
             SmartCitizenConnector dataLayer = new SmartCitizenConnector();
             if(log.IsDebugEnabled) log.Debug("Calling Data Layer.");
-            SmartCitizenCTPassholder searchResult = dataLayer.GetCtPassHolder(passHolderNumber);
+            SmartCitizenCTPassholder searchResult;
+            try
+            {
+                searchResult = dataLayer.GetCtPassHolder(passHolderNumber);
+            }
+            catch (SmartCitizenException ex)
+            {
+                processError(ref response, 24, ex.Message);
+                return response;
+            }
             if (searchResult == null)
             {
 

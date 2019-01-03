@@ -27,7 +27,8 @@ namespace CTSmartCitizenConnect
 
     public class SmartCitizenException:Exception
     {
-
+        public SmartCitizenException(string message) : base(message) { }
+       
     }
     
 
@@ -108,7 +109,15 @@ namespace CTSmartCitizenConnect
 
                 if (log.IsDebugEnabled) log.Debug("Message sent to SmartCitizen:");
                 if (log.IsDebugEnabled) log.Debug(SerializeObj(cardholderExistsData));
-                CardholderExistsResponse cardholderExistsResponse = _cmClient.CheckCardholderExists(cardholderExistsData);
+                CardholderExistsResponse cardholderExistsResponse;
+                try
+                {
+                    cardholderExistsResponse = _cmClient.CheckCardholderExists(cardholderExistsData);
+                }
+                catch(Exception ex)
+                {
+                    throw new SmartCitizenException(ex.Message);
+                }
                 if (log.IsDebugEnabled) log.Debug("Response received from SmartCitizen:");
                 if (log.IsDebugEnabled) log.Debug(SerializeObj(cardholderExistsResponse));
                 //if there is 1/1 matches, .RecordExists will be true. If there are potential matches, .RecordExists will be false, but there will be items in the NonUniquePotentialMatches enum.
@@ -300,7 +309,7 @@ namespace CTSmartCitizenConnect
                 {
                     log.Error("Could not get Client Details for Cardholder ID:" + cardHolderIdentifier.CardholderID);
                     log.Error(ex.Message);
-                    return null;
+                    throw new SmartCitizenException(ex.Message);
                 }
             }
             passHolder.PassHolderNumber = cardHolderDetails.Identifier.CardholderID.ToString();
@@ -421,7 +430,7 @@ namespace CTSmartCitizenConnect
             catch (Exception ex)
             {
                 if (log.IsErrorEnabled) log.Error("Error updating Cardholder Photo:" + ex.Message);
-                throw;
+                throw new SmartCitizenException("Error updating Cardholder Photo:" + ex.Message);
             }
             
 

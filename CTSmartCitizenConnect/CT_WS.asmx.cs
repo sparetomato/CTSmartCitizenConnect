@@ -34,44 +34,6 @@ namespace CTSmartCitizenConnect
             return CT_WSBL.getInstance().IssuePass(CPICC, firmstepCaseId, firstNameOrInitial, surname, houseOrFlatNameOrNumber,
                 buildingName, street, villageOrDistrict, townCity, county, postcode, title, dateOfBirth, typeOfConcession, disabilityPermanent, evidenceExpiryDate, passStartDate, passImageString, passPrintReason, gender, disabilityCategory, UPRN, proofs, homePhone, mobilePhone, emailAddress, preferredContactMethod.ToLower());
         }
-        /// <summary>
-        /// Issues a new Concessionary Travel Pass.
-        /// </summary>
-        /// <param name="CPICC">CPICC code for the pass</param>
-        /// <param name="northgateCaseID">Northgate Case Reference Number</param>
-        /// <param name="title">Applicant Title</param>
-        /// <param name="firstNameOrInitial">Applicant forename</param>
-        /// <param name="surname">Applicant surname</param>
-        /// <param name="houseOrFlatNameOrNumber">House Number</param>
-        /// <param name="buildingName">Building Name</param>
-        /// <param name="street">Street name</param>
-        /// <param name="villageOrDistrict">Village Name</param>
-        /// <param name="townCity">Town Name</param>
-        /// <param name="county">County</param>
-        /// <param name="postcode">Postcode</param>
-        /// <param name="dateOfBirth">Date of Birth dd/mm/yyyy as a string</param>
-        /// <param name="typeOfConcession">A - Age, D - Disabled</param>
-        /// <param name="disabilityPermanant">YES or NO (only applicable for Disabled Passes)</param>
-        /// <param name="evidenceExpiryDate">dd/mm/yyyy (only applicable for temporary disabled passes</param>
-        /// <param name="passStartDate">dd/mm/yyyy - for passes to be issued in the future</param>
-        /// <param name="passImageString">Photograph encoded as Base64.</param>
-        /// <returns></returns>
-        [WebMethod]
-        public XmlDocument issuePass(string CPICC, string northgateCaseID, string title, string firstNameOrInitial, string surname, string houseOrFlatNameOrNumber,
-            string buildingName, string street, string villageOrDistrict, string townCity, string county, string postcode,
-            string dateOfBirth, string typeOfConcession, string disabilityPermanant, string evidenceExpiryDate, string passStartDate, string passImageString, string passPrintReason, string gender, string disabilityCategory, string UPRN, string addressProofId, string addressProofDate, string addressProofReference, string ageProofId, string ageProofDate, string ageProofReference, string disabilityProofId, string disabilityProofDate, string disabilityProofReference, string homePhone, string mobilePhone, string emailAddress, string preferredContactMethod)
-        {
-            if (log.IsWarnEnabled) log.Warn("Firmstep Case reference " + northgateCaseID + " is calling an obsolete method. Please update to use the new method.");
-            SmartCitizenConnector.Proof addressProof = new SmartCitizenConnector.Proof(Convert.ToInt32(addressProofId), addressProofReference,null, DateTime.Parse(addressProofDate));
-            SmartCitizenConnector.Proof ageProof = null;
-             if(!String.IsNullOrEmpty(ageProofReference))
-               ageProof = new SmartCitizenConnector.Proof(Convert.ToInt32(ageProofId),ageProofReference, DateTime.Parse(ageProofDate), DateTime.Now);
-            SmartCitizenConnector.Proof disabilityProof = null;
-            if(!String.IsNullOrEmpty(disabilityProofReference))
-                disabilityProof = new SmartCitizenConnector.Proof(Convert.ToInt32(disabilityProofId), disabilityProofReference, DateTime.Parse(evidenceExpiryDate), DateTime.Parse(disabilityProofDate));
-            return CT_WSBL.getInstance().IssuePass(CPICC, northgateCaseID, firstNameOrInitial, surname, houseOrFlatNameOrNumber,
-                buildingName, street, villageOrDistrict, townCity, county, postcode, title, dateOfBirth, typeOfConcession, disabilityPermanant, evidenceExpiryDate, passStartDate, passImageString, passPrintReason, gender, disabilityCategory, UPRN, addressProof, ageProof, disabilityProof, homePhone, mobilePhone, emailAddress, preferredContactMethod.ToLower());
-        }
 
  
         [WebMethod]
@@ -145,6 +107,18 @@ namespace CTSmartCitizenConnect
         {
             return CT_WSBL.getInstance().updatePassImage(CPICC, passHolderNumber, passImageString);
             
+        }
+
+        /// <summary>
+        /// Cancels the pass on SmartCitizen.
+        /// </summary>
+        /// <param name="ISRN">ISRN of pass to cancel.</param>
+        /// <param name="reasonDescription">Reason description code as per the SmartCitizen Status list</param>
+        /// <returns></returns>
+        [WebMethod]
+        public XmlDocument CancelPass(string ISRN, string reasonDescription)
+        {
+            return CT_WSBL.getInstance().cancelPass(ISRN, reasonDescription);
         }
 
 
@@ -369,6 +343,8 @@ namespace CTSmartCitizenConnect
             //return ReplacePass(cardHolderId, ISRN, 17, caseId);
         }
 
+
+
         #endregion
 
         #region Private Methods
@@ -406,64 +382,34 @@ namespace CTSmartCitizenConnect
             return "";
         }
 
-        //private SmartCitizenCard getSmartCitizenCardForPerson(RecordIdentifier personIdentifier)
-        //{
-        //    if (log.IsDebugEnabled) log.Debug("Getting Smart Citizen Card for Person");
-        //    logParams(personIdentifier);
-        //    SmartCitizenCard cardForPerson = new SmartCitizenCard();
-        //    GetCardholderResponse cardHolderDetails = _cmClient.GetCardholder(new GetCardholderData() { CardholderIdentifier = personIdentifier });
-        //    if (cardHolderDetails.Identifier.CardID != null)
-        //    {
-        //        CheckCardResponse cardCheckResponse =
-        //            _cmClient.CheckCard(new CheckCardData() { CardIdentifier = cardHolderDetails.Identifier.CardID });
-        //        cardForPerson.IsValid = cardCheckResponse.CardValid;
-        //        cardForPerson.ISRN = cardHolderDetails.Identifier.CardID;
-        //        DateTime expiryDate;
-        //        DateTime.TryParse(
-        //            cardHolderDetails.CitizenData.XPathSelectElement("Services/Service/Item[@name='EXPIRY DATE']")
-        //                .Value, out expiryDate);
-        //        cardForPerson.ExpiryDate = expiryDate;
-
-        //    }
-        //    if (log.IsDebugEnabled) log.Debug("Got Card.");
-        //    return cardForPerson;
-        //}
-
         #endregion
 
 
 
         #region Obsolete Methods
 
-        //[WebMethod]
-        //public XmlDocument addRecord(string CPICC, string northgateCaseID, string passHolderNumber, string title, string firstNameOrInitial, string surname, string houseOrFlatNameOrNumber,
-        //    string buildingName, string street, string villageOrDistrict, string townCity, string county, string postcode,
-        //    string dateOfBirth, string typeOfConcession, string disabilityPermanant, string evidenceExpiryDate, string passStartDate)//, byte[] imageFile)
-        //{
-        //    throw new System.NotImplementedException("Add Record method is obsolete. Please do not use.");
-        //    //return CT_WSBL.getInstance().AddRecord(CPICC, northgateCaseID, passHolderNumber, firstNameOrInitial, surname, houseOrFlatNameOrNumber,
-        //    //    buildingName, street, villageOrDistrict, townCity, county, postcode, title, dateOfBirth, typeOfConcession, disabilityPermanant, evidenceExpiryDate, passStartDate);//, imageFile);
-        //}
-        //[WebMethod]
-        public bool GetPassesForPrint()
+        /// <summary>
+        /// Method has been superceded by new method allowing an array of Proof types.
+        /// </summary>
+        [WebMethod]
+        public XmlDocument issuePass(string CPICC, string northgateCaseID, string title, string firstNameOrInitial, string surname, string houseOrFlatNameOrNumber,
+            string buildingName, string street, string villageOrDistrict, string townCity, string county, string postcode,
+            string dateOfBirth, string typeOfConcession, string disabilityPermanant, string evidenceExpiryDate, string passStartDate, string passImageString, string passPrintReason, string gender, string disabilityCategory, string UPRN, string addressProofId, string addressProofDate, string addressProofReference, string ageProofId, string ageProofDate, string ageProofReference, string disabilityProofId, string disabilityProofDate, string disabilityProofReference, string homePhone, string mobilePhone, string emailAddress, string preferredContactMethod)
         {
+            if (log.IsWarnEnabled) log.Warn("Firmstep Case reference " + northgateCaseID + " is calling an obsolete method. Please update to use the new method.");
             throw new NotImplementedException();
-            //return CT_WSBL.getInstance().getPassesForPrint();
+            //SmartCitizenConnector.Proof addressProof = new SmartCitizenConnector.Proof(Convert.ToInt32(addressProofId), addressProofReference,null, DateTime.Parse(addressProofDate));
+            //SmartCitizenConnector.Proof ageProof = null;
+            // if(!String.IsNullOrEmpty(ageProofReference))
+            //   ageProof = new SmartCitizenConnector.Proof(Convert.ToInt32(ageProofId),ageProofReference, DateTime.Parse(ageProofDate), DateTime.Now);
+            //SmartCitizenConnector.Proof disabilityProof = null;
+            //if(!String.IsNullOrEmpty(disabilityProofReference))
+            //    disabilityProof = new SmartCitizenConnector.Proof(Convert.ToInt32(disabilityProofId), disabilityProofReference, DateTime.Parse(evidenceExpiryDate), DateTime.Parse(disabilityProofDate));
+            //return CT_WSBL.getInstance().IssuePass(CPICC, northgateCaseID, firstNameOrInitial, surname, houseOrFlatNameOrNumber,
+            //    buildingName, street, villageOrDistrict, townCity, county, postcode, title, dateOfBirth, typeOfConcession, disabilityPermanant, evidenceExpiryDate, passStartDate, passImageString, passPrintReason, gender, disabilityCategory, UPRN, addressProof, ageProof, disabilityProof, homePhone, mobilePhone, emailAddress, preferredContactMethod.ToLower());
         }
 
-        //[WebMethod]
-        public bool GetPrintedPasses()
-        {
-            throw new NotImplementedException();
-            //return CT_WSBL.getInstance().getPrintedPasses();
-        }
 
-        //[WebMethod]
-        public bool ProcessESPReports()
-        {
-            throw new NotImplementedException();
-            //return CT_WSBL.getInstance().processESPReports();
-        }
 
         /// <summary>
         /// Searches passholder data for current and previous values
@@ -502,32 +448,32 @@ namespace CTSmartCitizenConnect
 
 
         //[WebMethod]
-        public XmlDocument GetPassInformation(string CPICC, string PassHolderNumber, string RequestIssedSince)
-        {
-            if (log.IsErrorEnabled) log.Error("Attempt to call GetPassInformation.");
-            throw new NotImplementedException();
-            //return CT_WSBL.getInstance().GetPassInformation(CPICC, PassHolderNumber, RequestIssedSince);
-        }
+        //public XmlDocument GetPassInformation(string CPICC, string PassHolderNumber, string RequestIssedSince)
+        //{
+        //    if (log.IsErrorEnabled) log.Error("Attempt to call GetPassInformation.");
+        //    throw new NotImplementedException();
+        //    //return CT_WSBL.getInstance().GetPassInformation(CPICC, PassHolderNumber, RequestIssedSince);
+        //}
 
 
 
         //[WebMethod]
-        public XmlDocument ReissuePass(string oldPassNumber, string CPICC, string passHolderNumber)
-        {
-            if (log.IsErrorEnabled) log.Error("Attempt to call ReissuePass method.");
-            throw new NotImplementedException();
-            //return CT_WSBL.getInstance().ReissuePass(CPICC, passHolderNumber, oldPassNumber);
-        }
+        //public XmlDocument ReissuePass(string oldPassNumber, string CPICC, string passHolderNumber)
+        //{
+        //    if (log.IsErrorEnabled) log.Error("Attempt to call ReissuePass method.");
+        //    throw new NotImplementedException();
+        //    //return CT_WSBL.getInstance().ReissuePass(CPICC, passHolderNumber, oldPassNumber);
+        //}
 
 
         //[WebMethod]
-        public XmlDocument GetPassStatus(string CPICC, string passHolderNumber, string requestIssuedSince)
-        {
-            if (log.IsErrorEnabled) log.Error("Attempt to call GetPassStatus");
-            throw new NotImplementedException();
-            //return CT_WSBL.getInstance().queryPassStatus(CPICC, passHolderNumber, requestIssuedSince);
-            //return CT_WSBL.getInstance().GetPassInformation(CPICC, passHolderNumber, requestIssuedSince);
-        }
+        //public XmlDocument GetPassStatus(string CPICC, string passHolderNumber, string requestIssuedSince)
+        //{
+        //    if (log.IsErrorEnabled) log.Error("Attempt to call GetPassStatus");
+        //    throw new NotImplementedException();
+        //    //return CT_WSBL.getInstance().queryPassStatus(CPICC, passHolderNumber, requestIssuedSince);
+        //    //return CT_WSBL.getInstance().GetPassInformation(CPICC, passHolderNumber, requestIssuedSince);
+        //}
 
         //[WebMethod]
         public XmlDocument FlagPass(string CPICC, string PassHolderNumber, string FlagDescription)
@@ -535,20 +481,6 @@ namespace CTSmartCitizenConnect
             return CT_WSBL.getInstance().flagPass(CPICC, PassHolderNumber, FlagDescription);
         }
 
-
-        /// <summary>
-        /// Cancels the pass on SmartCitizen.
-        /// </summary>
-        /// <param name="ISRN">ISRN of pass to cancel.</param>
-        /// <param name="reasonDescription">Reason description code as per the SmartCitizen Status list</param>
-        /// <returns></returns>
-        [WebMethod]
-        public XmlDocument CancelPass(string ISRN, string reasonDescription)
-        {
-            return CT_WSBL.getInstance().cancelPass(ISRN, reasonDescription);
-            //SmartCitizenConnector conn = new SmartCitizenConnector();
-            //conn.cancelPass(ISRN, reasonDescription);
-        }
 
         //[WebMethod]
         public bool GetProofs()
