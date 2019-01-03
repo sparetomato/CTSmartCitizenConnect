@@ -839,9 +839,9 @@ namespace warwickshire.gov.uk.CT_WS
             SmartCitizenConnector dataLayer = new SmartCitizenConnector();
             if (String.IsNullOrEmpty(passNo))
             {
-                response.Load(HttpContext.Current.ApplicationInstance.Server.MapPath("~/App_Data") + "/CTQueryPassSummary.xml");
+                //response.Load(HttpContext.Current.ApplicationInstance.Server.MapPath("~/App_Data") + "/CTQueryPassSummary.xml");
                 XmlNode customerTemplate = response.SelectSingleNode("//customer").CloneNode(true);
-                response.DocumentElement.RemoveAll();
+                response.DocumentElement.RemoveChild(response.SelectSingleNode("//customer"));
                 SmartCitizenCTPassholderSummary[] summaryResults;
                 try
                 {
@@ -876,14 +876,15 @@ namespace warwickshire.gov.uk.CT_WS
                     XmlNode blankCustomerNode = customerTemplate.CloneNode(true);
                     blankCustomerNode.SelectSingleNode("//PassHolderNumber").InnerText = "No Match Found";
                     response.DocumentElement.AppendChild(blankCustomerNode);
+                    response.SelectSingleNode("//statusMessage").InnerText = "Search complete, but no match found in SmartCitizen.";
                 }
 
             }
             else
             {
-                response.Load(HttpContext.Current.ApplicationInstance.Server.MapPath("~/App_Data") + "/CTQueryPassResponse.xml");
+                //response.Load(HttpContext.Current.ApplicationInstance.Server.MapPath("~/App_Data") + "/CTQueryPassResponse.xml");
                 XmlNode customerTemplate = response.SelectSingleNode("//customer").CloneNode(true);
-                response.DocumentElement.RemoveAll();
+                response.DocumentElement.RemoveChild(response.SelectSingleNode("//customer"));
                 SmartCitizenCTPassholder[] searchResults;
                 try
                 {
@@ -1361,7 +1362,7 @@ namespace warwickshire.gov.uk.CT_WS
             if (log.IsErrorEnabled) log.Error("Error received.");
             if (log.IsErrorEnabled) log.Error("Error code:" + errorCode);
 
-            response.SelectSingleNode("//status").InnerText = "error";
+            response.SelectSingleNode("//status").InnerText = "ERROR";
             response.SelectSingleNode("//statusMessage").InnerText = ctErrors.First(x => x.Key == errorCode).Value;
             if (!String.IsNullOrEmpty(message)) response.SelectSingleNode("//statusMessage").InnerText += " : " + message;
         }

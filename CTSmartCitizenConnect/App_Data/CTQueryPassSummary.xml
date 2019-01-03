@@ -1,5 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Results>
+  <customer>
+    <PassHolderNumber />
+    <FirstNameOrInitial />
+    <Surname />
+    <PrimaryAddress />
+    <DateOfBirth />
+  </customer>
   <status>SUCCESS</status>
   <statusMessage />
 </Results>
