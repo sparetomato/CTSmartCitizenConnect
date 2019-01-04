@@ -327,7 +327,7 @@ namespace CTSmartCitizenConnect
 
             }
 
-            if (cardHolderDetails.CitizenData.XPathSelectElement("Services/Service/Item[@name='NINUMBER']").Value != null)
+            if (!String.IsNullOrEmpty(cardHolderDetails.CitizenData.XPathSelectElement("Services/Service/Item[@name='NINUMBER']").Value))
                 passHolder.NINO = cardHolderDetails.CitizenData.XPathSelectElement("Services/Service/Item[@name='NINUMBER']").Value;
 
 
