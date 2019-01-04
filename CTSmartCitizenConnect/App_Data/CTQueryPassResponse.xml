@@ -36,6 +36,7 @@
   <FormattedDateOfBirth />
   <PreferredContactMethod />
   <PassStatus/>
+  <NINO />
 </customer>
   <status>SUCCESS</status>
   <statusMessage />

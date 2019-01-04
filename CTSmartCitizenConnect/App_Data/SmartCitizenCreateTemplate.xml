@@ -47,6 +47,7 @@
       <Item dtype="text" itemId="120" ><!-- UCRN -->
       </Item>
       <Item dtype="lookup" itemId="115" lookupId=""/> <!-- CONTACT METHOD. Values: 2276 (Do not contact), 2273 (Email), 2275 (Large Print Letter), 2274 (Letter) -->
+      <Item dtype="text" itemId="70" /> <!-- NINO -->
     </Service>
 		<Service serviceId="34" name="Photo Id">
 			<Item itemId="16" dtype="image" />

@@ -115,10 +115,10 @@ namespace warwickshire.gov.uk.CT_WS
         }
 
         internal XmlDocument UpdateAndRenewPass(int cardHolderId, string ISRN, string title, string forename, string surname,
-            string dateOfBirth, string gender, string disabilitycategory, string caseId)
+            string dateOfBirth, string gender, string disabilitycategory, string caseId, string NINO)
         {
             if (log.IsInfoEnabled) log.Info("Updating and renewing pass details");
-            logParams(cardHolderId, ISRN, title, forename, surname, dateOfBirth, gender, disabilitycategory, caseId);
+            logParams(cardHolderId, ISRN, title, forename, surname, dateOfBirth, gender, disabilitycategory, caseId, NINO);
             if (log.IsDebugEnabled) log.Debug("Checking pass number against the supplied pass number");
             SmartCitizenCard currentSmartCitizenCard =
                  getSmartCitizenCardForPerson(new RecordIdentifier() { CardholderID = cardHolderId });
@@ -134,7 +134,7 @@ namespace warwickshire.gov.uk.CT_WS
                 throw new ScValidationException(
                        ScValidationException.ScValidationReason.CardNotValid);*/
 
-            UpdatePassHolderDetails(cardHolderId, title, forename, surname, dateOfBirth, gender, disabilitycategory);
+            UpdatePassHolderDetails(cardHolderId, title, forename, surname, dateOfBirth, gender, disabilitycategory, NINO);
             return ReplacePass(cardHolderId, ISRN, 17, caseId);
         }
 
@@ -204,10 +204,10 @@ namespace warwickshire.gov.uk.CT_WS
 
         }
 
-        internal XmlDocument UpdatePassHolderDetails(int cardHolderId, string title, string forename, string surname, string dateOfBirth, string gender, string disabilitycategory)
+        internal XmlDocument UpdatePassHolderDetails(int cardHolderId, string title, string forename, string surname, string dateOfBirth, string gender, string disabilitycategory, string NINO)
         {
             if (log.IsInfoEnabled) log.Info("Updating Passholder Details for cardholder ID [" + cardHolderId + "]");
-            logParams(cardHolderId, title, forename, surname, dateOfBirth, gender, disabilitycategory);
+            logParams(cardHolderId, title, forename, surname, dateOfBirth, gender, disabilitycategory, NINO);
             XmlDocument responseDoc = new XmlDocument();
             try
             {
@@ -265,6 +265,12 @@ namespace warwickshire.gov.uk.CT_WS
                             itemElement.Remove();
                         else
                             itemElement.Value = forename.ToTitleCase() + " " + surname.ToSurnameTitleCase();
+                        break;
+                    case "70": //Nino
+                        if (String.IsNullOrEmpty(NINO))
+                            itemElement.Remove();
+                        else
+                            itemElement.Value = NINO.ToUpper();
                         break;
                 }
             }
@@ -429,11 +435,11 @@ namespace warwickshire.gov.uk.CT_WS
 
         internal XmlDocument IssuePass(string CPICC, string FirmstepCaseId, string firstNameOrInitial, string surname, string houseOrFlatNumberOrName,
             string buildingName, string street, string villageOrDistrict, string townCity, string county, string postcode, string title,
-            string dateOfBirth, string typeOfConcession, string disabilityPermanent, string evidenceExpiryDate, string passStartDate, string imageAsBase64String, string passPrintReason, string gender, string disabilityCategory, string UPRN, SmartCitizenConnector.Proof[] proofs, string homePhone, string mobilePhone, string emailAddress, string preferredContactMethod)
+            string dateOfBirth, string typeOfConcession, string disabilityPermanent, string evidenceExpiryDate, string passStartDate, string imageAsBase64String, string passPrintReason, string gender, string disabilityCategory, string UPRN, SmartCitizenConnector.Proof[] proofs, string homePhone, string mobilePhone, string emailAddress, string preferredContactMethod, string NINO)
         {
             if (log.IsInfoEnabled) log.Info("Request to issue pass received from Firmstep Case ID:" + FirmstepCaseId);
             logParams(CPICC, FirmstepCaseId, firstNameOrInitial, surname, houseOrFlatNumberOrName, buildingName, street, villageOrDistrict, townCity, county, postcode, title,
-                dateOfBirth, typeOfConcession, disabilityPermanent, evidenceExpiryDate, passStartDate, imageAsBase64String, passPrintReason, gender, disabilityCategory, UPRN, homePhone, mobilePhone, emailAddress, preferredContactMethod);
+                dateOfBirth, typeOfConcession, disabilityPermanent, evidenceExpiryDate, passStartDate, imageAsBase64String, passPrintReason, gender, disabilityCategory, UPRN, homePhone, mobilePhone, emailAddress, preferredContactMethod, NINO);
 
             XmlDocument response = new XmlDocument();
             response.Load(HttpContext.Current.ApplicationInstance.Server.MapPath("~/App_Data") + "/CTIssuePassResponse.xml");
@@ -469,7 +475,7 @@ namespace warwickshire.gov.uk.CT_WS
             CTPass newPass;
             try
             {
-                newPass = dataLayer.IssuePass(title, firstNameOrInitial, surname, dateOfBirth, gender, emailAddress, homePhone, mobilePhone, buildingName, houseOrFlatNumberOrName, street, villageOrDistrict, townCity, county, UPRN, CPICC, postcode, imageAsBase64String, FirmstepCaseId, typeOfPass, disabilityCategory, proofs, preferredContactMethod);
+                newPass = dataLayer.IssuePass(title, firstNameOrInitial, surname, dateOfBirth, gender, emailAddress, homePhone, mobilePhone, buildingName, houseOrFlatNumberOrName, street, villageOrDistrict, townCity, county, UPRN, CPICC, postcode, imageAsBase64String, FirmstepCaseId, typeOfPass, disabilityCategory, proofs, preferredContactMethod,NINO);
             }
             catch(SmartCitizenException ex)
             {
@@ -486,56 +492,6 @@ namespace warwickshire.gov.uk.CT_WS
             if (log.IsDebugEnabled) log.Debug("Exiting Method.");
             return response;
         }
-
-        [Obsolete("This method is no longer used.", true)]
-        internal XmlDocument IssuePass(string CPICC, string FirmstepCaseId, string firstNameOrInitial, string surname, string houseOrFlatNumberOrName,
-            string buildingName, string street, string villageOrDistrict, string townCity, string county, string postcode, string title,
-            string dateOfBirth, string typeOfConcession, string disabilityPermanent, string evidenceExpiryDate, string passStartDate, string imageAsBase64String, string passPrintReason, string gender, string disabilityCategory, string UPRN, SmartCitizenConnector.Proof addressProof, SmartCitizenConnector.Proof ageProof, SmartCitizenConnector.Proof disabillityProof, string homePhone, string mobilePhone, string emailAddress, string preferredContactMethod)
-        {
-            if (log.IsInfoEnabled) log.Info("Request to issue pass received from Firmstep Case ID:" + FirmstepCaseId);
-            logParams(CPICC, FirmstepCaseId, firstNameOrInitial, surname, houseOrFlatNumberOrName, buildingName, street, villageOrDistrict, townCity, county, postcode, title,
-                dateOfBirth, typeOfConcession, disabilityPermanent, evidenceExpiryDate, passStartDate, imageAsBase64String, passPrintReason, gender, disabilityCategory, UPRN, homePhone, mobilePhone, emailAddress);
-
-            XmlDocument response = new XmlDocument();
-            response.Load(HttpContext.Current.ApplicationInstance.Server.MapPath("~/App_Data") + "/CTIssuePassResponse.xml");
-           SmartCitizenConnector dataLayer = new SmartCitizenConnector();
-
-           CTPassType typeOfPass = CTPassType.NotSet;
-           if (!String.IsNullOrEmpty(typeOfConcession))
-           {
-               if (typeOfConcession.ToUpper() == "AGE")
-               {
-                   typeOfPass = CTPassType.Age;
-               }
-
-               else if (typeOfConcession.ToUpper() == "ELIGIBLE DISABLED")
-               {
-                   if (disabilityPermanent.ToUpper() == "YES")
-                       typeOfPass = CTPassType.Disabled;
-                   else
-                       typeOfPass = CTPassType.DisabledTemporary;
-               }
-               else
-               {
-                   throw new CTDataException(6);
-               }
-           }
-           else
-           {
-               throw new CTDataException(19);
-           }
-
-            CTPass newPass = dataLayer.IssuePass(title, firstNameOrInitial, surname, dateOfBirth, gender, emailAddress,homePhone, mobilePhone, buildingName, houseOrFlatNumberOrName, street, villageOrDistrict, townCity, county, UPRN, CPICC, postcode, imageAsBase64String, FirmstepCaseId, typeOfPass,disabilityCategory, addressProof, ageProof, disabillityProof, preferredContactMethod);
-            
-            response.SelectSingleNode("issuePassResponse/status").InnerText = "success";
-
-            response.SelectSingleNode("issuePassResponse/passExpiryDate").InnerText =
-                newPass.ExpiryDate.ToShortDateString();
-            if (log.IsDebugEnabled) log.Debug("Returned XML:" + response.OuterXml);
-            if (log.IsDebugEnabled) log.Debug("Exiting Method.");
-            return response;
-        }
-
 
 
         #endregion
@@ -602,7 +558,7 @@ namespace warwickshire.gov.uk.CT_WS
 
         private void buildJobData(ref SmartCitizenCTPassholder existingPassHolder, string CPICC, string NGCaseID, string passHolderNumber, string firstNameOrInitial, string surname, string houseOrFlatNumberOrName,
             string buildingName, string street, string villageOrDistrict, string townCity, string county, string postcode, string title,
-            string dateOfBirth, string typeOfConcession, string disabilityPermanent, string evidenceExpiryDate, byte[] imageAsBytes, string UPRN, string homePhone, string mobilePhone, string emailAddress, string preferredContactMethod)
+            string dateOfBirth, string typeOfConcession, string disabilityPermanent, string evidenceExpiryDate, byte[] imageAsBytes, string UPRN, string homePhone, string mobilePhone, string emailAddress, string preferredContactMethod, string NINO)
         {
             if (log.IsDebugEnabled) log.Debug("Updating Existing Passholder Details");
 
@@ -634,6 +590,10 @@ namespace warwickshire.gov.uk.CT_WS
             {
                 existingPassHolder.PreferredContactMethod = preferredContactMethod.ToLower();
             }
+
+            //NINO to be cleared if it isn't provided.
+            if (String.IsNullOrEmpty(NINO)) existingPassHolder.NINO = String.Empty;
+            else existingPassHolder.NINO = NINO;
 
             
             CTPassType typeOfPass = CTPassType.NotSet;
@@ -1186,13 +1146,13 @@ namespace warwickshire.gov.uk.CT_WS
         internal XmlDocument updatePassDetails(string ISRN, string CPICC, string passHolderNumber, string firstNameOrInitial, string surname, string houseOrFlatNumberOrName,
             string buildingName, string street, string villageOrDistrict, string townCity, string county, string postcode, string title,
             string dateOfBirth, string typeOfConcession, string disabilityPermanent, string evidenceExpiryDate, string passStartDate, bool reissuePass, string oldCPICC, bool recalculateExpiryDate, string achieveServiceCaseNumber,
-            string printReason, string gender, string disabilityCategory, string UPRN, string homePhone, string mobilePhone, string emailAddress, string preferredContactMethod, int? oldPassStatus)
+            string printReason, string gender, string disabilityCategory, string UPRN, string homePhone, string mobilePhone, string emailAddress, string preferredContactMethod, string NINO, int? oldPassStatus)
         {
             if (log.IsDebugEnabled) log.Debug("Update Pass Request Received");
 
             logParams(ISRN, CPICC, passHolderNumber, firstNameOrInitial, surname, houseOrFlatNumberOrName,
              buildingName, street, villageOrDistrict, townCity, county, postcode, title,
-             dateOfBirth, typeOfConcession, disabilityPermanent, evidenceExpiryDate, passStartDate, reissuePass.ToString(), oldCPICC, recalculateExpiryDate.ToString(), achieveServiceCaseNumber, printReason, gender, disabilityCategory, homePhone, mobilePhone, emailAddress, preferredContactMethod);
+             dateOfBirth, typeOfConcession, disabilityPermanent, evidenceExpiryDate, passStartDate, reissuePass.ToString(), oldCPICC, recalculateExpiryDate.ToString(), achieveServiceCaseNumber, printReason, gender, disabilityCategory, homePhone, mobilePhone, emailAddress, preferredContactMethod, NINO);
 
             if (log.IsDebugEnabled) log.Debug("Loading Response XML Document");
             XmlDocument response = new XmlDocument();
@@ -1229,7 +1189,7 @@ namespace warwickshire.gov.uk.CT_WS
                 if (String.IsNullOrEmpty(passStartDate)) passStartDate = DateTime.Now.ToShortDateString();
                 buildJobData(ref existingPassHolder, CPICC, null, passHolderNumber, firstNameOrInitial, surname, houseOrFlatNumberOrName,
                     buildingName, street, villageOrDistrict, townCity, county, postcode, title, dateOfBirth, typeOfConcession,
-                    disabilityPermanent, evidenceExpiryDate, null, UPRN, homePhone, mobilePhone, emailAddress, preferredContactMethod);
+                    disabilityPermanent, evidenceExpiryDate, null, UPRN, homePhone, mobilePhone, emailAddress, preferredContactMethod, NINO);
 
 
                 if (!String.IsNullOrEmpty(gender))

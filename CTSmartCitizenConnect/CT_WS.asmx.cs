@@ -29,10 +29,10 @@ namespace CTSmartCitizenConnect
         [WebMethod]
         public XmlDocument issueNewPass(string CPICC, string firmstepCaseId, string title, string firstNameOrInitial, string surname, string houseOrFlatNameOrNumber,
             string buildingName, string street, string villageOrDistrict, string townCity, string county, string postcode,
-            string dateOfBirth, string typeOfConcession, string disabilityPermanent, string evidenceExpiryDate, string passStartDate, string passImageString, string passPrintReason, string gender, string disabilityCategory, string UPRN, SmartCitizenConnector.Proof[] proofs, string homePhone, string mobilePhone, string emailAddress, string preferredContactMethod)
+            string dateOfBirth, string typeOfConcession, string disabilityPermanent, string evidenceExpiryDate, string passStartDate, string passImageString, string passPrintReason, string gender, string disabilityCategory, string UPRN, SmartCitizenConnector.Proof[] proofs, string homePhone, string mobilePhone, string emailAddress, string preferredContactMethod, string NINO)
         {
             return CT_WSBL.getInstance().IssuePass(CPICC, firmstepCaseId, firstNameOrInitial, surname, houseOrFlatNameOrNumber,
-                buildingName, street, villageOrDistrict, townCity, county, postcode, title, dateOfBirth, typeOfConcession, disabilityPermanent, evidenceExpiryDate, passStartDate, passImageString, passPrintReason, gender, disabilityCategory, UPRN, proofs, homePhone, mobilePhone, emailAddress, preferredContactMethod.ToLower());
+                buildingName, street, villageOrDistrict, townCity, county, postcode, title, dateOfBirth, typeOfConcession, disabilityPermanent, evidenceExpiryDate, passStartDate, passImageString, passPrintReason, gender, disabilityCategory, UPRN, proofs, homePhone, mobilePhone, emailAddress, preferredContactMethod.ToLower(), NINO);
         }
 
  
@@ -85,14 +85,14 @@ namespace CTSmartCitizenConnect
         public XmlDocument UpdatePassDetails(string ISRN, string passHolderNumber, string CPICC, string title, string firstNameOrInitial, string surname, string houseOrFlatNameOrNumber,
             string buildingName, string street, string villageOrDistrict, string townCity, string county, string postcode,
             string dateOfBirth, string typeOfConcession, string disabilityPermanent, string evidenceExpiryDate, string passStartDate, bool reissuePass, string oldCPICC, bool recalculateExpiryDate, string northgateCaseNumber, string printReason,
-            string gender, string disabilityCategory, string UPRN, string homePhone, string mobilePhone, string emailAddress, string preferredContactMethod, string oldPassStatus)//, byte[] imageFile)
+            string gender, string disabilityCategory, string UPRN, string homePhone, string mobilePhone, string emailAddress, string preferredContactMethod, string oldPassStatus, string NINO)
         {
             int? oldPassStatusInt = null;
             if (!String.IsNullOrEmpty(oldPassStatus))
                 oldPassStatusInt = Convert.ToInt16(oldPassStatus);
             return CT_WSBL.getInstance().updatePassDetails(ISRN, CPICC, passHolderNumber, firstNameOrInitial, surname, houseOrFlatNameOrNumber,
                 buildingName, street, villageOrDistrict, townCity, county, postcode, title, dateOfBirth, typeOfConcession, disabilityPermanent,
-                evidenceExpiryDate, passStartDate, reissuePass, oldCPICC, recalculateExpiryDate, northgateCaseNumber, printReason, gender, disabilityCategory, UPRN,  homePhone,  mobilePhone,  emailAddress, preferredContactMethod.ToLower(),oldPassStatusInt);
+                evidenceExpiryDate, passStartDate, reissuePass, oldCPICC, recalculateExpiryDate, northgateCaseNumber, printReason, gender, disabilityCategory, UPRN,  homePhone,  mobilePhone,  emailAddress, preferredContactMethod.ToLower(),NINO,oldPassStatusInt);
         }
 
         [WebMethod]
@@ -317,30 +317,11 @@ namespace CTSmartCitizenConnect
             Description =
                 "Updates and renews a pass on SmartCitizen. This will place the pass in the 'Authorise Passes' list")]
         public XmlDocument UpdateAndRenewPass(int cardHolderId, string ISRN, string title, string forename, string surname,
-            string dateOfBirth, string gender, string disabilitycategory, string caseId)
+            string dateOfBirth, string gender, string disabilitycategory, string caseId, string NINO)
         {
 
             return CT_WSBL.getInstance().UpdateAndRenewPass(cardHolderId, ISRN, title, forename, surname,
-            dateOfBirth, gender, disabilitycategory, caseId);
-            //if (log.IsInfoEnabled) log.Info("Updating and renewing pass details");
-            //logParams(cardHolderId, ISRN, title, forename, surname, dateOfBirth, gender, disabilitycategory, caseId);
-            //if (log.IsDebugEnabled) log.Debug("Checking pass number against the supplied pass number");
-            //SmartCitizenCard currentSmartCitizenCard =
-            //     getSmartCitizenCardForPerson(new RecordIdentifier() { CardholderID = cardHolderId });
-
-            //if (currentSmartCitizenCard.ISRN != ISRN)
-            //    throw new ScValidationException(ScValidationException.ScValidationReason.CardNotMatched);
-
-            //if (!currentSmartCitizenCard.CanBeRenewed)
-            //    throw new ScValidationException(
-            //        ScValidationException.ScValidationReason.CardOutsideRenewalWindow);
-
-            ///*if(!currentSmartCitizenCard.IsValid)
-            //    throw new ScValidationException(
-            //           ScValidationException.ScValidationReason.CardNotValid);*/
-
-            //UpdatePassHolderDetails(cardHolderId, title, forename, surname, dateOfBirth, gender, disabilitycategory);
-            //return ReplacePass(cardHolderId, ISRN, 17, caseId);
+            dateOfBirth, gender, disabilitycategory, caseId, NINO);
         }
 
 

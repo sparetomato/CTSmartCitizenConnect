@@ -31,6 +31,7 @@
       <Item dtype="text" itemId="18"><!-- Home Phone --></Item>
       <Item dtype="text" itemId="22"><!-- Notes --></Item>
       <Item dtype="text" itemId="119"><!-- Record ID --></Item>
+      <Item dtype="text" itemId="70" /><!-- NINO -->
     </Service>
     <!-- Optional Services 	 
 	       See associated WCC Fragments file for optional service Xml which includes ENCTS category type and photograph

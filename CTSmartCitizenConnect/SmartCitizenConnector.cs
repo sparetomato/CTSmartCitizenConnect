@@ -1,23 +1,17 @@
-﻿using System;
+﻿using CTSmartCitizenConnect.SmartConnect;
+using log4net;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Drawing;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
 using System.ServiceModel;
-using System.Text;
-using System.Threading;
 using System.Web;
-using System.Web.Services;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using System.Xml.XPath;
-using CTSmartCitizenConnect.CTDataLayer;
-using CTSmartCitizenConnect.SmartConnect;
-using log4net;
 using CTPass = warwickshire.ConcessionaryTravel.Classes.CTPass;
 using CTPassHolder = warwickshire.ConcessionaryTravel.Classes.CTPassHolder;
 using CTPassType = warwickshire.ConcessionaryTravel.Classes.CTPassType;
@@ -25,12 +19,12 @@ using CTPassType = warwickshire.ConcessionaryTravel.Classes.CTPassType;
 namespace CTSmartCitizenConnect
 {
 
-    public class SmartCitizenException:Exception
+    public class SmartCitizenException : Exception
     {
         public SmartCitizenException(string message) : base(message) { }
-       
+
     }
-    
+
 
     public class SmartCitizenConnector
     {
@@ -61,8 +55,8 @@ namespace CTSmartCitizenConnect
             }
 
             if (log.IsInfoEnabled) log.Info("CardManager Client initialised.");
-            
-            
+
+
         }
 
         /// <summary>
@@ -114,7 +108,7 @@ namespace CTSmartCitizenConnect
                 {
                     cardholderExistsResponse = _cmClient.CheckCardholderExists(cardholderExistsData);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     throw new SmartCitizenException(ex.Message);
                 }
@@ -131,7 +125,7 @@ namespace CTSmartCitizenConnect
                 {
                     if (log.IsDebugEnabled) log.Debug("Single Exact Match found. Using Card Holder ID:" + cardholderExistsResponse.UniqueMatchIdentifier.CardholderID);
                     cardHolderUniqueId = cardholderExistsResponse.UniqueMatchIdentifier;
-                    
+
                     // Need to validate that if we return an exact match and the 
                     //searchResults.Add(GetCtPassHolder(cardHolderUniqueId));
 
@@ -194,7 +188,7 @@ namespace CTSmartCitizenConnect
         /// <param name="postcode"></param>
         /// <param name="ISRN"></param>
         /// <returns>Pass Holder Details</returns>
-         public SmartCitizenCTPassholder[] SearchPassHolders(string surname, string forename, string dateOfBirth, string postcode, string ISRN)
+        public SmartCitizenCTPassholder[] SearchPassHolders(string surname, string forename, string dateOfBirth, string postcode, string ISRN)
         //public XmlDocument SearchPassHolders(string surname, string forename, string dateOfBirth, string postcode, string ISRN)
         {
             List<SmartCitizenCTPassholder> searchResults = new List<SmartCitizenCTPassholder>();
@@ -253,7 +247,7 @@ namespace CTSmartCitizenConnect
                     cardHolderUniqueId = cardholderExistsResponse.UniqueMatchIdentifier;
                     // Need to validate that if we return an exact match and the 
                     searchResults.Add(GetCtPassHolder(cardHolderUniqueId));
-                   
+
                 }
                 else
                 {
@@ -264,8 +258,8 @@ namespace CTSmartCitizenConnect
 
                     if (cardholderExistsResponse.NonUniquePotentialMatches.Length >= 1)
                     {
-                            //Loop through matches to find forename and check that it completely matches.
-                            searchResults.AddRange(cardholderExistsResponse.NonUniquePotentialMatches.Select(nonUniquePotentialMatch => GetCtPassHolder(nonUniquePotentialMatch.UniqueIdentifier)));
+                        //Loop through matches to find forename and check that it completely matches.
+                        searchResults.AddRange(cardholderExistsResponse.NonUniquePotentialMatches.Select(nonUniquePotentialMatch => GetCtPassHolder(nonUniquePotentialMatch.UniqueIdentifier)));
                     }
                 }
             }
@@ -283,8 +277,8 @@ namespace CTSmartCitizenConnect
 
         public SmartCitizenCTPassholder GetCtPassHolder(string recordId)
         {
-            RecordIdentifier clientRecordIdentifier = new RecordIdentifier {CardholderID = Convert.ToInt32(recordId)};
-            
+            RecordIdentifier clientRecordIdentifier = new RecordIdentifier { CardholderID = Convert.ToInt32(recordId) };
+
 
             return GetCtPassHolder(clientRecordIdentifier);
         }
@@ -332,7 +326,10 @@ namespace CTSmartCitizenConnect
                     break;
 
             }
-           
+
+            if (cardHolderDetails.CitizenData.XPathSelectElement("Services/Service/Item[@name='NINUMBER']").Value != null)
+                passHolder.NINO = cardHolderDetails.CitizenData.XPathSelectElement("Services/Service/Item[@name='NINUMBER']").Value;
+
 
             //Address
             passHolder.HouseOrFlatNumberOrName = cardHolderDetails.CitizenData.XPathSelectElement("Services/Service/Item[@name='HOUSE NUMBER/NAME']").Value;
@@ -380,7 +377,7 @@ namespace CTSmartCitizenConnect
                 }
 
             }
-            
+
             SmartCitizenCTPass passForPassHolder = getSmartCitizenCardForPerson(cardHolderIdentifier);
             passHolder.CtPass = passForPassHolder;
 
@@ -396,8 +393,8 @@ namespace CTSmartCitizenConnect
                             .Attribute("refinement").Value[0];
                 }
             }
-            
-            
+
+
 
             return passHolder;
         }
@@ -414,11 +411,11 @@ namespace CTSmartCitizenConnect
             if (log.IsDebugEnabled) log.Debug("Photograph replaced. New Photograph:[" + existingPassholder.PassImageString + "]");
             UpdateCardholderData cardholderData = new UpdateCardholderData();
             cardholderData.Identifier = cardHolderIdentifier;
-            
+
             cardholderData.CitizenData = existingPassholder.UpdateImageCitizenData;
 
 
-            
+
 
             try
             {
@@ -432,19 +429,19 @@ namespace CTSmartCitizenConnect
                 if (log.IsErrorEnabled) log.Error("Error updating Cardholder Photo:" + ex.Message);
                 throw new SmartCitizenException("Error updating Cardholder Photo:" + ex.Message);
             }
-            
+
 
         }
 
         public void FlagPassHolder(string passHolderNumber, string flagDescription)
         {
             SmartCitizenCTPassholder passHolder = GetCtPassHolder(passHolderNumber);
-            UpdateCardData cardData = new UpdateCardData{};
+            UpdateCardData cardData = new UpdateCardData { };
             cardData.CardStatus = GetFlagStatusId(flagDescription);
-            cardData.Identifier = new RecordIdentifier{CardID = passHolder.CtPass.ISRN};
+            cardData.Identifier = new RecordIdentifier { CardID = passHolder.CtPass.ISRN };
             try
             {
-_cmClient.UpdateCard(cardData);
+                _cmClient.UpdateCard(cardData);
             }
             catch (Exception ex)
             {
@@ -452,7 +449,7 @@ _cmClient.UpdateCard(cardData);
                 if (log.IsErrorEnabled) log.Error(ex.Message);
                 throw;
             }
-            
+
         }
 
         private int GetFlagStatusId(string flagDescription)
@@ -463,23 +460,39 @@ _cmClient.UpdateCard(cardData);
 
         public void UpdatePassImage(string recordId, string passImageString)
         {
-            UpdatePassImage(new RecordIdentifier {CardholderID = Convert.ToInt32(recordId)}, passImageString);
+            UpdatePassImage(new RecordIdentifier { CardholderID = Convert.ToInt32(recordId) }, passImageString);
         }
 
-
-        public CTPass IssuePass(string title, string forename, string surname, string dateofbirth, string gender,
-            string email, string homephone, string mobilePhone, string flatNumber, string houseNumberOrName,
-            string street, string locality, string town,
-            string county, string UPRN, string CPICC, string postcode, string passImageString, string CaseID, CTPassType typeOfPass, string disabilityCategory, Proof addressProof, string preferredContactMethod)
-        {
-            return IssuePass(title, forename, surname, dateofbirth, gender,
-                email, homephone, mobilePhone, flatNumber, houseNumberOrName,
-                street, locality, town,
-                county, UPRN, CPICC, postcode, passImageString, CaseID, typeOfPass, disabilityCategory, addressProof, null, null, preferredContactMethod);
-        }
-
+        /// <summary>
+        /// Createas a new cardholder on SmartCitizen and issues a pass.
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="forename"></param>
+        /// <param name="surname"></param>
+        /// <param name="dateofbirth"></param>
+        /// <param name="gender"></param>
+        /// <param name="email"></param>
+        /// <param name="homephone"></param>
+        /// <param name="mobilePhone"></param>
+        /// <param name="flatNumber"></param>
+        /// <param name="houseNumberOrName"></param>
+        /// <param name="street"></param>
+        /// <param name="locality"></param>
+        /// <param name="town"></param>
+        /// <param name="county"></param>
+        /// <param name="UPRN"></param>
+        /// <param name="CPICC"></param>
+        /// <param name="postcode"></param>
+        /// <param name="passImageString"></param>
+        /// <param name="CaseID"></param>
+        /// <param name="typeOfPass"></param>
+        /// <param name="disabilityCategory"></param>
+        /// <param name="proofs"></param>
+        /// <param name="preferredContactMethod"></param>
+        /// <param name="NINO"></param>
+        /// <returns>New Pass</returns>
         public CTPass IssuePass(string title, string forename, string surname, string dateofbirth, string gender, string email, string homephone, string mobilePhone, string flatNumber, string houseNumberOrName, string street, string locality, string town,
-            string county, string UPRN, string CPICC, string postcode, string passImageString, string CaseID, CTPassType typeOfPass, string disabilityCategory, Proof[] proofs, string preferredContactMethod)
+            string county, string UPRN, string CPICC, string postcode, string passImageString, string CaseID, CTPassType typeOfPass, string disabilityCategory, Proof[] proofs, string preferredContactMethod, string NINO)
         {
             CreateCardholderData createCardholderRequest = new CreateCardholderData();
 
@@ -502,7 +515,8 @@ _cmClient.UpdateCard(cardData);
                 PostCode = postcode,
                 PassImageString = passImageString,
                 Proofs = proofs,
-                PreferredContactMethod = preferredContactMethod
+                PreferredContactMethod = preferredContactMethod,
+                NINO = NINO
             };
 
 
@@ -536,7 +550,7 @@ _cmClient.UpdateCard(cardData);
                 if (log.IsDebugEnabled) log.Debug(SerializeObj(createCardholderRequest));
                 RecordIdentifier id = _cmClient.CreateCardholder(createCardholderRequest);
                 if (log.IsInfoEnabled) log.Info("Record Created. Record ID:" + id.CardholderID);
-          
+
                 return GetCtPassForPassholder(id);
 
 
@@ -553,64 +567,7 @@ _cmClient.UpdateCard(cardData);
             return new CTPass();
         }
 
-        public CTPass IssuePass(string title, string forename, string surname, string dateofbirth, string gender, string email, string homephone, string mobilePhone, string flatNumber, string houseNumberOrName, string street, string locality, string town,
-            string county, string UPRN, string CPICC, string postcode, string passImageString, string CaseID, CTPassType typeOfPass, string disabilityCategory, Proof addressProof, Proof ageProof, Proof disabilityProof, string preferredContactMethod)
-             {
-            CreateCardholderData createCardholderRequest = new CreateCardholderData();
 
-
-            SmartCitizenCTPassholder newPassHolder = new SmartCitizenCTPassholder
-            {
-                Title = title, FirstNameOrInitial = forename, Surname = surname, Gender = gender, Email = email, HomePhone = homephone, MobilePhone = mobilePhone, Street = street, VillageOrDistrict = locality, TownCity = town,
-                County = county, UPRN = UPRN, CPICC = CPICC, PostCode = postcode, PassImageString = passImageString, AgeProof = ageProof, AddressProof = addressProof, DisabilityProof = disabilityProof, PreferredContactMethod = preferredContactMethod
-            };
-
-            
-            // Check to see if property has a SAON
-            if (!String.IsNullOrEmpty(flatNumber))
-            {
-                newPassHolder.HouseOrFlatNumberOrName = flatNumber;
-                newPassHolder.BuildingName = houseNumberOrName;
-            }
-            else
-            {
-                newPassHolder.HouseOrFlatNumberOrName = houseNumberOrName;
-            }
-            DateTime parsedDoB;
-            if (
-                DateTime.TryParse(dateofbirth, out parsedDoB))
-                newPassHolder.DateOfBirth = parsedDoB;
-            // Disability category stored on the CTPass object. need to create as it won't exist yet...
-            newPassHolder.CtPass = new SmartCitizenCTPass();
-            newPassHolder.CtPass.PassType = typeOfPass;
-            if(typeOfPass != CTPassType.Age)
-                newPassHolder.DisabilityCategory = disabilityCategory[0];
-
-            createCardholderRequest.CitizenData = newPassHolder.IssuePassCitizenDataXml;
-            createCardholderRequest.StageID = 6;
-
-
-            try
-                {
-                    if (log.IsDebugEnabled) log.Debug(SerializeObj(createCardholderRequest));
-                    RecordIdentifier id = _cmClient.CreateCardholder(createCardholderRequest);
-                    if (log.IsInfoEnabled) log.Info("Record Created. Record ID:" + id.CardholderID);
-
-                    return GetCtPassForPassholder(id);
-
-
-                }
-                catch (Exception ex)
-                {
-
-                    if (log.IsErrorEnabled) log.Error("Could not create CardHolder." + ex.Message);
-                }
-
-                
-           
-
-            return new CTPass();
-        }
 
         /// <summary>
         /// Cancels a pass on SmartCitizen
@@ -628,21 +585,21 @@ _cmClient.UpdateCard(cardData);
                 Identifier = cardToCancel,
                 CardStatus = _smartCitizenStatuses.FirstOrDefault(x => x.Value.Contains(reason)).Key,
                 AdditionalInformation = "Pass cancelled by CRM for the following reason: " + reason,
-                CardLocation = ctPassHolder.CtPass.PassLocation  
+                CardLocation = ctPassHolder.CtPass.PassLocation
             };
 
             try
             {
-                if(log.IsInfoEnabled)log.Info("Cancelling pass ID:[" + cardToCancel.CardID + "] for the reason: " + reason);
+                if (log.IsInfoEnabled) log.Info("Cancelling pass ID:[" + cardToCancel.CardID + "] for the reason: " + reason);
                 if (log.IsDebugEnabled) log.Debug(SerializeObj(updateCardData));
                 _cmClient.UpdateCard(updateCardData);
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                if(log.IsErrorEnabled)log.Error("Could not cancel pass with ID:" + cardToCancel.CardID);
+                if (log.IsErrorEnabled) log.Error("Could not cancel pass with ID:" + cardToCancel.CardID);
                 if (log.IsErrorEnabled) log.Error(ex.Message);
-               
+
                 throw (SmartCitizenException)ex;
             }
 
@@ -650,11 +607,11 @@ _cmClient.UpdateCard(cardData);
 
         }
 
-        
+
 
         public SmartCitizenCTPassholder GetCTPassholderForPass(string ISRN)
         {
-            RecordIdentifier cardIdentifier = new RecordIdentifier {CardID = ISRN};
+            RecordIdentifier cardIdentifier = new RecordIdentifier { CardID = ISRN };
             return GetCtPassHolder(cardIdentifier);
         }
 
@@ -668,8 +625,8 @@ _cmClient.UpdateCard(cardData);
             if (cardHolderDetails.CitizenData.XPathSelectElement("Services/Service[@application='ENCTS']") != null && cardHolderDetails.CitizenData.XPathSelectElement("Services/Service[@application='ENCTS']")
                 .Attribute("refinement") != null)
             {
-            string passType = cardHolderDetails.CitizenData.XPathSelectElement("Services/Service[@application='ENCTS']")
-                .Attribute("refinement").Value;
+                string passType = cardHolderDetails.CitizenData.XPathSelectElement("Services/Service[@application='ENCTS']")
+                    .Attribute("refinement").Value;
 
                 if (passType.ToLower().Contains("older"))
                     passForPassHolder.PassType = CTPassType.Age;
@@ -713,7 +670,7 @@ _cmClient.UpdateCard(cardData);
         }
 
 
- 
+
         public SmartCitizenCTPassholder UpdatePassHolderDetails(SmartCitizenCTPassholder passHolderToUpdate)
         {
             XmlDocument responseDoc = new XmlDocument();
@@ -728,7 +685,7 @@ _cmClient.UpdateCard(cardData);
             }
             UpdateCardholderData cardholderData = new UpdateCardholderData();
             cardholderData.Identifier = new RecordIdentifier() { CardholderID = passHolderToUpdate.RecordID };
-            
+
             cardholderData.CitizenData = passHolderToUpdate.IssuePassCitizenDataXml;
             try
             {
@@ -738,7 +695,7 @@ _cmClient.UpdateCard(cardData);
                 if (log.IsInfoEnabled) log.Info("Passholder ID:" + passHolderToUpdate.RecordID + "updated.");
                 responseDoc.SelectSingleNode("PassHolderUpdate/RequestStatus").InnerText = "Success";
 
-                
+
 
             }
             catch (Exception ex)
@@ -760,15 +717,15 @@ _cmClient.UpdateCard(cardData);
             {
                 case "29040":
                     return "Warwick";
-                    
+
                 case "28976":
                     return "North Warwickshire";
-                    
+
                 case "29024":
                     return "Stratford-on-Avon";
                 case "29008":
                     return "Rugby";
-                    
+
                 case "28992":
                     return "Nuneaton and Bedworth";
             }
@@ -833,14 +790,14 @@ _cmClient.UpdateCard(cardData);
             int issuerId = 4;
             if (cardStatus == 5 || cardStatus == 29)
                 issuerId = 3;
-            
+
             // If the card is being renewed, it may be "Expired" or "Valid"
             if (cardStatus == 17)
                 issuerId = 2;
 
-           
 
-            UpdateCardData cardDataToUpdate = new UpdateCardData() { Identifier = cardHolderRecordId, CardLocation = 3, CardStatus = cardStatus, AdditionalInformation = "New card requested through CRM. Case Referece Number:" + caseNumber, ReplaceCard = true, IssuerId = issuerId};
+
+            UpdateCardData cardDataToUpdate = new UpdateCardData() { Identifier = cardHolderRecordId, CardLocation = 3, CardStatus = cardStatus, AdditionalInformation = "New card requested through CRM. Case Referece Number:" + caseNumber, ReplaceCard = true, IssuerId = issuerId };
             RecordIdentifier responseIdentifier = null;
             try
             {
@@ -879,7 +836,7 @@ _cmClient.UpdateCard(cardData);
 
         public void GetProofList()
         {
-            DocumentaryProofsListResponse[] response = _cmClient.GetCitizenProofRequired(new RecordIdentifier {CardholderID = 596195});
+            DocumentaryProofsListResponse[] response = _cmClient.GetCitizenProofRequired(new RecordIdentifier { CardholderID = 596195 });
             log.Debug(SerializeObj(response));
         }
 
@@ -930,7 +887,7 @@ _cmClient.UpdateCard(cardData);
         /// <returns></returns>
         private CTPass GetCtPassForPassholder(RecordIdentifier cardHolderRecordIdentifier)
         {
-        GetCardholderResponse cardHolderDetails = getFullClientDetails(cardHolderRecordIdentifier);
+            GetCardholderResponse cardHolderDetails = getFullClientDetails(cardHolderRecordIdentifier);
             return GetCtPassForPassholder(cardHolderDetails);
         }
 
@@ -944,10 +901,11 @@ _cmClient.UpdateCard(cardData);
             return _cmClient.UpdateCard(cardDataToUpdate);
         }
 
-        internal GetCardholderResponse GetCardholder(RecordIdentifier cardHolderId) {
+        internal GetCardholderResponse GetCardholder(RecordIdentifier cardHolderId)
+        {
 
             return _cmClient.GetCardholder(new GetCardholderData() { CardholderIdentifier = cardHolderId });
-                }
+        }
 
 
         internal CheckCardResponse CheckCard(CheckCardData dataToCheck)
@@ -962,7 +920,7 @@ _cmClient.UpdateCard(cardData);
         /// <returns></returns>
         private CTPass GetCtPassForPassholder(int passholderId)
         {
-            RecordIdentifier cardHolRecordIdentifier = new RecordIdentifier() {CardholderID = passholderId};
+            RecordIdentifier cardHolRecordIdentifier = new RecordIdentifier() { CardholderID = passholderId };
             return GetCtPassForPassholder(cardHolRecordIdentifier);
         }
 
@@ -1002,7 +960,7 @@ _cmClient.UpdateCard(cardData);
 
         }
 
-        
+
 
         private void logParams(params object[] parms)
         {
@@ -1021,7 +979,7 @@ _cmClient.UpdateCard(cardData);
             public int ProofId { get; set; }
             public string ProofReference { get; set; }
             public DateTime? ProofExpiry { get; set; }
-            public DateTime DateOnProof {get;set;}
+            public DateTime DateOnProof { get; set; }
 
             public Proof()
             {
@@ -1053,7 +1011,7 @@ _cmClient.UpdateCard(cardData);
                 }
             }
 
-            
+
         }
 
 
@@ -1129,6 +1087,7 @@ _cmClient.UpdateCard(cardData);
         private string _mobilePhone;
         private string _preferredContactMethod;
         private string _preferredContactMethodId;
+        public string NINO { get; set; }
         public new SmartCitizenCTPass CtPass { get; set; }
         public SmartCitizenConnector.Proof[] Proofs { get; set; }
 
@@ -1164,13 +1123,13 @@ _cmClient.UpdateCard(cardData);
                 using (var txtReader = new XmlTextReader(appDataPath + "SmartCitizenCreateTemplate.xml"))
                 {
                     XElement citizenData = XElement.Load(txtReader);
-                    if(!String.IsNullOrEmpty(Title))
-                    citizenData.XPathSelectElement("Services/Service[@name='CCDA']/Item[@itemId='68']").Value = Title;
-                    if(!String.IsNullOrEmpty(FirstNameOrInitial))
-                    citizenData.XPathSelectElement("Services/Service[@name='CCDA']/Item[@itemId='3']").Value =
-                        FirstNameOrInitial;
-                    if(!String.IsNullOrEmpty(Surname))
-                    citizenData.XPathSelectElement("Services/Service[@name='CCDA']/Item[@itemId='4']").Value = Surname;
+                    if (!String.IsNullOrEmpty(Title))
+                        citizenData.XPathSelectElement("Services/Service[@name='CCDA']/Item[@itemId='68']").Value = Title;
+                    if (!String.IsNullOrEmpty(FirstNameOrInitial))
+                        citizenData.XPathSelectElement("Services/Service[@name='CCDA']/Item[@itemId='3']").Value =
+                            FirstNameOrInitial;
+                    if (!String.IsNullOrEmpty(Surname))
+                        citizenData.XPathSelectElement("Services/Service[@name='CCDA']/Item[@itemId='4']").Value = Surname;
                     citizenData.XPathSelectElement("Services/Service[@name='CCDA']/Item[@itemId='21']").Value =
                         FirstNameOrInitial + ' ' + Surname;
                     if (DateOfBirth.HasValue)
@@ -1179,12 +1138,12 @@ _cmClient.UpdateCard(cardData);
                             DateOfBirth.Value.ToString("yyyy-MM-dd");
                     }
 
-                    if(!String.IsNullOrEmpty(Email))
-                     citizenData.XPathSelectElement("Services/Service[@name='CCDA']/Item[@itemId='14']").Value = Email;
-                    if(!String.IsNullOrEmpty(MobilePhone))
-                    citizenData.XPathSelectElement("Services/Service[@name='CCDA']/Item[@itemId='20']").Value = MobilePhone;
-                    if(!String.IsNullOrEmpty(HomePhone))
-                    citizenData.XPathSelectElement("Services/Service[@name='CCDA']/Item[@itemId='18']").Value = HomePhone;
+                    if (!String.IsNullOrEmpty(Email))
+                        citizenData.XPathSelectElement("Services/Service[@name='CCDA']/Item[@itemId='14']").Value = Email;
+                    if (!String.IsNullOrEmpty(MobilePhone))
+                        citizenData.XPathSelectElement("Services/Service[@name='CCDA']/Item[@itemId='20']").Value = MobilePhone;
+                    if (!String.IsNullOrEmpty(HomePhone))
+                        citizenData.XPathSelectElement("Services/Service[@name='CCDA']/Item[@itemId='18']").Value = HomePhone;
                     if (!String.IsNullOrEmpty(Gender))
                     {
                         int genderInt;
@@ -1205,14 +1164,16 @@ _cmClient.UpdateCard(cardData);
                         citizenData.XPathSelectElement("Services/Service[@name='CCDA']/Item[@itemId='7']")
                             .SetAttributeValue("lookupId", genderInt);
                     }
+                    if (!String.IsNullOrEmpty(NINO))
+                        citizenData.XPathSelectElement("Services/Service[@name='CCDA']/Item[@itemId='70']").Value = NINO;
 
                     //Photo
-                    if(this.PhotoAssociated == 'Y')
-                    citizenData.XPathSelectElement("Services/Service[@name='Photo Id']/Item[@itemId='16']").Value = Convert.ToBase64String(PhotographBytes);
+                    if (this.PhotoAssociated == 'Y')
+                        citizenData.XPathSelectElement("Services/Service[@name='Photo Id']/Item[@itemId='16']").Value = Convert.ToBase64String(PhotographBytes);
 
                     //Address Details...
-                    if(!String.IsNullOrEmpty(PostCode))
-                    citizenData.XPathSelectElement("Addresses/Address/Item[@name='POSTCODE']").Value = PostCode;
+                    if (!String.IsNullOrEmpty(PostCode))
+                        citizenData.XPathSelectElement("Addresses/Address/Item[@name='POSTCODE']").Value = PostCode;
                     if (!String.IsNullOrEmpty(BuildingName))
                     {
                         citizenData.XPathSelectElement("Addresses/Address/Item[@name='FLAT']").Value =
@@ -1226,19 +1187,19 @@ _cmClient.UpdateCard(cardData);
                             HouseOrFlatNumberOrName;
                     }
 
-                    if(!String.IsNullOrEmpty(Street))
-                    citizenData.XPathSelectElement("Addresses/Address/Item[@name='STREET']").Value = Street;
-                    if(!String.IsNullOrEmpty(VillageOrDistrict))
-                    citizenData.XPathSelectElement("Addresses/Address/Item[@name='LOCALITY']").Value = VillageOrDistrict;
-                    if(!String.IsNullOrEmpty(TownCity))
-                    citizenData.XPathSelectElement("Addresses/Address/Item[@name='TOWN']").Value = TownCity;
-                    if(!String.IsNullOrEmpty(County))
-                    citizenData.XPathSelectElement("Addresses/Address/Item[@name='COUNTY']").Value = County;
+                    if (!String.IsNullOrEmpty(Street))
+                        citizenData.XPathSelectElement("Addresses/Address/Item[@name='STREET']").Value = Street;
+                    if (!String.IsNullOrEmpty(VillageOrDistrict))
+                        citizenData.XPathSelectElement("Addresses/Address/Item[@name='LOCALITY']").Value = VillageOrDistrict;
+                    if (!String.IsNullOrEmpty(TownCity))
+                        citizenData.XPathSelectElement("Addresses/Address/Item[@name='TOWN']").Value = TownCity;
+                    if (!String.IsNullOrEmpty(County))
+                        citizenData.XPathSelectElement("Addresses/Address/Item[@name='COUNTY']").Value = County;
                     if (!String.IsNullOrEmpty(CPICC))
-                    citizenData.XPathSelectElement("Addresses/Address/Item[@name='LOCAL AUTHORITY']").Value =
-                        getNameForCPICC(CPICC);;
-                    if(!String.IsNullOrEmpty(UPRN))
-                    citizenData.XPathSelectElement("Addresses/Address/Item[@name='UPRN']").Value = UPRN;
+                        citizenData.XPathSelectElement("Addresses/Address/Item[@name='LOCAL AUTHORITY']").Value =
+                            getNameForCPICC(CPICC); ;
+                    if (!String.IsNullOrEmpty(UPRN))
+                        citizenData.XPathSelectElement("Addresses/Address/Item[@name='UPRN']").Value = UPRN;
 
                     if (AddressProof != null)
                     {
@@ -1263,14 +1224,14 @@ _cmClient.UpdateCard(cardData);
                     //Type of pass
                     switch (CtPass.PassType)
                     {
-                            case CTPassType.Age:
+                        case CTPassType.Age:
                             XElement olderPersonXElement = new XElement("Service");
                             olderPersonXElement.SetAttributeValue("name", "Older person");
                             olderPersonXElement.SetAttributeValue("serviceId", "42");
                             citizenData.XPathSelectElement("Services").Add(olderPersonXElement);
                             break;
-                            case CTPassType.Disabled:
-                            case CTPassType.DisabledTemporary:
+                        case CTPassType.Disabled:
+                        case CTPassType.DisabledTemporary:
                             citizenData.XPathSelectElement("Services").Add(getDisabilityXElement());
                             break;
                     }
@@ -1289,111 +1250,112 @@ _cmClient.UpdateCard(cardData);
 
         protected internal XElement getIssuePassCitizenDataXml()
         {
-            
-                using (var txtReader = new XmlTextReader(appDataPath + "SmartCitizenCreateTemplate.xml"))
+
+            using (var txtReader = new XmlTextReader(appDataPath + "SmartCitizenCreateTemplate.xml"))
+            {
+                XElement citizenData = XElement.Load(txtReader);
+                citizenData.XPathSelectElement("Services/Service[@name='CCDA']/Item[@itemId='68']").Value = Title;
+                citizenData.XPathSelectElement("Services/Service[@name='CCDA']/Item[@itemId='3']").Value =
+                    FirstNameOrInitial;
+                citizenData.XPathSelectElement("Services/Service[@name='CCDA']/Item[@itemId='4']").Value = Surname;
+                citizenData.XPathSelectElement("Services/Service[@name='CCDA']/Item[@itemId='21']").Value =
+                    FirstNameOrInitial + ' ' + Surname;
+                if (DateOfBirth.HasValue)
                 {
-                    XElement citizenData = XElement.Load(txtReader);
-                    citizenData.XPathSelectElement("Services/Service[@name='CCDA']/Item[@itemId='68']").Value = Title;
-                    citizenData.XPathSelectElement("Services/Service[@name='CCDA']/Item[@itemId='3']").Value =
-                        FirstNameOrInitial;
-                    citizenData.XPathSelectElement("Services/Service[@name='CCDA']/Item[@itemId='4']").Value = Surname;
-                    citizenData.XPathSelectElement("Services/Service[@name='CCDA']/Item[@itemId='21']").Value =
-                        FirstNameOrInitial + ' ' + Surname;
-                    if (DateOfBirth.HasValue)
-                    {
-                        citizenData.XPathSelectElement("Services/Service[@name='CCDA']/Item[@itemId='5']").Value =
-                            DateOfBirth.Value.ToString("yyyy-MM-dd");
-                    }
+                    citizenData.XPathSelectElement("Services/Service[@name='CCDA']/Item[@itemId='5']").Value =
+                        DateOfBirth.Value.ToString("yyyy-MM-dd");
+                }
 
-                    citizenData.XPathSelectElement("Services/Service[@name='CCDA']/Item[@itemId='14']").Value = Email;
-                    citizenData.XPathSelectElement("Services/Service[@name='CCDA']/Item[@itemId='20']").Value = MobilePhone;
-                    citizenData.XPathSelectElement("Services/Service[@name='CCDA']/Item[@itemId='18']").Value = HomePhone;
-                    int genderInt;
-                    switch (Gender.ToUpper()[0])
-                    {
-                        case 'M':
-                            genderInt = 1;
-                            break;
-                        case 'F':
-                            genderInt = 2;
-                            break;
-                        default:
-                            genderInt = 9;
-                            break;
+                citizenData.XPathSelectElement("Services/Service[@name='CCDA']/Item[@itemId='14']").Value = Email;
+                citizenData.XPathSelectElement("Services/Service[@name='CCDA']/Item[@itemId='20']").Value = MobilePhone;
+                citizenData.XPathSelectElement("Services/Service[@name='CCDA']/Item[@itemId='18']").Value = HomePhone;
+                citizenData.XPathSelectElement("Services/Service[@name='CCDA']/Item[@itemId='70']").Value = NINO;
+                int genderInt;
+                switch (Gender.ToUpper()[0])
+                {
+                    case 'M':
+                        genderInt = 1;
+                        break;
+                    case 'F':
+                        genderInt = 2;
+                        break;
+                    default:
+                        genderInt = 9;
+                        break;
 
-                    }
-                    citizenData.XPathSelectElement("Services/Service[@name='CCDA']/Item[@itemId='7']")
-                        .SetAttributeValue("lookupId", genderInt);
+                }
+                citizenData.XPathSelectElement("Services/Service[@name='CCDA']/Item[@itemId='7']")
+                    .SetAttributeValue("lookupId", genderInt);
 
                 //Preferred Contact Method
                 citizenData.XPathSelectElement("Services/Service[@name='CCDA']/Item[@itemId='115']")
                     .SetAttributeValue("lookupId", PreferredContactMethod);
 
 
-                         //Photo
-                         citizenData.XPathSelectElement("Services/Service[@name='Photo Id']/Item[@itemId='16']").Value = Convert.ToBase64String(PhotographBytes);
+                //Photo
+                citizenData.XPathSelectElement("Services/Service[@name='Photo Id']/Item[@itemId='16']").Value = Convert.ToBase64String(PhotographBytes);
 
-                    //Address Details...
-                    citizenData.XPathSelectElement("Addresses/Address/Item[@name='POSTCODE']").Value = PostCode;
-                    if (!String.IsNullOrEmpty(BuildingName))
-                    {
-                        citizenData.XPathSelectElement("Addresses/Address/Item[@name='FLAT']").Value =
-                            HouseOrFlatNumberOrName;
-                        citizenData.XPathSelectElement("Addresses/Address/Item[@name='HOUSE NUMBER/NAME']").Value =
-                            BuildingName;
-                    }
-                    else
-                    {
-                        citizenData.XPathSelectElement("Addresses/Address/Item[@name='HOUSE NUMBER/NAME']").Value =
-                            HouseOrFlatNumberOrName;
-                    }
-
-
-                    citizenData.XPathSelectElement("Addresses/Address/Item[@name='STREET']").Value = Street;
-                    citizenData.XPathSelectElement("Addresses/Address/Item[@name='LOCALITY']").Value = VillageOrDistrict;
-                    citizenData.XPathSelectElement("Addresses/Address/Item[@name='TOWN']").Value = TownCity;
-                    citizenData.XPathSelectElement("Addresses/Address/Item[@name='COUNTY']").Value = County;
-                    string responsibleAuthority = getNameForCPICC(CPICC);
-
-
-                    citizenData.XPathSelectElement("Addresses/Address/Item[@name='LOCAL AUTHORITY']").Value =
-                        responsibleAuthority;
-                    citizenData.XPathSelectElement("Addresses/Address/Item[@name='UPRN']").Value = UPRN;
-
-                    if (AddressProof != null)
-                    {
-                        citizenData.XPathSelectElement("Proofs").Add(AddressProof.ProofXml);
-                    }
-                    if (DisabilityProof != null)
-                    {
-                        citizenData.XPathSelectElement("Proofs").Add(DisabilityProof.ProofXml);
-                    }
-                    if (AgeProof != null)
-                    {
-                        citizenData.XPathSelectElement("Proofs").Add(AgeProof.ProofXml);
-                    }
-
-                    //Type of pass
-                    switch (CtPass.PassType)
-                    {
-                        case CTPassType.Age:
-                            XElement olderPersonXElement = new XElement("Service");
-                            olderPersonXElement.SetAttributeValue("name", "Older person");
-                            olderPersonXElement.SetAttributeValue("serviceId", "42");
-                            citizenData.XPathSelectElement("Services").Add(olderPersonXElement);
-                            break;
-                        case CTPassType.Disabled:
-                        case CTPassType.DisabledTemporary:
-                            citizenData.XPathSelectElement("Services").Add(getDisabilityXElement());
-                            break;
-                    }
-
-
-                    return citizenData;
-
-
+                //Address Details...
+                citizenData.XPathSelectElement("Addresses/Address/Item[@name='POSTCODE']").Value = PostCode;
+                if (!String.IsNullOrEmpty(BuildingName))
+                {
+                    citizenData.XPathSelectElement("Addresses/Address/Item[@name='FLAT']").Value =
+                        HouseOrFlatNumberOrName;
+                    citizenData.XPathSelectElement("Addresses/Address/Item[@name='HOUSE NUMBER/NAME']").Value =
+                        BuildingName;
                 }
-            
+                else
+                {
+                    citizenData.XPathSelectElement("Addresses/Address/Item[@name='HOUSE NUMBER/NAME']").Value =
+                        HouseOrFlatNumberOrName;
+                }
+
+
+                citizenData.XPathSelectElement("Addresses/Address/Item[@name='STREET']").Value = Street;
+                citizenData.XPathSelectElement("Addresses/Address/Item[@name='LOCALITY']").Value = VillageOrDistrict;
+                citizenData.XPathSelectElement("Addresses/Address/Item[@name='TOWN']").Value = TownCity;
+                citizenData.XPathSelectElement("Addresses/Address/Item[@name='COUNTY']").Value = County;
+                string responsibleAuthority = getNameForCPICC(CPICC);
+
+
+                citizenData.XPathSelectElement("Addresses/Address/Item[@name='LOCAL AUTHORITY']").Value =
+                    responsibleAuthority;
+                citizenData.XPathSelectElement("Addresses/Address/Item[@name='UPRN']").Value = UPRN;
+
+                if (AddressProof != null)
+                {
+                    citizenData.XPathSelectElement("Proofs").Add(AddressProof.ProofXml);
+                }
+                if (DisabilityProof != null)
+                {
+                    citizenData.XPathSelectElement("Proofs").Add(DisabilityProof.ProofXml);
+                }
+                if (AgeProof != null)
+                {
+                    citizenData.XPathSelectElement("Proofs").Add(AgeProof.ProofXml);
+                }
+
+                //Type of pass
+                switch (CtPass.PassType)
+                {
+                    case CTPassType.Age:
+                        XElement olderPersonXElement = new XElement("Service");
+                        olderPersonXElement.SetAttributeValue("name", "Older person");
+                        olderPersonXElement.SetAttributeValue("serviceId", "42");
+                        citizenData.XPathSelectElement("Services").Add(olderPersonXElement);
+                        break;
+                    case CTPassType.Disabled:
+                    case CTPassType.DisabledTemporary:
+                        citizenData.XPathSelectElement("Services").Add(getDisabilityXElement());
+                        break;
+                }
+
+
+                return citizenData;
+
+
+            }
+
         }
 
         public XElement UpdateImageCitizenData
@@ -1435,7 +1397,7 @@ _cmClient.UpdateCard(cardData);
                     selectedDisabilityElement.XPathSelectElement("ServiceId").Value);
                 disabilityServiceXElement.XPathSelectElement("Item")
                     .SetAttributeValue("itemId", selectedDisabilityElement.XPathSelectElement("ItemId").Value);
-                if(CtPass.PassType == CTPassType.Disabled)
+                if (CtPass.PassType == CTPassType.Disabled)
                     disabilityServiceXElement.XPathSelectElement("Item").Value = "Renew";
                 else
                     disabilityServiceXElement.XPathSelectElement("Item").Value = "Refer";
