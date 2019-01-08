@@ -792,7 +792,7 @@ namespace CTSmartCitizenConnect
                 issuerId = 3;
 
             // If the card is being renewed, it may be "Expired" or "Valid"
-            if (cardStatus == 17)
+            if (cardStatus == 17 || cardStatus == 3)
                 issuerId = 2;
 
 
