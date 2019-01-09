@@ -1233,7 +1233,7 @@ namespace warwickshire.gov.uk.CT_WS
             }
             
             // If we are renewing, set OldPassStatus to "Expired"
-            if(printReason.ToLower() == "renew")
+            if(printReason.ToLower().Contains("renew"))
             {
                 oldPassStatus = 17;
             }
