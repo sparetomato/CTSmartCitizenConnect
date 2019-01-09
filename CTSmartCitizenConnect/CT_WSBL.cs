@@ -1228,6 +1228,11 @@ namespace warwickshire.gov.uk.CT_WS
             SmartCitizenCTPassholder updatedPassHolder = dataLayer.UpdatePassHolderDetails(existingPassHolder);
             if (reissuePass)
             { 
+                if(printReason.ToLower().Contains("renewal"))
+                { // Set the existing pass to an "Expired" configuration
+                    oldPassStatus = 17;
+                }
+
             dataLayer.ReplacePass(updatedPassHolder.RecordID, updatedPassHolder.CtPass.ISRN, oldPassStatus != null ? oldPassStatus.Value : Convert.ToInt16(existingPassHolder.CtPass.PassStatusID),
                 achieveServiceCaseNumber);
 
