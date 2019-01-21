@@ -575,7 +575,7 @@ namespace CTSmartCitizenConnect
         /// <param name="ISRN"></param>
         /// <param name="reason"></param>
         /// <returns></returns>
-        public bool cancelPassforPassHolder(SmartCitizenCTPassholder ctPassHolder, string reason)
+        public bool cancelPassforPassHolder(SmartCitizenCTPassholder ctPassHolder, string reason, string authoriser)
         {
 
             //SmartCitizenCTPassholder passholder = GetCTPassholderForPass(ISRN);
@@ -587,6 +587,9 @@ namespace CTSmartCitizenConnect
                 AdditionalInformation = "Pass cancelled by CRM for the following reason: " + reason,
                 CardLocation = ctPassHolder.CtPass.PassLocation
             };
+
+            if (!String.IsNullOrEmpty(authoriser))
+                updateCardData.AdditionalInformation += ". Authorised by:" + authoriser;
 
             try
             {
@@ -755,7 +758,7 @@ namespace CTSmartCitizenConnect
             return "";
         }
 
-        public XmlDocument ReplacePass(int cardHolderId, string ISRN, int cardStatus, string caseNumber) //, string title, string forename, string dateOfBirth, string gender, string disabilityCategory, string caseId)
+        public XmlDocument ReplacePass(int cardHolderId, string ISRN, int cardStatus, string caseNumber, string authoriser) //, string title, string forename, string dateOfBirth, string gender, string disabilityCategory, string caseId)
         {
             if (log.IsDebugEnabled) log.Debug("Entering");
             if (log.IsInfoEnabled) log.Info("Replacing pass for recordID:" + cardHolderId);
@@ -798,8 +801,10 @@ namespace CTSmartCitizenConnect
                 issuerId = 2;
 
 
-
-            UpdateCardData cardDataToUpdate = new UpdateCardData() { Identifier = cardHolderRecordId, CardLocation = 3, CardStatus = cardStatus, AdditionalInformation = "New card requested through CRM. Case Referece Number:" + caseNumber, ReplaceCard = true, IssuerId = issuerId };
+            string additionalInformation = "New card requested through CRM. Case Referece Number:" + caseNumber;
+            if (!String.IsNullOrEmpty(authoriser))
+                additionalInformation += ". Authorised by:" + authoriser;
+            UpdateCardData cardDataToUpdate = new UpdateCardData() { Identifier = cardHolderRecordId, CardLocation = 3, CardStatus = cardStatus, AdditionalInformation = additionalInformation, ReplaceCard = true, IssuerId = issuerId };
             RecordIdentifier responseIdentifier = null;
             try
             {

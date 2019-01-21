@@ -1156,7 +1156,7 @@ namespace warwickshire.gov.uk.CT_WS
         internal XmlDocument updatePassDetails(string ISRN, string CPICC, string passHolderNumber, string firstNameOrInitial, string surname, string houseOrFlatNumberOrName,
             string buildingName, string street, string villageOrDistrict, string townCity, string county, string postcode, string title,
             string dateOfBirth, string typeOfConcession, string disabilityPermanent, string evidenceExpiryDate, string passStartDate, bool reissuePass, string oldCPICC, bool recalculateExpiryDate, string achieveServiceCaseNumber,
-            string printReason, string gender, string disabilityCategory, string UPRN, string homePhone, string mobilePhone, string emailAddress, string preferredContactMethod, string NINO, int? oldPassStatus)
+            string printReason, string gender, string disabilityCategory, string UPRN, string homePhone, string mobilePhone, string emailAddress, string preferredContactMethod, string NINO, string authoriser, int? oldPassStatus)
         {
             if (log.IsDebugEnabled) log.Debug("Update Pass Request Received");
 
@@ -1240,7 +1240,7 @@ namespace warwickshire.gov.uk.CT_WS
             {
 
             dataLayer.ReplacePass(updatedPassHolder.RecordID, updatedPassHolder.CtPass.ISRN, oldPassStatus != null ? oldPassStatus.Value : Convert.ToInt16(existingPassHolder.CtPass.PassStatusID),
-                achieveServiceCaseNumber);
+                achieveServiceCaseNumber, authoriser);
 
             }
 
@@ -1319,7 +1319,7 @@ namespace warwickshire.gov.uk.CT_WS
                 throw new CTDataException(18);
         }
 
-        internal XmlDocument cancelPass(string ISRN, string reason)
+        internal XmlDocument cancelPass(string ISRN, string reason, string authoriser)
         {
             XmlDocument response = new XmlDocument();
             response.Load(HttpContext.Current.ApplicationInstance.Server.MapPath("~/App_Data") + "/CTCancelPassResponse.xml");
@@ -1328,7 +1328,7 @@ namespace warwickshire.gov.uk.CT_WS
             try
             {
                 SmartCitizenCTPassholder ctPassholder = conn.GetCTPassholderForPass(ISRN);
-                successfullyCancelled =  conn.cancelPassforPassHolder(ctPassholder, reason);
+                successfullyCancelled =  conn.cancelPassforPassHolder(ctPassholder, reason, authoriser);
             }
             catch (SmartCitizenException ex)
             {
