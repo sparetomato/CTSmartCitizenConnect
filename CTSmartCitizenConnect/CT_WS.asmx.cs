@@ -99,6 +99,13 @@ namespace CTSmartCitizenConnect
         public XmlDocument UpdatePassStatus(string passHolderNumber, string ISRN, int CardStatusCode, int cardLocationCode, string AdditionalInformation, bool Replace)
         {
             throw new NotImplementedException();
+
+        }
+
+        [WebMethod]
+        public bool TestUpdatePassStatus(string ISRN)
+        {
+            return CT_WSBL.getInstance().updateCardStatus(ISRN, 3);
         }
 
 

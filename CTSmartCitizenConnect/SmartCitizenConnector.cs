@@ -622,6 +622,8 @@ namespace CTSmartCitizenConnect
 
             EntityDetailsListResponse[] entityDetailsListResponse = _cmClient.GetEntityList(cardHolderDetails.Identifier);
 
+            //entityDetailsListResponse[0].Issued
+
             if (cardHolderDetails.CitizenData.XPathSelectElement("Services/Service[@application='ENCTS']") != null && cardHolderDetails.CitizenData.XPathSelectElement("Services/Service[@application='ENCTS']")
                 .Attribute("refinement") != null)
             {
@@ -868,6 +870,7 @@ namespace CTSmartCitizenConnect
                 cardForPerson.PassStatusID = latestCard.StatusId;
                 cardForPerson.IsValid = cardCheckResponse.CardValid;
                 cardForPerson.ISRN = cardHolderDetails.Identifier.CardID;
+                cardForPerson.PrintedDate = latestCard.Issued.Value;
                 DateTime expiryDate;
                 DateTime.TryParse(
                     cardHolderDetails.CitizenData.XPathSelectElement("Services/Service/Item[@name='EXPIRY DATE']")
@@ -1060,6 +1063,7 @@ namespace CTSmartCitizenConnect
         public int PassStatusID { get; set; }
         public bool IsValid { get; set; }
         public int PassLocation { get; internal set; }
+        public DateTime PrintedDate { get; set; }
     }
 
     /// <summary>

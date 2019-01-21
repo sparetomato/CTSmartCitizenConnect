@@ -37,6 +37,7 @@
   <PreferredContactMethod />
   <PassStatus/>
   <NINO />
+  <PrintedDate />
 </customer>
   <status>SUCCESS</status>
   <statusMessage />

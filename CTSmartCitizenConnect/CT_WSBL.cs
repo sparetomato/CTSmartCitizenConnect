@@ -1024,56 +1024,66 @@ namespace warwickshire.gov.uk.CT_WS
                         customerNode.SelectSingleNode("//Deleted").InnerText = "N";
                 }
 
-                if (customerNode.SelectSingleNode("//Photograph").InnerText.Length > 10)
+                
+                if (customerNode.SelectSingleNode("//Photograph") != null && customerNode.SelectSingleNode("//Photograph").InnerText.Length > 10)
                     customerNode.SelectSingleNode("//PhotoAssociated").InnerText = "Y";
 
+                if(customerNode.SelectSingleNode("//DaysToExpiry") != null)
                 customerNode.SelectSingleNode("//DaysToExpiry").InnerText.PadLeft(4, '0');
                 //customer.SelectSingleNode("//DaysSincePhotoUpdated").InnerText.PadLeft(5, '0');
+                if(customerNode.SelectSingleNode("//RemainingTime") != null)
                 customerNode.SelectSingleNode("//RemainingTime").InnerText =
                     calculateTimeLeftString(passHolder.CtPass.DaysToExpiry);
 
-
-                switch (passHolder.CtPass.PassType)
+                if (customerNode.SelectSingleNode("//TypeOfConcession") != null)
                 {
-                    case CTPassType.Age:
-                        customerNode.SelectSingleNode("//TypeOfConcession").InnerText = "A";
-                        customerNode.SelectSingleNode("//TypeOfConcessionLong").InnerText = "Age";
-                        break;
-                    case CTPassType.Disabled:
-                        customerNode.SelectSingleNode("//TypeOfConcession").InnerText = "D";
-                        customerNode.SelectSingleNode("//TypeOfConcessionLong").InnerText = "Eligible Disabled";
-                        customerNode.SelectSingleNode("//DisabilityPermanent").InnerText = "Yes";
-                        customerNode.SelectSingleNode("//DisabilityType").InnerText = "Permanent";
-                        break;
-                    case CTPassType.DisabledTemporary:
-                        customerNode.SelectSingleNode("//TypeOfConcession").InnerText = "D";
-                        customerNode.SelectSingleNode("//TypeOfConcessionLong").InnerText = "Eligible Disabled";
-                        customerNode.SelectSingleNode("//DisabilityPermanent").InnerText = "No";
-                        customerNode.SelectSingleNode("//DisabilityType").InnerText = "Temporary";
-                        break;
+                    switch (passHolder.CtPass.PassType)
+                    {
+                        case CTPassType.Age:
+                            customerNode.SelectSingleNode("//TypeOfConcession").InnerText = "A";
+                            customerNode.SelectSingleNode("//TypeOfConcessionLong").InnerText = "Age";
+                            break;
+                        case CTPassType.Disabled:
+                            customerNode.SelectSingleNode("//TypeOfConcession").InnerText = "D";
+                            customerNode.SelectSingleNode("//TypeOfConcessionLong").InnerText = "Eligible Disabled";
+                            customerNode.SelectSingleNode("//DisabilityPermanent").InnerText = "Yes";
+                            customerNode.SelectSingleNode("//DisabilityType").InnerText = "Permanent";
+                            break;
+                        case CTPassType.DisabledTemporary:
+                            customerNode.SelectSingleNode("//TypeOfConcession").InnerText = "D";
+                            customerNode.SelectSingleNode("//TypeOfConcessionLong").InnerText = "Eligible Disabled";
+                            customerNode.SelectSingleNode("//DisabilityPermanent").InnerText = "No";
+                            customerNode.SelectSingleNode("//DisabilityType").InnerText = "Temporary";
+                            break;
+                    }
                 }
 
                 
             }
 
-            if (passHolder.PhotographBytes != null)
+            if (customerNode.SelectSingleNode("//Photograph") != null)
             {
+                if (passHolder.PhotographBytes != null)
+                {
 
-                if (log.IsDebugEnabled) log.Debug("Photo associated. Attaching.");
-                if (log.IsDebugEnabled) log.Debug("Photo Length:" + passHolder.PhotographBytes.Length);
-                customerNode.SelectSingleNode("//Photograph").InnerText =
-                    Convert.ToBase64String(passHolder.PhotographBytes);
+                    if (log.IsDebugEnabled) log.Debug("Photo associated. Attaching.");
+                    if (log.IsDebugEnabled) log.Debug("Photo Length:" + passHolder.PhotographBytes.Length);
+                    customerNode.SelectSingleNode("//Photograph").InnerText =
+                        Convert.ToBase64String(passHolder.PhotographBytes);
+                }
+                else
+                {
+                    if (log.IsDebugEnabled) log.Debug("No Photograph associated with this record.");
+                }
             }
-            else
-            {
-                if (log.IsDebugEnabled) log.Debug("No Photograph associated with this record.");
-            }
 
 
 
+            if(customerNode.SelectSingleNode("//FormattedExpiryDate") != null)
             customerNode.SelectSingleNode("//FormattedExpiryDate").InnerText =
                 passHolder.CtPass.ExpiryDate.ToString("s");
 
+            if(customerNode.SelectSingleNode("//FormattedDateOfBirth") != null)
             if (passHolder.DateOfBirth.HasValue && !isSpuriousDate(passHolder.DateOfBirth.Value.ToShortDateString()))
             {
                 customerNode.SelectSingleNode("//FormattedDateOfBirth").InnerText =
@@ -1261,6 +1271,34 @@ namespace warwickshire.gov.uk.CT_WS
 
 
 
+            return true;
+        }
+
+        internal bool updateCardStatus(string ISRN, int cardLocation)
+        {
+
+
+            UpdateCardData cardData = new UpdateCardData()
+            {
+                Identifier = new RecordIdentifier() { CardID = ISRN },
+                CardLocation = 3,
+                CardStatus = 10,
+                AdditionalInformation = "Pass Authorised by Jo Cooper 11/01/2019"
+            };
+
+            SmartCitizenConnector dataLayer = new SmartCitizenConnector();
+            try
+            {
+                dataLayer.UpdateCard(cardData);
+            }
+            catch (Exception ex)
+            {
+                if (log.IsErrorEnabled)
+                {
+                    log.Error("Could not set status to the same value");
+                    log.Error(ex.Message);
+                }
+            }
             return true;
         }
 
