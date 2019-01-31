@@ -580,13 +580,22 @@ namespace CTSmartCitizenConnect
 
             //SmartCitizenCTPassholder passholder = GetCTPassholderForPass(ISRN);
             RecordIdentifier cardToCancel = new RecordIdentifier() { CardID = ctPassHolder.CtPass.ISRN };
-            UpdateCardData updateCardData = new UpdateCardData()
+            UpdateCardData updateCardData;
+            try
             {
-                Identifier = cardToCancel,
-                CardStatus = _smartCitizenStatuses.FirstOrDefault(x => x.Value.Contains(reason)).Key,
-                AdditionalInformation = "Pass cancelled by CRM for the following reason: " + reason,
-                CardLocation = ctPassHolder.CtPass.PassLocation
-            };
+                updateCardData = new UpdateCardData()
+                {
+                    Identifier = cardToCancel,
+                    CardStatus = _smartCitizenStatuses.First(x => x.Value.Contains(reason)).Key,
+                    AdditionalInformation = "Pass cancelled by CRM for the following reason: " + reason,
+                    CardLocation = ctPassHolder.CtPass.PassLocation
+                };
+            }
+            catch(InvalidOperationException ex)
+            {
+                if (log.IsErrorEnabled) { log.Error("No Card Status ID can be found for cancellation reason:" + reason); }
+                throw new SmartCitizenException("No Card Status ID can be found for cancellation reason:" + reason);
+            }
 
             if (!String.IsNullOrEmpty(authoriser))
                 updateCardData.AdditionalInformation += ". Authorised by:" + authoriser;
