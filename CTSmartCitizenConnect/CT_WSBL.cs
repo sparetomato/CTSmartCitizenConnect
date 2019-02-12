@@ -1156,13 +1156,15 @@ namespace warwickshire.gov.uk.CT_WS
         internal XmlDocument updatePassDetails(string ISRN, string CPICC, string passHolderNumber, string firstNameOrInitial, string surname, string houseOrFlatNumberOrName,
             string buildingName, string street, string villageOrDistrict, string townCity, string county, string postcode, string title,
             string dateOfBirth, string typeOfConcession, string disabilityPermanent, string evidenceExpiryDate, string passStartDate, bool reissuePass, string oldCPICC, bool recalculateExpiryDate, string achieveServiceCaseNumber,
-            string printReason, string gender, string disabilityCategory, string UPRN, string homePhone, string mobilePhone, string emailAddress, string preferredContactMethod, string NINO, string authoriser, int? oldPassStatus)
+            string printReason, string passStatusNotes, string gender, string disabilityCategory, string UPRN, string homePhone, string mobilePhone, string emailAddress, string preferredContactMethod, string NINO, string authoriser, int? oldPassStatus)
         {
             if (log.IsDebugEnabled) log.Debug("Update Pass Request Received");
 
             logParams(ISRN, CPICC, passHolderNumber, firstNameOrInitial, surname, houseOrFlatNumberOrName,
              buildingName, street, villageOrDistrict, townCity, county, postcode, title,
-             dateOfBirth, typeOfConcession, disabilityPermanent, evidenceExpiryDate, passStartDate, reissuePass.ToString(), oldCPICC, recalculateExpiryDate.ToString(), achieveServiceCaseNumber, printReason, gender, disabilityCategory, homePhone, mobilePhone, emailAddress, preferredContactMethod, NINO);
+             dateOfBirth, typeOfConcession, disabilityPermanent, evidenceExpiryDate, passStartDate, 
+             reissuePass.ToString(), oldCPICC, recalculateExpiryDate.ToString(), achieveServiceCaseNumber, printReason, gender, disabilityCategory, homePhone, mobilePhone, emailAddress, preferredContactMethod, NINO,
+             passStatusNotes);
 
             if (log.IsDebugEnabled) log.Debug("Loading Response XML Document");
             XmlDocument response = new XmlDocument();
@@ -1240,7 +1242,7 @@ namespace warwickshire.gov.uk.CT_WS
             {
 
             dataLayer.ReplacePass(updatedPassHolder.RecordID, updatedPassHolder.CtPass.ISRN, oldPassStatus != null ? oldPassStatus.Value : Convert.ToInt16(existingPassHolder.CtPass.PassStatusID),
-                achieveServiceCaseNumber, authoriser);
+                achieveServiceCaseNumber, authoriser, passStatusNotes);
 
             }
 

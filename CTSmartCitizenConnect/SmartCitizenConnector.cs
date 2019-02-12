@@ -767,7 +767,7 @@ namespace CTSmartCitizenConnect
             return "";
         }
 
-        public XmlDocument ReplacePass(int cardHolderId, string ISRN, int cardStatus, string caseNumber, string authoriser) //, string title, string forename, string dateOfBirth, string gender, string disabilityCategory, string caseId)
+        public XmlDocument ReplacePass(int cardHolderId, string ISRN, int cardStatus, string caseNumber, string authoriser, string passStatusNotes)
         {
             if (log.IsDebugEnabled) log.Debug("Entering");
             if (log.IsInfoEnabled) log.Info("Replacing pass for recordID:" + cardHolderId);
@@ -813,6 +813,8 @@ namespace CTSmartCitizenConnect
             string additionalInformation = "New card requested through CRM. Case Referece Number:" + caseNumber;
             if (!String.IsNullOrEmpty(authoriser))
                 additionalInformation += ". Authorised by:" + authoriser;
+            if (!String.IsNullOrEmpty(passStatusNotes))
+                additionalInformation += ". " + passStatusNotes;
             UpdateCardData cardDataToUpdate = new UpdateCardData() { Identifier = cardHolderRecordId, CardLocation = 3, CardStatus = cardStatus, AdditionalInformation = additionalInformation, ReplaceCard = true, IssuerId = issuerId };
             RecordIdentifier responseIdentifier = null;
             try

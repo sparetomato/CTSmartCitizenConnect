@@ -85,14 +85,15 @@ namespace CTSmartCitizenConnect
         public XmlDocument UpdatePassDetails(string ISRN, string passHolderNumber, string CPICC, string title, string firstNameOrInitial, string surname, string houseOrFlatNameOrNumber,
             string buildingName, string street, string villageOrDistrict, string townCity, string county, string postcode,
             string dateOfBirth, string typeOfConcession, string disabilityPermanent, string evidenceExpiryDate, string passStartDate, bool reissuePass, string oldCPICC, bool recalculateExpiryDate, string northgateCaseNumber, string printReason,
-            string gender, string disabilityCategory, string UPRN, string homePhone, string mobilePhone, string emailAddress, string preferredContactMethod, string oldPassStatus, string NINO, string authoriser)
+            string passStatusNotes, string gender, string disabilityCategory, string UPRN, string homePhone, string mobilePhone, string emailAddress, string preferredContactMethod, string oldPassStatus, string NINO, string authoriser)
         {
             int? oldPassStatusInt = null;
             if (!String.IsNullOrEmpty(oldPassStatus))
                 oldPassStatusInt = Convert.ToInt16(oldPassStatus);
             return CT_WSBL.getInstance().updatePassDetails(ISRN, CPICC, passHolderNumber, firstNameOrInitial, surname, houseOrFlatNameOrNumber,
                 buildingName, street, villageOrDistrict, townCity, county, postcode, title, dateOfBirth, typeOfConcession, disabilityPermanent,
-                evidenceExpiryDate, passStartDate, reissuePass, oldCPICC, recalculateExpiryDate, northgateCaseNumber, printReason, gender, disabilityCategory, UPRN,  homePhone,  mobilePhone,  emailAddress, preferredContactMethod.ToLower(),NINO, authoriser, oldPassStatusInt);
+                evidenceExpiryDate, passStartDate, reissuePass, oldCPICC, recalculateExpiryDate, northgateCaseNumber, printReason, passStatusNotes, 
+                gender, disabilityCategory, UPRN,  homePhone,  mobilePhone,  emailAddress, preferredContactMethod.ToLower(),NINO, authoriser, oldPassStatusInt);
         }
 
         [WebMethod]
