@@ -1015,50 +1015,49 @@ namespace warwickshire.gov.uk.CT_WS
 
                 }
 
-                // modify the nodes we need for the customer.
-                if (customerNode.SelectSingleNode("//Deleted") != null)
-                {
-                    if (customerNode.SelectSingleNode("//Deleted").InnerText.ToLower() == "true")
-                        customerNode.SelectSingleNode("//Deleted").InnerText = "Y";
-                    else
-                        customerNode.SelectSingleNode("//Deleted").InnerText = "N";
-                }
+            }
 
-                
-                if (customerNode.SelectSingleNode("//Photograph") != null && customerNode.SelectSingleNode("//Photograph").InnerText.Length > 10)
-                    customerNode.SelectSingleNode("//PhotoAssociated").InnerText = "Y";
+            // modify the nodes we need for the customer.
+            if (customerNode.SelectSingleNode("//Deleted") != null)
+            {
+                if (customerNode.SelectSingleNode("//Deleted").InnerText.ToLower() == "true")
+                    customerNode.SelectSingleNode("//Deleted").InnerText = "Y";
+                else
+                    customerNode.SelectSingleNode("//Deleted").InnerText = "N";
+            }
 
-                if(customerNode.SelectSingleNode("//DaysToExpiry") != null)
+
+            if (customerNode.SelectSingleNode("//Photograph") != null && customerNode.SelectSingleNode("//Photograph").InnerText.Length > 10)
+                customerNode.SelectSingleNode("//PhotoAssociated").InnerText = "Y";
+
+            if (customerNode.SelectSingleNode("//DaysToExpiry") != null)
                 customerNode.SelectSingleNode("//DaysToExpiry").InnerText.PadLeft(4, '0');
-                //customer.SelectSingleNode("//DaysSincePhotoUpdated").InnerText.PadLeft(5, '0');
-                if(customerNode.SelectSingleNode("//RemainingTime") != null)
+            //customer.SelectSingleNode("//DaysSincePhotoUpdated").InnerText.PadLeft(5, '0');
+            if (customerNode.SelectSingleNode("//RemainingTime") != null)
                 customerNode.SelectSingleNode("//RemainingTime").InnerText =
                     calculateTimeLeftString(passHolder.CtPass.DaysToExpiry);
 
-                if (customerNode.SelectSingleNode("//TypeOfConcession") != null)
+            if (customerNode.SelectSingleNode("//TypeOfConcession") != null)
+            {
+                switch (passHolder.CtPass.PassType)
                 {
-                    switch (passHolder.CtPass.PassType)
-                    {
-                        case CTPassType.Age:
-                            customerNode.SelectSingleNode("//TypeOfConcession").InnerText = "A";
-                            customerNode.SelectSingleNode("//TypeOfConcessionLong").InnerText = "Age";
-                            break;
-                        case CTPassType.Disabled:
-                            customerNode.SelectSingleNode("//TypeOfConcession").InnerText = "D";
-                            customerNode.SelectSingleNode("//TypeOfConcessionLong").InnerText = "Eligible Disabled";
-                            customerNode.SelectSingleNode("//DisabilityPermanent").InnerText = "Yes";
-                            customerNode.SelectSingleNode("//DisabilityType").InnerText = "Permanent";
-                            break;
-                        case CTPassType.DisabledTemporary:
-                            customerNode.SelectSingleNode("//TypeOfConcession").InnerText = "D";
-                            customerNode.SelectSingleNode("//TypeOfConcessionLong").InnerText = "Eligible Disabled";
-                            customerNode.SelectSingleNode("//DisabilityPermanent").InnerText = "No";
-                            customerNode.SelectSingleNode("//DisabilityType").InnerText = "Temporary";
-                            break;
-                    }
+                    case CTPassType.Age:
+                        customerNode.SelectSingleNode("//TypeOfConcession").InnerText = "A";
+                        customerNode.SelectSingleNode("//TypeOfConcessionLong").InnerText = "Age";
+                        break;
+                    case CTPassType.Disabled:
+                        customerNode.SelectSingleNode("//TypeOfConcession").InnerText = "D";
+                        customerNode.SelectSingleNode("//TypeOfConcessionLong").InnerText = "Eligible Disabled";
+                        customerNode.SelectSingleNode("//DisabilityPermanent").InnerText = "Yes";
+                        customerNode.SelectSingleNode("//DisabilityType").InnerText = "Permanent";
+                        break;
+                    case CTPassType.DisabledTemporary:
+                        customerNode.SelectSingleNode("//TypeOfConcession").InnerText = "D";
+                        customerNode.SelectSingleNode("//TypeOfConcessionLong").InnerText = "Eligible Disabled";
+                        customerNode.SelectSingleNode("//DisabilityPermanent").InnerText = "No";
+                        customerNode.SelectSingleNode("//DisabilityType").InnerText = "Temporary";
+                        break;
                 }
-
-                
             }
 
             if (customerNode.SelectSingleNode("//Photograph") != null)

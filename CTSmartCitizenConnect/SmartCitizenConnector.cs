@@ -378,7 +378,26 @@ namespace CTSmartCitizenConnect
 
             }
 
-            SmartCitizenCTPass passForPassHolder = getSmartCitizenCardForPerson(cardHolderIdentifier);
+            CTPassType typeOfConcessionPass = new CTPassType();
+            // Obtain Type of concession from the 'Service' Node
+            if (cardHolderDetails.CitizenData.XPathSelectElement("Services/Service[@application='ENCTS']") == null)
+                typeOfConcessionPass = CTPassType.NotSet;
+            else
+            {
+                if (cardHolderDetails.CitizenData.XPathSelectElement("Services/Service[@application='ENCTS']")
+                                .Attribute("refinement").Value.ToLower() == "older person")
+                    typeOfConcessionPass = CTPassType.Age;
+
+                else
+
+                    if (cardHolderDetails.CitizenData.XPathSelectElement("Services/Service[@application='ENCTS']/Item[@name='RENEWREFER']").Value.ToLower() == "refer")
+                {
+                    typeOfConcessionPass = CTPassType.DisabledTemporary;
+                }
+                else
+                    typeOfConcessionPass = CTPassType.Disabled;
+            }
+            SmartCitizenCTPass passForPassHolder = getSmartCitizenCardForPerson(cardHolderIdentifier,typeOfConcessionPass);
             passHolder.CtPass = passForPassHolder;
 
             if (cardHolderDetails.CitizenData.XPathSelectElement("Services/Service[@application='ENCTS']") != null)
@@ -391,7 +410,10 @@ namespace CTSmartCitizenConnect
                     passHolder.DisabilityCategory =
                         cardHolderDetails.CitizenData.XPathSelectElement("Services/Service[@application='ENCTS']")
                             .Attribute("refinement").Value[0];
+
                 }
+                
+                
             }
 
 
@@ -859,8 +881,9 @@ namespace CTSmartCitizenConnect
         }
 
 
-        internal SmartCitizenCTPass getSmartCitizenCardForPerson(RecordIdentifier personIdentifier)
+        internal SmartCitizenCTPass getSmartCitizenCardForPerson(RecordIdentifier personIdentifier, CTPassType typeOfConcessionPass)
         {
+            
             if (log.IsDebugEnabled) log.Debug("Getting Smart Citizen Card for Person");
             logParams(personIdentifier);
             SmartCitizenCTPass cardForPerson = new SmartCitizenCTPass();
@@ -873,14 +896,14 @@ namespace CTSmartCitizenConnect
 
                 EntityDetailsListResponse latestCard = entityDetailsListResponse.Single(a => a.EntityId == cardHolderDetails.Identifier.CardID);
 
-                if (latestCard.Image.ToLower().Contains("disabled"))
-                {
-                    if (latestCard.Image.ToLower().Contains("temp"))
-                        cardForPerson.PassType = CTPassType.DisabledTemporary;
-                    else
-                        cardForPerson.PassType = CTPassType.Disabled;
-                }
-
+                //if (latestCard.Image.ToLower().Contains("disabled"))
+                //{
+                //    if (latestCard.Image.ToLower().Contains("temp"))
+                //        cardForPerson.PassType = CTPassType.DisabledTemporary;
+                //    else
+                //        cardForPerson.PassType = CTPassType.Disabled;
+                //}
+                cardForPerson.PassType = typeOfConcessionPass;
                 cardForPerson.PassLocation = latestCard.LocationId;
                 cardForPerson.PassStatus = latestCard.Status;
                 cardForPerson.PassStatusID = latestCard.StatusId;
@@ -1080,6 +1103,12 @@ namespace CTSmartCitizenConnect
         public bool IsValid { get; set; }
         public int PassLocation { get; internal set; }
         public DateTime PrintedDate { get; set; }
+
+        public SmartCitizenCTPass()
+        {
+            // This is set in the base class, need to default to 'not known' now, rather than the enum 0 (Age)...
+            PassType = CTPassType.NotSet;
+        }
     }
 
     /// <summary>
