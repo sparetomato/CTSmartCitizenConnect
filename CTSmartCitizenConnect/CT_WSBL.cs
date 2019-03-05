@@ -486,8 +486,21 @@ namespace warwickshire.gov.uk.CT_WS
             response.SelectSingleNode("issuePassResponse/status").InnerText = "SUCCESS";
             response.SelectSingleNode("issuePassResponse/statusMessage").InnerText = "New Pass issued with ISRN:" + newPass.ISRN;
 
-            response.SelectSingleNode("issuePassResponse/passExpiryDate").InnerText =
-                newPass.ExpiryDate.ToShortDateString();
+            if (newPass.ExpiryDate.Year >= DateTime.Now.Year)
+            {
+                response.SelectSingleNode("issuePassResponse/passExpiryDate").InnerText =
+                    newPass.ExpiryDate.ToShortDateString();
+            }
+            response.SelectSingleNode("issuePassResponse/passISRN").InnerText = newPass.ISRN;
+            
+            //Get Additional information using other services.
+            if(!String.IsNullOrEmpty(newPass.ISRN))
+                {
+                SmartCitizenCTPassholder passholder = dataLayer.GetCTPassholderForPass(newPass.ISRN);
+                response.SelectSingleNode("issuePassResponse/passHolderNumber").InnerText = passholder.PassHolderNumber;
+                response.SelectSingleNode("issuePassResponse/passStatus").InnerText = passholder.CtPass.PassStatus;
+                }
+
             if (log.IsDebugEnabled) log.Debug("Returned XML:" + response.OuterXml);
             if (log.IsDebugEnabled) log.Debug("Exiting Method.");
             return response;
@@ -1155,7 +1168,7 @@ namespace warwickshire.gov.uk.CT_WS
         internal XmlDocument updatePassDetails(string ISRN, string CPICC, string passHolderNumber, string firstNameOrInitial, string surname, string houseOrFlatNumberOrName,
             string buildingName, string street, string villageOrDistrict, string townCity, string county, string postcode, string title,
             string dateOfBirth, string typeOfConcession, string disabilityPermanent, string evidenceExpiryDate, string passStartDate, bool reissuePass, string oldCPICC, bool recalculateExpiryDate, string achieveServiceCaseNumber,
-            string printReason, string passStatusNotes, string gender, string disabilityCategory, string UPRN, string homePhone, string mobilePhone, string emailAddress, string preferredContactMethod, string NINO, string authoriser, int? oldPassStatus)
+            string printReason, string passStatusNotes, string gender, string disabilityCategory, string UPRN, string homePhone, string mobilePhone, string emailAddress, string preferredContactMethod, string NINO, string authoriser, SmartCitizenConnector.Proof[] proofs, int? oldPassStatus)
         {
             if (log.IsDebugEnabled) log.Debug("Update Pass Request Received");
 
@@ -1235,6 +1248,8 @@ namespace warwickshire.gov.uk.CT_WS
             {
                 oldPassStatus = 17;
             }
+
+            existingPassHolder.Proofs = proofs;
 
             SmartCitizenCTPassholder updatedPassHolder = dataLayer.UpdatePassHolderDetails(existingPassHolder);
             if (reissuePass)
