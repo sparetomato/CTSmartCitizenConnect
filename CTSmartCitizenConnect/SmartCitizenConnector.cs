@@ -1021,7 +1021,7 @@ namespace CTSmartCitizenConnect
             public int ProofId { get; set; }
             public string ProofReference { get; set; }
             public DateTime? ProofExpiry { get; set; }
-            public DateTime DateOnProof { get; set; }
+            public DateTime? DateOnProof { get; set; }
 
             public Proof()
             {
