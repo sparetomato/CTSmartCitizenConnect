@@ -3,5 +3,7 @@
   <status>SUCCESS</status>
   <statusMessage />
   <passExpiryDate />
+  <passStatus/>
+  <passISRN/>
   <reissue />
 </updatePassResponse>

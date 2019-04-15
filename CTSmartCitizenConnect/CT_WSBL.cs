@@ -499,6 +499,8 @@ namespace warwickshire.gov.uk.CT_WS
                 SmartCitizenCTPassholder passholder = dataLayer.GetCTPassholderForPass(newPass.ISRN);
                 response.SelectSingleNode("issuePassResponse/passHolderNumber").InnerText = passholder.PassHolderNumber;
                 response.SelectSingleNode("issuePassResponse/passStatus").InnerText = passholder.CtPass.PassStatus;
+                response.SelectSingleNode("issuePassResponse/passISRN").InnerText = passholder.CtPass.ISRN;
+                response.SelectSingleNode("issuePassResponse/passExpiryDate").InnerText = passholder.CtPass.ExpiryDate.ToShortDateString();
                 }
 
             if (log.IsDebugEnabled) log.Debug("Returned XML:" + response.OuterXml);
@@ -1258,16 +1260,21 @@ namespace warwickshire.gov.uk.CT_WS
             dataLayer.ReplacePass(updatedPassHolder.RecordID, updatedPassHolder.CtPass.ISRN, oldPassStatus != null ? oldPassStatus.Value : Convert.ToInt16(existingPassHolder.CtPass.PassStatusID),
                 achieveServiceCaseNumber, authoriser, passStatusNotes);
 
+                updatedPassHolder = dataLayer.GetCtPassHolder(updatedPassHolder.RecordID.ToString());
             }
 
             if (log.IsDebugEnabled) log.Debug("Asynchronous process started, returning successful response.");
             response.SelectSingleNode("updatePassResponse/status").InnerText = "success";
 
+            response.SelectSingleNode("updatePassResponse/passStatus").InnerText = updatedPassHolder.CtPass.PassStatus;
+            response.SelectSingleNode("updatePassResponse/passISRN").InnerText = updatedPassHolder.CtPass.ISRN;
             response.SelectSingleNode("updatePassResponse/passExpiryDate").InnerText = updatedPassHolder.CtPass.ExpiryDate.ToShortDateString();
             response.SelectSingleNode("updatePassResponse/reissue").InnerText = reissuePass.ToString();
             if (log.IsDebugEnabled) log.Debug("Update Pass Request Complete");
             return response;
         }
+
+
 
         private bool validateISRN(string ISRN)
         {
@@ -1361,6 +1368,29 @@ namespace warwickshire.gov.uk.CT_WS
 
         }
 
+        internal XmlDocument recordTransaction(int cardHolderId, CardTransactionData transactionData)
+        {
+            RecordIdentifier personId = new RecordIdentifier() { CardholderID = cardHolderId };
+            SmartCitizenCard latestCard = getSmartCitizenCardForPerson(personId);
+            personId.CardID = latestCard.ISRN;
+            transactionData.CardIdentifier = personId;
+            return recordTransaction(transactionData);
+        }
+        internal XmlDocument recordTransaction(string ISRN, CardTransactionData transactionData)
+        {
+            transactionData.CardIdentifier = new RecordIdentifier() { CardID = ISRN };
+            return recordTransaction(transactionData);
+        }
+
+        private XmlDocument recordTransaction(CardTransactionData transactionData)
+        {
+            XmlDocument response = new XmlDocument();
+            SmartCitizenConnector conn = new SmartCitizenConnector();
+            if (conn.recordTransaction(transactionData) == false)
+            { }
+            return response;
+        }
+
 
 
 
@@ -1396,47 +1426,7 @@ namespace warwickshire.gov.uk.CT_WS
             }
         }
 
-        /*internal bool getPassesForPrint()
-        {
-            try
-            {
-                CTBPMEngine.getInstance().buildZipFile();
-            }
-            catch (Exception ex)
-            {
-                if (log.IsErrorEnabled) log.Error("Error getting passes for print:" + ex.Message);
-                return false;
-            }
-            return true;
-        }
-
-        internal bool getPrintedPasses()
-        {
-            try
-            {
-                CTBPMEngine.getInstance().downloadSFTP();
-            }
-            catch (Exception ex)
-            {
-                if (log.IsErrorEnabled) log.Error("Error downloading passes: " + ex.Message);
-                return false;
-            }
-            return true;
-        }
-
-        internal bool processESPReports()
-        {
-            try
-            {
-                CTBPMEngine.getInstance().processESPReports();
-            }
-            catch (Exception ex)
-            {
-                if (log.IsErrorEnabled) log.Error("Could not process reports:" + ex.Message);
-                return false;
-            }
-            return true;
-        }*/
+       
 
         private byte[] convertImage(string imageAsBase64String)
         {
@@ -1568,6 +1558,8 @@ namespace warwickshire.gov.uk.CT_WS
             }
             return sb.ToString();
         }
+
+
 
 
 

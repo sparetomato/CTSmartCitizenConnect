@@ -30,6 +30,7 @@
   <CompanionAllowedLocally />
   <Gender />
   <DisabilityCategory />
+  <Refinement />
   <RecordID />
   <UPRN />
   <FormattedExpiryDate />

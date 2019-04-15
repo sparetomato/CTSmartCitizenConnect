@@ -47,6 +47,8 @@ namespace CTSmartCitizenConnect
             _cmClient.ClientCredentials.ServiceCertificate.Authentication.CertificateValidationMode =
                 System.ServiceModel.Security.X509CertificateValidationMode.None;
 
+            
+
             //Initialise Card Statuses
             XElement SmartCitizenCardStatuses = LoadXmlFragment("SmartCitizenCardStatus.xml");
             foreach (XElement statusElement in SmartCitizenCardStatuses.XPathSelectElements("Status"))
@@ -410,6 +412,8 @@ namespace CTSmartCitizenConnect
                     passHolder.DisabilityCategory =
                         cardHolderDetails.CitizenData.XPathSelectElement("Services/Service[@application='ENCTS']")
                             .Attribute("refinement").Value[0];
+                    passHolder.Refinement = cardHolderDetails.CitizenData.XPathSelectElement("Services/Service[@application='ENCTS']")
+                            .Attribute("refinement").Value;
 
                 }
                 
@@ -747,6 +751,24 @@ namespace CTSmartCitizenConnect
             return updatedPassHolder;
         }
 
+
+        internal bool recordTransaction(CardTransactionData transactionData)
+        {
+            if (log.IsInfoEnabled) { log.Info("Recording Transaction data on SmartCitizen"); }
+            if (log.IsDebugEnabled) { log.Debug("Card Holder ID:" + transactionData.CardIdentifier.CardholderID); }
+            try
+            {
+                _cmClient.RecordTransaction(transactionData);
+            }
+            catch(Exception ex)
+            {
+                if (log.IsErrorEnabled) { log.Error("Error logging Transaction on SmartCitizen:" + ex.Message); }
+                if (log.IsErrorEnabled) { log.Error("Message Sent:" + SerializeObj<CardTransactionData>(transactionData)); }
+                return false;
+            }
+            return true;
+        }
+
         private string getNameForCPICC(string CPICC)
         {
             switch (CPICC)
@@ -1015,6 +1037,7 @@ namespace CTSmartCitizenConnect
         }
 
 
+        
 
         public class Proof
         {
@@ -1139,6 +1162,7 @@ namespace CTSmartCitizenConnect
         public string NINO { get; set; }
         public new SmartCitizenCTPass CtPass { get; set; }
         public SmartCitizenConnector.Proof[] Proofs { get; set; }
+        public string Refinement { get; set; }
 
 
 
@@ -1455,6 +1479,8 @@ namespace CTSmartCitizenConnect
             }
             return null;
         }
+
+
 
         public string Email
         {

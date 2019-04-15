@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<transactionsConfig>
+  <activityData>
+    <activity>
+      <activityId>4</activityId>
+      <activityName>Journey</activityName>
+    </activity>
+    <activity>
+      <activityId>5</activityId>
+      <activityName>Payment (Other)</activityName>
+    </activity>
+    <activity>
+      <activityId>6</activityId>
+      <activityName>Payment (Lost Pass)</activityName>
+    </activity>
+    <activity>
+      <activityId>7</activityId>
+      <activityName>Payment (Damaged Pass)</activityName>
+    </activity>
+    <activity>
+      <activityId>8</activityId>
+      <activityName>Payment (Replacement Pass with Name Change)</activityName>
+    </activity>
+    <activity>
+      <activityId>9</activityId>
+      <activityName>Payment initiate</activityName>
+    </activity>
+    <activity>
+      <activityId>10</activityId>
+      <activityName>Payment failure</activityName>
+    </activity>
+    <activity>
+      <activityId>11</activityId>
+      <activityName>Payment complete</activityName>
+    </activity>
+  </activityData>
+  <transactionsData>
+    <transactionCode>
+    <transactionCodeId>1</transactionCodeId>
+    <transactionCode>Card presented</transactionCode>
+    <transactionCodeReferrerCode>CP</transactionCodeReferrerCode>
+    </transactionCode>
+    <transactionCode>
+      <transactionCodeId>2</transactionCodeId>
+      <transactionCode>Credit</transactionCode>
+      <transactionCodeReferrerCode>CR</transactionCodeReferrerCode>
+    </transactionCode>
+    <transactionCode>
+      <transactionCodeId>3</transactionCodeId>
+      <transactionCode>Debit</transactionCode>
+      <transactionCodeReferrerCode>DB</transactionCodeReferrerCode>
+    </transactionCode>
+    <transactionCode>
+      <transactionCodeId>4</transactionCodeId>
+      <transactionCode>Balance</transactionCode>
+      <transactionCodeReferrerCode>NB</transactionCodeReferrerCode>
+    </transactionCode>
+    <transactionCode>
+      <transactionCodeId>5</transactionCodeId>
+      <transactionCode>Invalid use</transactionCode>
+      <transactionCodeReferrerCode>IU</transactionCodeReferrerCode>
+    </transactionCode>
+    <transactionCode>
+      <transactionCodeId>6</transactionCodeId>
+      <transactionCode>Card blocked</transactionCode>
+      <transactionCodeReferrerCode>CB</transactionCodeReferrerCode>
+    </transactionCode>
+    <transactionCode>
+      <transactionCodeId>7</transactionCodeId>
+      <transactionCode>Card updated</transactionCode>
+      <transactionCodeReferrerCode>CU</transactionCodeReferrerCode>
+    </transactionCode>
+    <transactionCode>
+      <transactionCodeId>9</transactionCodeId>
+      <transactionCode>Hotlist file download</transactionCode>
+      <transactionCodeReferrerCode>HFD</transactionCodeReferrerCode>
+    </transactionCode>
+    <transactionCode>
+      <transactionCodeId>10</transactionCodeId>
+      <transactionCode>Redeem points</transactionCode>
+      <transactionCodeReferrerCode>RP</transactionCodeReferrerCode>
+    </transactionCode>
+    <transactionCode>
+      <transactionCodeId>14</transactionCodeId>
+      <transactionCode>Undo transaction</transactionCode>
+      <transactionCodeReferrerCode>UN</transactionCodeReferrerCode>
+    </transactionCode>
+    <transactionCode>
+      <transactionCodeId>15</transactionCodeId>
+      <transactionCode>Earn Points</transactionCode>
+      <transactionCodeReferrerCode>EP</transactionCodeReferrerCode>
+    </transactionCode>
+    <transactionCode>
+      <transactionCodeId>16</transactionCodeId>
+      <transactionCode>Cash</transactionCode>
+      <transactionCodeReferrerCode>CA</transactionCodeReferrerCode>
+    </transactionCode>
+    <transactionCode>
+      <transactionCodeId>17</transactionCodeId>
+      <transactionCode>Credit Card</transactionCode>
+      <transactionCodeReferrerCode>CC</transactionCodeReferrerCode>
+    </transactionCode>
+    <transactionCode>
+      <transactionCodeId>18</transactionCodeId>
+      <transactionCode>Debit Card</transactionCode>
+      <transactionCodeReferrerCode>DC</transactionCodeReferrerCode>
+    </transactionCode>
+    <transactionCode>
+      <transactionCodeId>19</transactionCodeId>
+      <transactionCode>Cheque</transactionCode>
+      <transactionCodeReferrerCode>CQ</transactionCodeReferrerCode>
+    </transactionCode>
+    <transactionCode>
+      <transactionCodeId>20</transactionCodeId>
+      <transactionCode>Postal Order</transactionCode>
+      <transactionCodeReferrerCode>PO</transactionCodeReferrerCode>
+    </transactionCode>
+  </transactionsData>
+</transactionsConfig>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

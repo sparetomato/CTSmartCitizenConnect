@@ -129,6 +129,19 @@ namespace CTSmartCitizenConnect
             return CT_WSBL.getInstance().cancelPass(ISRN, reasonDescription, authoriser);
         }
 
+        [WebMethod]
+        public XmlDocument RecordTransaction(int? cardHolderId, string ISRN, CardTransactionData transactionData)
+        {
+            if (String.IsNullOrEmpty(ISRN))
+            {
+                return CT_WSBL.getInstance().recordTransaction(cardHolderId.Value, transactionData);
+            }
+            else
+            {
+                return CT_WSBL.getInstance().recordTransaction(ISRN, transactionData);
+            }
+        }
+
 
 
         #region Methods copied from SmartCitizenConnect WS Endpoint

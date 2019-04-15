@@ -76,6 +76,7 @@
     <Content Include="App_Data\CTQueryPassResponse.xml" />
     <Content Include="App_Data\CTUpdateImageResponse.xml" />
     <Content Include="App_Data\CTUpdatePassResponse.xml" />
+    <Content Include="App_Data\WCCTransactionsData.xml" />
     <Content Include="App_Data\WCCUpdateCardholderFragment.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
