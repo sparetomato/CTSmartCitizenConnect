@@ -68,6 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\CTCancelPassResponse.xml" />
+    <Content Include="App_Data\CTRecordTransaction.xml" />
     <Content Include="App_Data\CTQueryPassSummary.xml" />
     <Content Include="App_Data\SmartCitizenUpdateImageTemplate.xml">
       <SubType>Designer</SubType>

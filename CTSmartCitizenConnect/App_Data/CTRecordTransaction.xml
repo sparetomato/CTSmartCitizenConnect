@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<recordTransactionResponse>
+  <status>SUCCESS</status>
+  <statusMessage>Transaction Recorded in SmartCitizen</statusMessage>
+</recordTransactionResponse>

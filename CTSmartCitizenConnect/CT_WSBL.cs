@@ -1385,9 +1385,14 @@ namespace warwickshire.gov.uk.CT_WS
         private XmlDocument recordTransaction(CardTransactionData transactionData)
         {
             XmlDocument response = new XmlDocument();
+            response.Load(HttpContext.Current.ApplicationInstance.Server.MapPath("~/App_Data") + "/CTRecordTransaction.xml");
             SmartCitizenConnector conn = new SmartCitizenConnector();
             if (conn.recordTransaction(transactionData) == false)
-            { }
+            {
+                response.SelectSingleNode("//Status").InnerText = "ERROR";
+                response.SelectSingleNode("//StatusMessage").InnerText = "There was an error recording this transaction in SmartCitizen";
+                    }
+            
             return response;
         }
 
