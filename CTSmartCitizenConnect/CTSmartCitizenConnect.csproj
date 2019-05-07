@@ -181,6 +181,7 @@
     <Compile Include="CT_WSBL.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="LocationConfigurationElement.cs" />
     <Compile Include="ScValidationException.cs" />
     <Compile Include="Service References\CTDataLayer\Reference.cs">
       <AutoGen>True</AutoGen>

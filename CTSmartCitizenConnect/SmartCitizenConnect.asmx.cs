@@ -42,7 +42,7 @@ namespace CTSmartCitizenConnect
     public class CTSmartCitizen : System.Web.Services.WebService
     {
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        private SmartConnect.CardManagerClient _cmClient;
+        private SmartConnect.CardManagerClient client;
         private readonly string appDataPath = HttpContext.Current.ApplicationInstance.Server.MapPath("~/App_Data") + "/";
 
         // To Do - we need to have two CardManagerClients, or possibly just two ClientCredential objects. These need to pick up from the 
@@ -53,144 +53,142 @@ namespace CTSmartCitizenConnect
 
         public CTSmartCitizen()
         {
-            if (log.IsInfoEnabled) log.Info("Initialising CardManager Client");
-            _cmClient = new CardManagerClient("WSHttpBinding_ICardManager1");
-            _cmClient.Endpoint.Address = new EndpointAddress(new Uri(ConfigurationManager.AppSettings["SCUrl"]), _cmClient.Endpoint.Address.Identity, _cmClient.Endpoint.Address.Headers);
+            if (log.IsInfoEnabled) log.Info("Initialising Default CardManager Client");
+            client = createCardManagerClient(ConfigurationManager.AppSettings["SCUrl"], ConfigurationManager.AppSettings["SCUserId"], ConfigurationManager.AppSettings["SCPassword"]);
+            if (log.IsDebugEnabled) { log.Debug("Default CardManager Client initialised"); }
+        }
+
+        private CardManagerClient createCardManagerClient(string endpointURI, string username, string password)
+        {
+            CardManagerClient client = new CardManagerClient("WSHttpBinding_ICardManager1");
+            client.Endpoint.Address = new EndpointAddress(new Uri(endpointURI), client.Endpoint.Address.Identity, this.client.Endpoint.Address.Headers);
             if (log.IsDebugEnabled) log.Debug("Initialising Client credentials");
-
-
-            // liveCredentials.UserName.UserName = smartCitizenConfig.LiveConfigSettings.SCUserId;
-            // liveCredentials.UserName.Password = smartCitizenConfig.LiveConfigSettings.SCPassword;
-            //_cmClient.ClientCredentials.UserName.UserName = smartCitizenConfig.LiveConfigSettings.SCUserId;
-            _cmClient.ClientCredentials.UserName.UserName = ConfigurationManager.AppSettings["SCUserId"];
-            _cmClient.ClientCredentials.UserName.Password = ConfigurationManager.AppSettings["SCPassword"];
-            //_cmClient.ClientCredentials.UserName = SmartCitizenCredentialsManager.Live.UserName;
-
-            //.ClientCredentials = SmartCitizenCredentialsManager.Live;
-
+            client.ClientCredentials.UserName.UserName = username;
+            client.ClientCredentials.UserName.Password = password;
             if (log.IsDebugEnabled) log.Debug("Client Credentials initialised.");
             if (log.IsDebugEnabled) log.Debug("Bypassing certificate validation.");
-            _cmClient.ClientCredentials.ServiceCertificate.Authentication.CertificateValidationMode =
+            this.client.ClientCredentials.ServiceCertificate.Authentication.CertificateValidationMode =
                 System.ServiceModel.Security.X509CertificateValidationMode.None;
             if (log.IsInfoEnabled) log.Info("CardManager Client initialised.");
 
+            return client;
         }
 
-        private static class CMClient
-        {
-            // This class manages the four different CardManaher Clients. Access each one from this class.
+        //private static class CMClient
+        //{
+        //    // This class manages the four different CardManaher Clients. Access each one from this class.
 
-            private static readonly Dictionary<string, CardManagerClient> _cardManagerClients = new Dictionary<string, CardManagerClient>();
+        //    private static readonly Dictionary<string, CardManagerClient> _cardManagerClients = new Dictionary<string, CardManagerClient>();
 
-            static CMClient()
-            {
-                SmartCitizenSystemSettings smartCitizenConfig =
-                ConfigurationManager.GetSection("SmartCitizenSystemSettingsSection") as SmartCitizenSystemSettings;
+        //    static CMClient()
+        //    {
+        //        SmartCitizenSystemSettings smartCitizenConfig =
+        //        ConfigurationManager.GetSection("SmartCitizenSystemSettingsSection") as SmartCitizenSystemSettings;
 
-                //To Do - maybe see if we can get away with not having to create four objects and loop using one instance...?
+        //        //To Do - maybe see if we can get away with not having to create four objects and loop using one instance...?
 
-                SmartConnect.CardManagerClient cmLiveClient = new CardManagerClient("WSHttpBinding_ICardManager1");
-                SmartConnect.CardManagerClient cmTestClient = new CardManagerClient("WSHttpBinding_ICardManager1");
-                SmartConnect.CardManagerClient cmLiveSelfClient = new CardManagerClient("WSHttpBinding_ICardManager1");
-                SmartConnect.CardManagerClient cmTestSelfClient = new CardManagerClient("WSHttpBinding_ICardManager1");
+        //        SmartConnect.CardManagerClient cmLiveClient = new CardManagerClient("WSHttpBinding_ICardManager1");
+        //        SmartConnect.CardManagerClient cmTestClient = new CardManagerClient("WSHttpBinding_ICardManager1");
+        //        SmartConnect.CardManagerClient cmLiveSelfClient = new CardManagerClient("WSHttpBinding_ICardManager1");
+        //        SmartConnect.CardManagerClient cmTestSelfClient = new CardManagerClient("WSHttpBinding_ICardManager1");
 
-                cmLiveClient.Endpoint.Address = new EndpointAddress(new Uri(ConfigurationManager.AppSettings["SCUrl"]), cmLiveClient.Endpoint.Address.Identity, cmLiveClient.Endpoint.Address.Headers);
-                cmTestClient.Endpoint.Address = new EndpointAddress(new Uri(ConfigurationManager.AppSettings["SCUrl"]), cmTestClient.Endpoint.Address.Identity, cmTestClient.Endpoint.Address.Headers);
-                cmLiveSelfClient.Endpoint.Address = new EndpointAddress(new Uri(ConfigurationManager.AppSettings["SCUrl"]), cmLiveSelfClient.Endpoint.Address.Identity, cmLiveSelfClient.Endpoint.Address.Headers);
-                cmTestSelfClient.Endpoint.Address = new EndpointAddress(new Uri(ConfigurationManager.AppSettings["SCUrl"]), cmTestSelfClient.Endpoint.Address.Identity, cmTestSelfClient.Endpoint.Address.Headers);
+        //        cmLiveClient.Endpoint.Address = new EndpointAddress(new Uri(ConfigurationManager.AppSettings["SCUrl"]), cmLiveClient.Endpoint.Address.Identity, cmLiveClient.Endpoint.Address.Headers);
+        //        cmTestClient.Endpoint.Address = new EndpointAddress(new Uri(ConfigurationManager.AppSettings["SCUrl"]), cmTestClient.Endpoint.Address.Identity, cmTestClient.Endpoint.Address.Headers);
+        //        cmLiveSelfClient.Endpoint.Address = new EndpointAddress(new Uri(ConfigurationManager.AppSettings["SCUrl"]), cmLiveSelfClient.Endpoint.Address.Identity, cmLiveSelfClient.Endpoint.Address.Headers);
+        //        cmTestSelfClient.Endpoint.Address = new EndpointAddress(new Uri(ConfigurationManager.AppSettings["SCUrl"]), cmTestSelfClient.Endpoint.Address.Identity, cmTestSelfClient.Endpoint.Address.Headers);
 
-                cmLiveClient.ClientCredentials.UserName.UserName = smartCitizenConfig.LiveConfigSettings.SCUserId;
-                cmLiveClient.ClientCredentials.UserName.Password = smartCitizenConfig.LiveConfigSettings.SCPassword;
-                _cardManagerClients.Add("Live", cmLiveClient);
+        //        cmLiveClient.ClientCredentials.UserName.UserName = smartCitizenConfig.LiveConfigSettings.SCUserId;
+        //        cmLiveClient.ClientCredentials.UserName.Password = smartCitizenConfig.LiveConfigSettings.SCPassword;
+        //        _cardManagerClients.Add("Live", cmLiveClient);
 
-                cmLiveSelfClient.ClientCredentials.UserName.UserName = smartCitizenConfig.LiveConfigSettings.SCSelfUserId;
-                cmLiveSelfClient.ClientCredentials.UserName.Password =
-                    smartCitizenConfig.LiveConfigSettings.SCSelfUserPassword;
+        //        cmLiveSelfClient.ClientCredentials.UserName.UserName = smartCitizenConfig.LiveConfigSettings.SCSelfUserId;
+        //        cmLiveSelfClient.ClientCredentials.UserName.Password =
+        //            smartCitizenConfig.LiveConfigSettings.SCSelfUserPassword;
 
-                _cardManagerClients.Add("Live Self", cmLiveSelfClient);
+        //        _cardManagerClients.Add("Live Self", cmLiveSelfClient);
 
-                cmTestClient.ClientCredentials.UserName.UserName = smartCitizenConfig.TestConfigSettings.SCUserId;
-                cmTestClient.ClientCredentials.UserName.Password = smartCitizenConfig.TestConfigSettings.SCPassword;
+        //        cmTestClient.ClientCredentials.UserName.UserName = smartCitizenConfig.TestConfigSettings.SCUserId;
+        //        cmTestClient.ClientCredentials.UserName.Password = smartCitizenConfig.TestConfigSettings.SCPassword;
 
-                _cardManagerClients.Add("Test", cmTestClient);
+        //        _cardManagerClients.Add("Test", cmTestClient);
 
-                cmTestSelfClient.ClientCredentials.UserName.UserName =
-                    smartCitizenConfig.TestConfigSettings.SCSelfUserId;
-                cmTestSelfClient.ClientCredentials.UserName.Password =
-                    smartCitizenConfig.TestConfigSettings.SCSelfUserPassword;
-                _cardManagerClients.Add("Test Self", cmTestSelfClient);
+        //        cmTestSelfClient.ClientCredentials.UserName.UserName =
+        //            smartCitizenConfig.TestConfigSettings.SCSelfUserId;
+        //        cmTestSelfClient.ClientCredentials.UserName.Password =
+        //            smartCitizenConfig.TestConfigSettings.SCSelfUserPassword;
+        //        _cardManagerClients.Add("Test Self", cmTestSelfClient);
 
-                // set each of the clients to ignore certificate errors.
-                _cardManagerClients.ToDictionary(x => x.Key,
-                    x => x.Value.ClientCredentials.ServiceCertificate.Authentication.CertificateValidationMode =
-                        System.ServiceModel.Security.X509CertificateValidationMode.None);
+        //        // set each of the clients to ignore certificate errors.
+        //        _cardManagerClients.ToDictionary(x => x.Key,
+        //            x => x.Value.ClientCredentials.ServiceCertificate.Authentication.CertificateValidationMode =
+        //                System.ServiceModel.Security.X509CertificateValidationMode.None);
 
-            }
+        //    }
 
-            public static CardManagerClient Live
-            {
-                get { return _cardManagerClients["Live"]; }
-            }
+        //    public static CardManagerClient Live
+        //    {
+        //        get { return _cardManagerClients["Live"]; }
+        //    }
 
-            public static CardManagerClient Test
-            {
-                get { return _cardManagerClients["Test"]; }
-            }
+        //    public static CardManagerClient Test
+        //    {
+        //        get { return _cardManagerClients["Test"]; }
+        //    }
 
-            public static CardManagerClient Live_Self
-            {
-                get { return _cardManagerClients["Live Self"]; }
-            }
+        //    public static CardManagerClient Live_Self
+        //    {
+        //        get { return _cardManagerClients["Live Self"]; }
+        //    }
 
-            public static CardManagerClient Test_Self
-            {
-                get { return _cardManagerClients["Test Self"]; }
-            }
-        }
-
-
-
-        [WebMethod]
-        public bool TestConnection(string surname, string forename, string dateOfBirth, string postcode)
-        {
-            //SmartConnect.CardManagerClient client = new SmartConnect.CardManagerClient("WSHttpBinding_ICardManager1");
-            //client.Endpoint.Address = new EndpointAddress(new Uri("https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc"), client.Endpoint.Address.Identity, client.Endpoint.Address.Headers);
-            //client.ClientCredentials.UserName.UserName = "9826212601000031";
-            //client.ClientCredentials.UserName.Password = "f1rm5t3p!";
-            //client.ClientCredentials.ServiceCertificate.Authentication.CertificateValidationMode =
-            //    System.ServiceModel.Security.X509CertificateValidationMode.None;
-
-            CardholderExistsData data = new CardholderExistsData();
-            CardholderExistsResponse response;
-            /*data.Surname = "Test";
-            data.Forename = "Andy";
-            data.DateOfBirth = new DateTime(1945,09,05);
-            data.Postcode = "CV34 4TG";*/
-            data.Surname = surname;
-            data.Forename = forename;
-            data.DateOfBirth = DateTime.Parse(dateOfBirth);
-            data.Postcode = postcode;
-            try
-            {
-                string serialized = SerializeObj(data);
-                response = CMClient.Test.CheckCardholderExists(data);
-                if (log.IsDebugEnabled)
-                {
-                    log.Debug("Cardholder Found:");
-                    log.Debug("Cardholder Exists:" + response.RecordExists.ToString());
-                    log.Debug("CardholderId:" + response.UniqueMatchIdentifier.CardholderID);
-                }
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
+        //    public static CardManagerClient Test_Self
+        //    {
+        //        get { return _cardManagerClients["Test Self"]; }
+        //    }
+        //}
 
 
-            return true;
 
-        }
+        //[WebMethod]
+        //public bool TestConnection(string surname, string forename, string dateOfBirth, string postcode)
+        //{
+        //    //SmartConnect.CardManagerClient client = new SmartConnect.CardManagerClient("WSHttpBinding_ICardManager1");
+        //    //client.Endpoint.Address = new EndpointAddress(new Uri("https://warwickshiretest.smartcitizen.net/cardmanager3/cardmanager.svc"), client.Endpoint.Address.Identity, client.Endpoint.Address.Headers);
+        //    //client.ClientCredentials.UserName.UserName = "9826212601000031";
+        //    //client.ClientCredentials.UserName.Password = "f1rm5t3p!";
+        //    //client.ClientCredentials.ServiceCertificate.Authentication.CertificateValidationMode =
+        //    //    System.ServiceModel.Security.X509CertificateValidationMode.None;
+
+        //    CardholderExistsData data = new CardholderExistsData();
+        //    CardholderExistsResponse response;
+        //    /*data.Surname = "Test";
+        //    data.Forename = "Andy";
+        //    data.DateOfBirth = new DateTime(1945,09,05);
+        //    data.Postcode = "CV34 4TG";*/
+        //    data.Surname = surname;
+        //    data.Forename = forename;
+        //    data.DateOfBirth = DateTime.Parse(dateOfBirth);
+        //    data.Postcode = postcode;
+        //    try
+        //    {
+        //        string serialized = SerializeObj(data);
+        //        response = CMClient.Test.CheckCardholderExists(data);
+        //        if (log.IsDebugEnabled)
+        //        {
+        //            log.Debug("Cardholder Found:");
+        //            log.Debug("Cardholder Exists:" + response.RecordExists.ToString());
+        //            log.Debug("CardholderId:" + response.UniqueMatchIdentifier.CardholderID);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        throw ex;
+        //    }
+
+
+        //    return true;
+
+        //}
 
 
         private XmlDocument ReplacePass(int cardHolderId, string ISRN, int cardStatus, string caseNumber) //, string title, string forename, string dateOfBirth, string gender, string disabilityCategory, string caseId)
@@ -228,7 +226,7 @@ namespace CTSmartCitizenConnect
             {
                 if (log.IsDebugEnabled) log.Debug("Updating Card.");
                 if (log.IsDebugEnabled) log.Debug(SerializeObj(cardDataToUpdate));
-                responseIdentifier = _cmClient.UpdateCard(cardDataToUpdate);
+                responseIdentifier = client.UpdateCard(cardDataToUpdate);
                 if (log.IsDebugEnabled) log.Debug(SerializeObj(responseIdentifier));
             }
             catch (Exception ex)
@@ -412,7 +410,7 @@ namespace CTSmartCitizenConnect
             {
                 if (log.IsDebugEnabled) log.Debug("Update Pass Data Request:");
                 if (log.IsDebugEnabled) log.Debug(SerializeObj(cardholderData));
-                _cmClient.UpdateCardholder(cardholderData);
+                client.UpdateCardholder(cardholderData);
                 if (log.IsInfoEnabled) log.Info("Passholder ID:" + cardHolderId + "updated.");
                 responseDoc.SelectSingleNode("PassHolderUpdate/RequestStatus").InnerText = "Success";
             }
@@ -441,7 +439,7 @@ namespace CTSmartCitizenConnect
                     log.Debug("Making request to SmartCitizen.");
                     log.Debug("Raw XML:" + SerializeObj(getCardHolderRequest));
                 }
-                GetCardholderResponse cardHolderData = _cmClient.GetCardholder(getCardHolderRequest);
+                GetCardholderResponse cardHolderData = client.GetCardholder(getCardHolderRequest);
                 if (log.IsDebugEnabled)
                 {
                     log.Debug("Received Response.");
@@ -466,7 +464,7 @@ namespace CTSmartCitizenConnect
             CheckCardData cardData = new CheckCardData() { CardIdentifier = PassId };
             try
             {
-                CheckCardResponse cardResponse = _cmClient.CheckCard(cardData);
+                CheckCardResponse cardResponse = client.CheckCard(cardData);
                 if (log.IsDebugEnabled) log.Debug(SerializeObj(cardResponse));
             }
             catch (Exception ex)
@@ -488,7 +486,7 @@ namespace CTSmartCitizenConnect
             //hotlistData.IssuerID = 29040;
             //hotlistData.ApplicationID = 605802;
 
-            CardListEntry[] cardListEntries = _cmClient.GetHotlist(hotlistData);
+            CardListEntry[] cardListEntries = client.GetHotlist(hotlistData);
 
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < cardListEntries.Length; i++)
@@ -749,12 +747,12 @@ namespace CTSmartCitizenConnect
             if (log.IsDebugEnabled) log.Debug("Getting Smart Citizen Card for Person");
             logParams(personIdentifier);
             SmartCitizenCard cardForPerson = new SmartCitizenCard();
-            GetCardholderResponse cardHolderDetails = _cmClient.GetCardholder(new GetCardholderData() { CardholderIdentifier = personIdentifier });
+            GetCardholderResponse cardHolderDetails = client.GetCardholder(new GetCardholderData() { CardholderIdentifier = personIdentifier });
             if (cardHolderDetails.Identifier.CardID != null)
             {
                 CheckCardResponse cardCheckResponse =
-                    _cmClient.CheckCard(new CheckCardData() { CardIdentifier = cardHolderDetails.Identifier.CardID });
-                EntityDetailsListResponse[] entityDetailsListResponse = _cmClient.GetEntityList(personIdentifier);
+                    client.CheckCard(new CheckCardData() { CardIdentifier = cardHolderDetails.Identifier.CardID });
+                EntityDetailsListResponse[] entityDetailsListResponse = client.GetEntityList(personIdentifier);
                 cardForPerson.IsValid = cardCheckResponse.CardValid;
                 
                 cardForPerson.ISRN = cardHolderDetails.Identifier.CardID;

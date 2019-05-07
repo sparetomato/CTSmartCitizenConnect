@@ -130,15 +130,15 @@ namespace CTSmartCitizenConnect
         }
 
         [WebMethod]
-        public XmlDocument RecordTransaction(int? cardHolderId, string ISRN, CardTransactionData transactionData)
+        public XmlDocument RecordTransaction(int? cardHolderId, string ISRN, CardTransactionData transactionData, string locationSCName)
         {
             if (String.IsNullOrEmpty(ISRN))
             {
-                return CT_WSBL.getInstance().recordTransaction(cardHolderId.Value, transactionData);
+                return CT_WSBL.getInstance().recordTransaction(cardHolderId.Value, transactionData,locationSCName);
             }
             else
             {
-                return CT_WSBL.getInstance().recordTransaction(ISRN, transactionData);
+                return CT_WSBL.getInstance().recordTransaction(ISRN, transactionData,locationSCName);
             }
         }
 

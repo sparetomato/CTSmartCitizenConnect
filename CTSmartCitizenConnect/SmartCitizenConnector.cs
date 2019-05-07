@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.ServiceModel;
 using System.Web;
+using System.Web.Configuration;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
@@ -21,6 +22,7 @@ namespace CTSmartCitizenConnect
 
     public class SmartCitizenException : Exception
     {
+
         public SmartCitizenException(string message) : base(message) { }
 
     }
@@ -33,22 +35,45 @@ namespace CTSmartCitizenConnect
         private readonly string appDataPath = HttpContext.Current.ApplicationInstance.Server.MapPath("~/App_Data") + "/";
         private Dictionary<int, string> _smartCitizenStatuses = new Dictionary<int, string>();
 
+        public SmartCitizenConnector(string locationSCName)
+        {
+            // read config file section, find SmartCitizenLocationsSection, find element with the matching SC name. If we can't find one, call the parameterless constructor
+            // if we can, initialise the _cmClient with the new values.
+
+            //            MySectionGroup group= ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None).SectionGroups["mysection"] as MySectionGroup;  
+
+
+            SCLocationsSection locations = (SCLocationsSection)ConfigurationManager.GetSection("smartCitizenLocationsSection");
+            
+            foreach(SCLocation location in locations.SmartCitizenLocations)
+            {
+                if(location.Name == locationSCName)
+                    _cmClient = initialiseCMClient(ConfigurationManager.AppSettings["SCUrl"], location.SCUserId, location.SCPassword);
+            }
+
+            if (_cmClient == null)
+                new SmartCitizenConnector();
+            
+                
+
+            //LocationConfiguartionSection locations = (LocationConfiguartionSection)ConfigurationManager.GetSection("SmartCitizenLocationsSection");
+            //LocationConfigurationCollection locColl = (LocationConfigurationCollection)ConfigurationManager.GetSection("SmartCitizenLocations");
+            //LocationConfigurationElement thisLoc = (LocationConfigurationElement)from LocationConfigurationElement loc in locations.Locations
+            //              where loc.Name == locationSCName
+            //              select loc;
+
+            //if (thisLoc == null)
+            //    new SmartCitizenConnector();
+            //else
+            //{
+            //    _cmClient = initialiseCMClient(ConfigurationManager.AppSettings["SCUrl"],thisLoc.SCUserId, thisLoc.SCPassword);
+            //}
+        }
 
         public SmartCitizenConnector()
         {
-            if (log.IsInfoEnabled) log.Info("Initialising CardManager Client");
-            _cmClient = new CardManagerClient("WSHttpBinding_ICardManager1");
-            _cmClient.Endpoint.Address = new EndpointAddress(new Uri(ConfigurationManager.AppSettings["SCUrl"]), _cmClient.Endpoint.Address.Identity, _cmClient.Endpoint.Address.Headers);
-            if (log.IsDebugEnabled) log.Debug("Initialising Client credentials");
-            _cmClient.ClientCredentials.UserName.UserName = ConfigurationManager.AppSettings["SCUserId"];
-            _cmClient.ClientCredentials.UserName.Password = ConfigurationManager.AppSettings["SCPassword"];
-            if (log.IsDebugEnabled) log.Debug("Client Credentials initialised.");
-            if (log.IsDebugEnabled) log.Debug("Bypassing certificate validation.");
-            _cmClient.ClientCredentials.ServiceCertificate.Authentication.CertificateValidationMode =
-                System.ServiceModel.Security.X509CertificateValidationMode.None;
-
+            _cmClient = initialiseCMClient(ConfigurationManager.AppSettings["SCUrl"], ConfigurationManager.AppSettings["SCUserId"], ConfigurationManager.AppSettings["SCPassword"]);
             
-
             //Initialise Card Statuses
             XElement SmartCitizenCardStatuses = LoadXmlFragment("SmartCitizenCardStatus.xml");
             foreach (XElement statusElement in SmartCitizenCardStatuses.XPathSelectElements("Status"))
@@ -59,6 +84,22 @@ namespace CTSmartCitizenConnect
             if (log.IsInfoEnabled) log.Info("CardManager Client initialised.");
 
 
+        }
+
+        private CardManagerClient initialiseCMClient(string URI, string username, string password)
+        {
+            if (log.IsInfoEnabled) log.Info("Initialising CardManager Client");
+            CardManagerClient cmClient = new CardManagerClient("WSHttpBinding_ICardManager1");
+  
+            cmClient.Endpoint.Address = new EndpointAddress(new Uri(URI), cmClient.Endpoint.Address.Identity, cmClient.Endpoint.Address.Headers);
+            if (log.IsDebugEnabled) log.Debug("Initialising Client credentials");
+            cmClient.ClientCredentials.UserName.UserName = username;
+            cmClient.ClientCredentials.UserName.Password = password;
+            if (log.IsDebugEnabled) log.Debug("Client Credentials initialised.");
+            if (log.IsDebugEnabled) log.Debug("Bypassing certificate validation.");
+            cmClient.ClientCredentials.ServiceCertificate.Authentication.CertificateValidationMode =
+                System.ServiceModel.Security.X509CertificateValidationMode.None;
+            return cmClient;
         }
 
         /// <summary>
@@ -754,10 +795,15 @@ namespace CTSmartCitizenConnect
 
         internal bool recordTransaction(CardTransactionData transactionData)
         {
+            //TODO - read the SmartCitizenLocationsSection from web.config then derive the username/pass from the locationSCName (treat as XML and get the node with the name)
+            // Create a new _cmClient using our new method and use that one to record the transaction
+            // TEST!
             if (log.IsInfoEnabled) { log.Info("Recording Transaction data on SmartCitizen"); }
             if (log.IsDebugEnabled) { log.Debug("Card Holder ID:" + transactionData.CardIdentifier.CardholderID); }
             try
             {
+                if (log.IsDebugEnabled) { log.Debug("Message Sent:" + SerializeObj<CardTransactionData>(transactionData)); }
+
                 _cmClient.RecordTransaction(transactionData);
             }
             catch(Exception ex)

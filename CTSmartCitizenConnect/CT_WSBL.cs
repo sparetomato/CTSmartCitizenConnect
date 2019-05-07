@@ -1368,25 +1368,26 @@ namespace warwickshire.gov.uk.CT_WS
 
         }
 
-        internal XmlDocument recordTransaction(int cardHolderId, CardTransactionData transactionData)
+        internal XmlDocument recordTransaction(int cardHolderId, CardTransactionData transactionData, string locationSCName)
         {
             RecordIdentifier personId = new RecordIdentifier() { CardholderID = cardHolderId };
             SmartCitizenCard latestCard = getSmartCitizenCardForPerson(personId);
             personId.CardID = latestCard.ISRN;
             transactionData.CardIdentifier = personId;
-            return recordTransaction(transactionData);
+            return recordTransaction(transactionData, locationSCName);
         }
-        internal XmlDocument recordTransaction(string ISRN, CardTransactionData transactionData)
+        internal XmlDocument recordTransaction(string ISRN, CardTransactionData transactionData, string locationSCName)
         {
             transactionData.CardIdentifier = new RecordIdentifier() { CardID = ISRN };
-            return recordTransaction(transactionData);
+            return recordTransaction(transactionData, locationSCName);
         }
 
-        private XmlDocument recordTransaction(CardTransactionData transactionData)
+        private XmlDocument recordTransaction(CardTransactionData transactionData, string locationSCName)
         {
             XmlDocument response = new XmlDocument();
             response.Load(HttpContext.Current.ApplicationInstance.Server.MapPath("~/App_Data") + "/CTRecordTransaction.xml");
-            SmartCitizenConnector conn = new SmartCitizenConnector();
+            //SmartCitizenConnector conn = new SmartCitizenConnector();
+            SmartCitizenConnector conn = new SmartCitizenConnector(locationSCName);
             if (conn.recordTransaction(transactionData) == false)
             {
                 response.SelectSingleNode("//Status").InnerText = "ERROR";
